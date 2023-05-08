@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {{!-- <meta http-equiv="refresh" content="10"> --}}
+  {{!-- <{{rf}}> --}}
+  <title>SecureBus</title>
+  {{!-- ........................ --}}
+<meta name='viewport' content='width=device-width, initial-scale=1' />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v2.9.2/mapbox-gl.css' rel='stylesheet' />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.2.1/dist/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    {{!-- ..................................... --}}
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="{{plug1}}">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="{{plug}}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{{style}}">
+  <link rel="stylesheet" href="{{p1}}">
+  <link rel="stylesheet" href="{{p2}}">
+  <link rel="stylesheet" href="{{p3}}">
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+</head>
+ <body class="{{bodyclass}}">
+    {{#if sadsuperadmin}}
+    {{>sadmin-head}}
+    {{else}}{{#if inst}}
+     {{>instadmin-head}}
+    {{else}}{{#if student}}
+     {{>student-head}}
+     {{else}}{{#if driver}}
+     {{>driver-head}}
+     {{else}}{{#if teacher}}
+     {{>teacher-head}}
+     {{else}}{{#if login1}}
+     {{>login-head}}
+     {{else}}
+     {{>main-head}}
+     {{/if}}
+     {{/if}}
+     {{/if}}
+    {{/if}}
+    {{/if}}
+    {{/if}}
+    {{{body}}}
+  </body>
+</html>

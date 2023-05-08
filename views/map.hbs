@@ -1,0 +1,75 @@
+
+<div id='map'></div>
+
+<script>
+mapboxgl.accessToken = 'pk.eyJ1IjoiYWtoaWxzaGFqaSIsImEiOiJjbGdha2JmMzgwZWhiM2pxbDd0MWlocWhrIn0.lhOd2dJuMo9ppCPmJCt2oQ';
+
+const map = new mapboxgl.Map({
+  container: 'map',
+  //style: 'mapbox://styles/mapbox/streets-v11',
+  style: 'mapbox://styles/ethan-php/cl5v2t7fe000m14me1ihgd3z2',
+  center: [-0.2792139521586705, 51.94498751258732],
+  zoom: 9
+});
+// Add geolocate control to the map.
+map.addControl(
+new mapboxgl.GeolocateControl({
+positionOptions: {
+enableHighAccuracy: true
+},
+// When active the map will receive updates to the device's location as it changes.
+trackUserLocation: true,
+// Draw an arrow next to the location dot to indicate which direction the device is heading.
+showUserHeading: true
+})
+);
+
+// Adding markers below >>>
+</script>
+<script>
+    console.log("startting")
+var db = require('../config/connection')
+var sql="select * from buslivelocation where busid=1"
+db.query(sql,function(err,result){
+    if(err){console.log("error")}
+    else{var r=result   
+const geojson = {
+  type: 'FeatureCollection',
+  features: [
+        {
+            type: "Feature",
+            geometry: {
+                type: "Point",
+                coordinates: [r[0].latitude,r[0].longitude]
+            },
+            properties: {
+                title: r[0].busid,
+                description: r[0].date
+            }
+        },
+      
+    
+}
+
+]
+};
+ })
+// add markers to map
+// Popups and Display Details
+for (const feature of geojson.features) {
+// create a HTML element for each feature
+const el = document.createElement('div');
+el.className = 'marker';
+ 
+// make a marker for each feature and add it to the map
+new mapboxgl.Marker(el)
+.setLngLat(feature.geometry.coordinates)
+.setPopup(
+new mapboxgl.Popup({ offset: 25 }) // add popups
+.setHTML(
+`<h3>${feature.properties.title}</h3><p>${feature.properties.description}</p>`
+)
+)
+.addTo(map);
+}
+</script>
