@@ -3,6 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "install":"npm install",
+    "fix":"npm audit fix --force",
     "start": "nodemon ./bin/www"
   },
   "dependencies": {
