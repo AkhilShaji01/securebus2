@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "npm install node-path && npm audit fix --force && nodemon ./bin/www"
+    "start": "npm audit fix --force && nodemon ./bin/www"
   },
   "dependencies": {
     "bcrypt": "^5.1.0",
