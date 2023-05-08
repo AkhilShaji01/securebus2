@@ -12,14 +12,16 @@
     "debug": "~2.6.9",
     "express": "^4.18.2",
     "express-fileupload": "^1.4.0",
-    "express-generator": "^4.14.1",
+    "express-generator": "^4.2.0",
     "express-handlebars": "^7.0.7",
     "express-session": "^1.17.3",
     "hbs": "^4.2.0",
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
     "mysql": "^2.18.1",
+    "node-path": "^0.0.3",
     "nodemon": "^2.0.22",
+    "path": "^0.12.7",
     "ports": "^1.1.0"
   }
 }
