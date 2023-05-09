@@ -49,14 +49,28 @@ router.post("/start",(req,res)=>{
     var date = year + "-" + month + "-" + day;
     console.log(req.body);
     var busid=req.body.busid;
-    var dt=[[busid,req.body.institutioncode,date]]
-    var sql="insert into vehiclelivelocation (vehicleid, institutioncode, date) values ?"
-    db.query(sql,[dt],(err,ress)=>{
-      if(err){console.log(err);res.status(200).send("no");}
-      else{
-        res.status(200).send("start");
+    var dt=[[busid,req.body.institutioncode,date]];
+    var sql1="select * from vehiclelivelocation where date=?";
+    db.query(sql1,[date],(err1,ress1)=>{
+      if(err1){console.log("err1");res.status(200).send("no");}
+      else
+      {
+        if(ress1.length>0){
+          res.status(200).send("start");
+        }
+        else
+        {
+          var sql="insert into vehiclelivelocation (vehicleid, institutioncode, date) values ?"
+          db.query(sql,[dt],(err,ress)=>{
+            if(err){console.log(err);res.status(200).send("no");}
+            else{
+              res.status(200).send("start");
       }
     })
+        }
+      }
+    })
+    
   
   //res.send("pk");
 })
@@ -206,6 +220,7 @@ router.post("/askfingerid",(req,res)=>{
     var date = year + "-" + month + "-" + day;
     console.log(req.body);
     var cardid=req.body.cardid;
+    var finger1;
     //var studentid=req.session.rfsid;
     // var instid=req.body.institutioncode;
     // var dt=[[cardid,vehicle,'active',date]]
@@ -216,9 +231,11 @@ router.post("/askfingerid",(req,res)=>{
         }
         else
         {
-           var fins=toString(fingerid)
-           console.log(fins)
-           res.status(200).send(fins);
+           
+           console.log(fingerid)
+           finger1=String(fingerid)
+           console.log(finger1)
+           res.status(200).send(String(fingerid));
          // res1.redirect("/nodemcu/student");
         }
     })
@@ -290,4 +307,28 @@ router.post("/checktodeletefinger",(req,res)=>{
   
 //   //res.send("pk");
 // })
+
+router.post("/rfidsensor",(req,res)=>{
+  //busid=req.params.id;
+  console.log(req.body);
+  Helper.dailyrfid(req.body).then((studentid)=>{
+    console.log(studentid);
+    if(studentid==false)
+    {
+      res.status(200).send("no");
+    }
+    else 
+    {
+      if(studentid=="goodbye")
+      {
+        res.status(200).send("goodbye");
+      }
+      else{
+      res.status(200).send("entred");
+      }
+    }
+  }) 
+  //res.status(200).send("pk");
+  //res.send("pk");
+})
 module.exports = router;

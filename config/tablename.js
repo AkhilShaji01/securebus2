@@ -365,4 +365,112 @@ askfingerid1:(c)=>{
     })
 
 },
+dailyrfid:(c)=>{
+    return new Promise((resolve,reject)=>{
+        var fingerid1=false;
+        var cardid=c.cardid;
+        var instid1=c.institutioncode;
+        var busid=c.busid;
+        var date_ob = new Date();
+        var day = ("0" + date_ob.getDate()).slice(-2);
+        var month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+        var year = date_ob.getFullYear();
+        var date = year + "-" + month + "-" + day;
+        var sql="select studentid from studentrfidmap where rfidid=? and institutioncode=?";
+        db.query(sql,[cardid,instid1],(err,ress)=>{
+            if(err){console.log(err);
+                var fingerid1="error";resolve(fingerid1);}
+            else
+            {  if(ress.length>0)
+                { 
+                    var stunid=ress[0].studentid;
+                    var sql1="select tripid from studenttripmap where studentid=? and institutioncode=?";
+                    db.query(sql1,[stunid,instid1],(err1,ress1)=>{
+                        if(err1){console.log(err1);resolve(fingerid1);}
+                        else{
+                            if(ress1.length>0){
+                                var tripid=ress1[0].tripid;
+                                console.log(tripid);
+                                var sql2="select dailystudentid from dailystudent where studentid=? and date=? and institutioncode=?";
+                                db.query(sql2,[stunid,date,instid1],(err2,ress2)=>{
+                                    if(err2){console.log(err2);resolve(fingerid1)}
+                                    else
+                                    {
+                                        var len1=ress2.length;
+                                        var latitude;
+                                        var longitude;
+                                        if(parseInt(len1)%2==0)
+                                        {
+                                            var sql3="select * from vehiclelivelocation where vehicleid=? and date=?";
+                                            db.query(sql3,[busid,date],(err3,ress3)=>{
+                                                if(err3){
+                                                    console.log(err3);
+                                                    resolve(fingerid1)
+                                                }
+                                                else
+                                                {
+                                                    latitude=ress3[0].latitude;
+                                                    longitude=ress3[0].longitude;
+                                                    console.log(latitude,longitude);
+                                                }
+                                            })
+                                            var user1=[[stunid,tripid,busid,"rfid","punch in",date, latitude,longitude,instid1,"active"]]
+                                            var sql4="INSERT INTO dailystudent (studentid, tripid, vehicleid, punchby, punchinout, date, latitude, longitude, institutioncode, status) VALUES ? "
+                                            db.query(sql4,[user1],(err4,ress4)=>{
+                                                if(err4){
+                                                    console.log(err4);
+                                                    resolve(fingerid1)
+                                                }
+                                                else{
+                                                    var s="entered"
+                                                    resolve(s);
+                                                }
+                                            })
+                                        }
+                                        else
+                                        {
+                                            {
+                                                var sql3="select * from vehiclelivelocation where vehicleid=? and date=?";
+                                                db.query(sql3,[busid,date],(err3,ress3)=>{
+                                                    if(err3){
+                                                        console.log(err3);
+                                                        resolve(fingerid1)
+                                                    }
+                                                    else
+                                                    {
+                                                        latitude=ress3[0].latitude;
+                                                        longitude=ress3[0].longitude;
+                                                        console.log(latitude,longitude);
+                                                    }
+                                                })
+                                                var user1=[[stunid,tripid,busid,"rfid","punch out",date, latitude,longitude,instid1,"active"]]
+                                                var sql4="insert into dailystudent (studentid,tripid,vehicleid,punchby,punchinout,date,latitude,longitude,institutioncode,status) values?"
+                                                db.query(sql4,[user1],(err4,ress4)=>{
+                                                    if(err4){
+                                                        console.log(err4);
+                                                        resolve(fingerid1)
+                                                    }
+                                                    else{
+                                                        var s="goodbye"
+                                                        resolve(s);
+                                                    }
+                                                })
+                                            }
+                                        }
+                                    }
+                                })
+                            }
+                        }
+                    })
+                }
+                else
+                {
+                    resolve(fingerid1)
+                }
+                
+            }
+            }) 
+         })
+
+},
 }
