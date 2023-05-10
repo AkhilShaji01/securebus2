@@ -43,9 +43,9 @@
                   <tr>
                     <th>Admission number</th>
                     <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Address</th>
+                    <th>latitude</th>
+                    <th>longitude</th>
+                    <th>location</th>
                     <th>Class</th>
                     <th>options</th>
                   </tr>
@@ -55,11 +55,11 @@
                   <tr>
                     <td>{{this.admissionnumber}}</td>
                     <td>{{this.firstname}} {{this.lastname}}</td>
-                    <td>{{this.email}}</td>
-                    <td>{{this.phone}}</td>
+                    <td>{{this.latitude}}</td>
+                    <td>{{this.longitude}}</td>
                     
                     <td>{{this.address}}</td>
-                    <td>{{this.classname}}</td>
+                    <td>{{this.classid}}</td>
                     <td>
                       <form action="/teacher/addrfid" method="post">
                       <input type="text" name="studentid" id="" value="{{this.studentid}}" hidden>
