@@ -31,7 +31,7 @@
           <div class="col-12">
             
             <!-- /.card -->
-
+          
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">Student</h3>
@@ -44,14 +44,25 @@
                     <th>Admission number</th>
                     <th>Name</th>
                     <th>latitude</th>
+<<<<<<< HEAD
+                    <th>Longitude</th>
+                    <th>assignedbus</th>
+                    <th>vehicleid</th>
+                    <th>date</th>
+                    <th>time</th>
+=======
                     <th>longitude</th>
                     <th>location</th>
                     <th>Class</th>
+>>>>>>> 7d6b414cf263df0180c9847a760506529959e0a7
                     <th>options</th>
                   </tr>
                   </thead>
                   <tbody>
                     {{#each dt}}
+<<<<<<< HEAD
+                
+=======
                   <tr>
                     <td>{{this.admissionnumber}}</td>
                     <td>{{this.firstname}} {{this.lastname}}</td>
@@ -70,8 +81,23 @@
                       <input type="submit" value="ADD FINGERPRINT" style="background-color: rgb(17, 155, 68); border-radius: 5px;">
                       </form>
                     </td>
+>>>>>>> 7d6b414cf263df0180c9847a760506529959e0a7
 
+                  <tr >
+                    
+                    <td >{{this.admissionnumber}}</td>
+                    <td>{{this.firstname}} {{this.lastname}}</td>
+                    <td>{{this.latitude}}</td>
+                    <td>{{this.longitude}}</td>
+                     <td >{{this.assignedvechileid}}</td>
+                     <td >{{this.vehicleid}}</td>
+                    <td>{{this.date}}</td>
+                    <td>{{this.time}}</td>
+                    <td id="las"></td>
+                   
+                  
                   </tr>
+                  
                  {{/each}}
                   </tbody>
                   <tfoot>
@@ -79,6 +105,47 @@
                 </table>
               </div>
               <!-- /.card-body -->
+
+              <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                    <th>Admission number</th>
+                    <th>Name</th>
+                    <th>latitude</th>
+                    <th>Longitude</th>
+                    <th>assignedbus</th>
+                    <th>vehicleid</th>
+                    <th>date</th>
+                    <th>time</th>
+                    <th>options</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    {{#each dt1}}
+                
+
+                  <tr style="color: red;">
+                    
+                    <td >{{this.admissionnumber}}</td>
+                    <td>{{this.firstname}} {{this.lastname}}</td>
+                    <td>{{this.latitude}}</td>
+                    <td>{{this.longitude}}</td>
+                     <td >{{this.assignedvechileid}}</td>
+                     <td >{{this.vehicleid}}</td>
+                    <td>{{this.date}}</td>
+                    <td>{{this.time}}</td>
+                    <td id="las"></td>
+                   
+                  
+                  </tr>
+                  
+                 {{/each}}
+                  </tbody>
+                  <tfoot>
+                 
+                </table>
+              </div>
             </div>
             <!-- /.card -->
           </div>
@@ -145,3 +212,18 @@
     });
   });
 </script>
+<<<<<<< HEAD
+
+ {{!-- <script type="text/javascript">
+                  //  var er=document.getElementById("avh").value;
+                   // var vehiceli=parseInt(er);
+                    //var er1=document.getElementById("vh").value;
+                    //var avehiceli=parseInt(er1);
+                    //if(vehiceli==avehiceli)
+                    {
+                     // document.getElementById("las").innerHTML="travelled in unassigned bus"
+                    }
+                   
+                  </script> --}}
+=======
+>>>>>>> 7d6b414cf263df0180c9847a760506529959e0a7
