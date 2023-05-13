@@ -6,7 +6,6 @@
     "start": "nodemon ./bin/www"
   },
   "dependencies": {
-    "node":"^18.14.2",
     "bcrypt": "^5.1.0",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
@@ -16,13 +15,16 @@
     "express-generator": "^4.2.0",
     "express-handlebars": "^7.0.7",
     "express-session": "^1.17.3",
+    "handlebars": "^4.7.7",
     "hbs": "^4.2.0",
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
     "mysql": "^2.18.1",
+    "node": "^18.14.2",
     "node-path": "^0.0.3",
     "nodemon": "^2.0.22",
     "path": "^0.12.7",
-    "ports": "^1.1.0"
+    "ports": "^1.1.0",
+    "puppeteer-html-pdf": "^2.1.2"
   }
 }

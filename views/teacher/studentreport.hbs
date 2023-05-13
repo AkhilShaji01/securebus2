@@ -1,29 +1,43 @@
-<div class="content-wrapper">
+
+<style>
+@media print{
+    #btn{visibility: hidden;}
+    #cap{visibility: visible;}
+}
+</style>
+<div class="content-wrapper" id="example">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Student Profile</h1>
+            <h1>Student Travel Log</h1>
           </div>
+          
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Widgets</li>
+              {{!-- <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Widgets</li> --}}
+              <button onclick="window.print()" id="btn" style="float: right; ">Print Report</button>
             </ol>
           </div>
         </div>
       </div><!-- /.container-fluid -->
     </section>
-
+ 
     <!-- Main content -->
     <section class="content">
+        
       <div class="container-fluid">
-        <h5 class="mb-2">Basic Details</h5>
+        
+   
+        {{!-- <h5 class="mb-2">Basic Details</h5> --}}
+        
         <div class="row">
           <div class="col-12">
             <div class="card card-primary">
               <div class="card-header">
+                
                 <h3 class="card-title">Basic Details </h3>
               </div>
               <!-- /.card-header -->
@@ -49,41 +63,22 @@
                                 <div class="row margin">
                                     Address: {{this.address}}
                                 </div>
+                                {{/each}}
+                                 {{!-- <div class="row margin">
+                                    Number of Authorised Entry: {{oket}}
+                                </div>
+                                <div class="row margin">
+                                    Number of Unauthorised Entry: {{noet}}
+                                </div> --}}
                                 
                             </div>
                             <br><br>
                             <hr>
                             
                         </div>
-                        <br>
-                        <br>
-                        <hr>
                         
-                        <div class="row margin">
                         
-                            <form action="/viewstudentprofile" method="post" style="margin-left: 10px;">
-                            <input type="text" name="studentid" id="studentid" value="{{this.studentid}}" hidden>
-                                <button type="submit" formmethod="post" class="btn btn-primary">Full profile</button>        
-                        </form>
                         
-                        <form action="/teacher/addrfid"  method="post" style="margin-left: 10px;">
-                            <input type="text" name="studentid" id="" value="{{this.studentid}}" hidden>
-                            <button type="submit" formmethod="post" class="btn btn-success">Add RFID</button>
-                        </form>
-                        <form action="/teacher/addfinger"  method="post" style="margin-left: 10px;">
-                            <input type="text" name="studentid" id="" value="{{this.studentid}}" hidden>
-                            <button type="submit" formmethod="post" class="btn btn-success">ADD FINGER</button>
-                        </form>
-                        <form action="/teacher/removerfid"  method="post" style="margin-left: 10px;">
-                            <input type="text" name="studentid" id="" value="{{this.studentid}}" hidden>
-                            <button type="submit" formmethod="post" class="btn btn-danger">Remove RFID</button>
-                        </form>
-                        <form action="/teacher/removefinger"  method="post" style="margin-left: 10px;">
-                            <input type="text" name="studentid" id="" value="{{this.studentid}}" hidden>
-                            <button type="submit" formmethod="post" class="btn btn-danger">Remove Finger</button>
-                        </form>
-                        
-                        </div>
               </div>
               <!-- /.card-body -->
             </div>
@@ -91,112 +86,74 @@
           </div>
           <!-- /.col -->
         </div>
-       {{/each}}
+       
         <!-- /.row -->
         <!-- /.row -->
-        
         <!-- =========================================================== -->
-        <hr>
-         <h2>Generate Report</h2>
-        Select the mode of report:
-        <select name="report" id="rp1">
-            <option value="">-</option>
-            <option value="monthly">monthly</option>
-            <option value="daily">Daily</option>
-            <option value="yearly">yearly</option>
-        </select>
-        
-        <div id="rp"></div>
-        </div>
-        <script>
-            const dropdown=document.getElementById("rp1");
-            dropdown.addEventListener("change",e=>{
-                var valu=dropdown.value;
-                if(valu=="monthly")
-                {
-                    //function generateForm() {
-                        // Get the current year
-                        var sid=document.getElementById("studentid").value;
-                        var currentYear = new Date().getFullYear();
+<div style="text-align: center;font-size: xx-large;">
+     <p id="h5m" style="color:crimson"></p>
+                                    Number of Authorised Entry: {{oket}}
+<br>
+                                    Number of Unauthorised Entry: {{noet}}
 
-                        // Generate the HTML for month and year selection
-                        var formHTML = '<form action="/teacher/genmonthreport" method="post"><input type="text" name="studentid" value="'+sid+'" hidden><label for="selectedMonth">Select Month:</label>' +
-                            '<select id="selectedMonth" name="month">';
-                        // Generate options for months
-                        for (var i = 1; i <= 12; i++) {
-                            formHTML += '<option value="' + i + '">' + i + '</option>';
-                        }
-                        formHTML += '</select>';
+        <input type="text" name="" id="mm" value="{{mm}}" hidden style="font-size: xx-large;">
+        <script type="text/javascript">
+    var mm = document.getElementById("mm").value;
+    var mm1 = parseInt(mm);
+    var month1 = "";
+    if (mm1 == 1) {
+        month1 = "January";
+    }
+    if (mm1 == 2) {
+        month1 = "February";
+    }
+    if (mm1 == 3) {
+        month1 = "March";
+    }
+    if (mm1 == 4) {
+        month1 = "April";
+    }
+    if (mm1 == 5) {
+        month1 = "May";
+    }
+    if (mm1 == 6) {
+        month1 = "June";
+    }
+    if (mm1 == 7) {
+        month1 = "July";
+    }
+    if (mm1 == 8) {
+        month1 = "August";
+    }
+    if (mm1 == 9) {
+        month1 = "September";
+    }
+    if (mm1 == 10) {
+        month1 = "October";
+    }
+    if (mm1 == 11) {
+        month1 = "November";
+    }
+    if (mm1 == 12) {
+        month1 = "December";
+    }
+    var c = document.getElementById("h5m");
+    c.innerHTML = month1+' '+{{my}};
+</script>
+</div>
 
-                        formHTML += '<label for="selectedYear">Select Year:</label>' +
-                            '<select id="selectedYear" name="year">';
-                        // Generate options for years (adjust as per your requirements)
-                        for (var j = currentYear; j >= currentYear - 10; j--) {
-                            formHTML += '<option value="' + j + '">' + j + '</option>';
-                        }
-                        formHTML += '</select> <input type="submit" value ="generate report"></form>';
 
-                        // Replace the content of formContainer with the generated form
-                        var formContainer = document.getElementById("rp");
-                        formContainer.innerHTML = formHTML;
-                    }
+    
 
-                else if(valu=="daily")
-                {
-                    //function generateForm() {
-                        var sid=document.getElementById("studentid").value;
-                        // Get the current year
-                        var currentYear = new Date().getFullYear();
-
-                        // Generate the HTML for month and year selection
-                        var formHTML = '<form action="gendailyreport" method="post"><input type="text" name="studentid" value="'+sid+'" hidden><label for="date">Select Date:</label>' +
-                            '<input type="date" name="name"></input> ';
-                        // Generate options for months
-                       
-                        
-                        formHTML += '<input type="submit" value ="generate report"></form>';
-
-                        // Replace the content of formContainer with the generated form
-                        var formContainer = document.getElementById("rp");
-                        formContainer.innerHTML = formHTML;
-                    }
-                //}
-                else if(valu=="yearly")
-                {
-                    //function generateForm() {
-                        // Get the current year
-                        var sid=document.getElementById("studentid").value;
-                        var currentYear = new Date().getFullYear();
-
-                        // Generate the HTML for month and year selection
-                        var formHTML = '<form action="genyearlyreport" method="post"> <input type="text" name="studentid" value="'+sid+'" hidden>';
-
-                        formHTML += '<label for="selectedYear">Select Year:</label>' +
-                            '<select id="selectedYear" name="year">';
-                        // Generate options for years (adjust as per your requirements)
-                        for (var j = currentYear; j >= currentYear - 10; j--) {
-                            formHTML += '<option value="' + j + '">' + j + '</option>';
-                        }
-                        formHTML += '</select> <input type="submit" value ="generate report"></form>';
-
-                        // Replace the content of formContainer with the generated form
-                        var formContainer = document.getElementById("rp");
-                        formContainer.innerHTML = formHTML;
-                    }
-                    else
-                    {
-                         var formContainer = document.getElementById("rp");
-                        formContainer.innerHTML ="";
-                    }
-
-            })
-        </script>
-        <hr>
+<hr>
         <h5 class="mb-2">Travel Log</h5>
-        <div>
-           
+        <hr>
+         
+
+      
         <div class="card-body">
                 <table id="example1" class="table table-bordered table-striped">
+                    
                   <thead>
                   <tr>
                     <th>Name</th>
@@ -220,7 +177,6 @@
                  {{/each}}
                   </tbody>
                   <tfoot>
-                 
                 </table>
               </div>
               <!-- /.card-body -->
@@ -260,6 +216,9 @@
                 </table>
               </div>
         <!-- /.row -->
+    
+    
+
 
          
       </div><!-- /.container-fluid -->
@@ -269,6 +228,15 @@
     <a id="back-to-top" href="#" class="btn btn-primary back-to-top" role="button" aria-label="Scroll to top">
       <i class="fas fa-chevron-up"></i>
     </a>
+    
+    <script>
+        function convertToPDF() {
+        document.getElementById("bu").style.visibility='hidden'
+        alert("Dd")
+        window.print();
+        }
+
+    </script>
   </div>
   <!-- /.content-wrapper -->
 
@@ -316,6 +284,8 @@
 <script src="../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.0/jspdf.umd.min.js"></script>
+
 <!-- Page specific script -->
 <script>
   $(function () {
@@ -323,17 +293,29 @@
       "responsive": true, "lengthChange": false, "autoWidth": false,
       "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-     $("#example3").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#example3_wrapper .col-md-6:eq(0)');
     $('#example2').DataTable({
       "paging": true,
       "lengthChange": false,
       "searching": false,
       "ordering": true,
       "info": true,
-      "autoWidth": false,
+      "autoWidth": true,
+      "responsive": true,
+    });
+  });
+
+    $(function () {
+    $("#example3").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#example3_wrapper .col-md-6:eq(0)');
+    $('#example4').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": true,
       "responsive": true,
     });
   });

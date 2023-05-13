@@ -51,9 +51,6 @@
                   <tr>
                     <th>Admission number</th>
                     <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Address</th>
                     <th>Class</th>
                     <th>options</th>
                   </tr>
@@ -65,29 +62,13 @@
                     <td>{{this.admissionnumber}}</td>
                     {{!-- {{/if}} --}}
                     <td>{{this.firstname}} {{this.lastname}}</td>
-                    <td>{{this.email}}</td>
-                    <td>{{this.phone}}</td>
-                    
-                    <td>{{this.address}}</td>
                     <td>{{this.classname}}</td>
                     <td>
-                      <form action="/teacher/addrfid" method="post">
+                      <form action="/teacher/profileofeachstudent" method="post">
                       <input type="text" name="studentid" id="" value="{{this.studentid}}" hidden>
-                      <input type="submit" value="ADDRFID" style="background-color: rgb(70, 158, 240);">
-                      </form>
-                       <form action="/teacher/removerfid" method="post">
-                      <input type="text" name="studentid" id="" value="{{this.studentid}}" hidden>
-                      <input type="submit" value="ADDRFID" style="background-color: rgb(70, 158, 240);">
+                      <input type="submit" value="view profile" style="background-color: rgb(70, 158, 240);">
                       </form>
                       
-                      <form action="/teacher/addfinger" method="post">
-                      <input type="text" name="studentid" id="" value="{{this.studentid}}" hidden>
-                      <input type="submit" value="ADD FINGERPRINT" style="background-color: rgb(17, 155, 68); border-radius: 5px;">
-                      </form>
-                       <form action="/teacher/removefinger" method="post">
-                      <input type="text" name="studentid" id="" value="{{this.studentid}}" hidden>
-                      <input type="submit" value="ADDRFID" style="background-color: rgb(70, 158, 240);">
-                      </form>
                       
                     </td>
 
