@@ -43,20 +43,25 @@
                   <tr>
                     <th>Admission number</th>
                     <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Address</th>
+                    <th>latitude</th>
+<<<<<<< HEAD
+                    <th>Longitude</th>
+                    <th>assignedbus</th>
+                    <th>vehicleid</th>
+                    <th>date</th>
+                    <th>time</th>
+=======
+                    <th>longitude</th>
+                    <th>location</th>
                     <th>Class</th>
+>>>>>>> 7d6b414cf263df0180c9847a760506529959e0a7
                     <th>options</th>
                   </tr>
                   </thead>
                   <tbody>
                     {{#each dt}}
-                
-
-                  <tr >
-                    
-                    <td >{{this.admissionnumber}}</td>
+                  <tr>
+                    <td>{{this.admissionnumber}}</td>
                     <td>{{this.firstname}} {{this.lastname}}</td>
                     <td>{{this.email}}</td>
                     <td>{{this.phone}}</td>
@@ -73,7 +78,21 @@
                       <input type="submit" value="ADD FINGERPRINT" style="background-color: rgb(17, 155, 68); border-radius: 5px;">
                       </form>
                     </td>
+>>>>>>> 7d6b414cf263df0180c9847a760506529959e0a7
 
+                  <tr >
+                    
+                    <td >{{this.admissionnumber}}</td>
+                    <td>{{this.firstname}} {{this.lastname}}</td>
+                    <td>{{this.latitude}}</td>
+                    <td>{{this.longitude}}</td>
+                     <td >{{this.assignedvechileid}}</td>
+                     <td >{{this.vehicleid}}</td>
+                    <td>{{this.date}}</td>
+                    <td>{{this.time}}</td>
+                    <td id="las"></td>
+                   
+                  
                   </tr>
                   
                  {{/each}}

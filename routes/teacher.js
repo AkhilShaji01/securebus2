@@ -316,7 +316,7 @@ router.get('/profile',verifyLogin,function(req, res, next) {
     });
 
 
-    router.get('/studenttravellog',verifyLogin, function(req, res, next) {
+     router.get('/studenttravellog',verifyLogin, function(req, res, next) {
       var res1=req.session.data
       var instid=res1[0].institutioncode;
       var depid=res1[0].departmentid
