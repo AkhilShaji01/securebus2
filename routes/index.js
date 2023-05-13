@@ -14,6 +14,14 @@ router.get('/sn', function(req, res, next) {
   res.render('sn', { title: 'v',style:'dist/css/adminlte.min.css',plug:'plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'plugins/fontawesome-free/css/all.min.css' });
 });
 router.get('/', function(req, res, next) {
+  var date_ob = new Date();
+  
+  let hours = date_ob.getHours();
+let minutes = date_ob.getMinutes();
+let seconds = date_ob.getSeconds();
+var time=hours+":"+minutes+":"+seconds;
+console.log(time)
+  console.log(time)
   if(req.session.logerror){
     var rt="Incorrect email or password"
     req.session.logerror=false
@@ -62,6 +70,7 @@ router.get('/logout',(req,res)=>{
 })
 
 router.post('/login',async(req,res)=>{
+  console.log(req.bosy)
   var password=req.body.password;
   var email=req.body.email
   console.log(email,password)

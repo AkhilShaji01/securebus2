@@ -9,7 +9,7 @@ var hbs=require('express-handlebars');
 //var fileUpload=require('express-fileupload');
 var session=require('express-session');
 var db=require('./config/connection')
-
+const handlebarHelper=require('./config/handlebar-helper')
 const port = 3001;
 
 var indexRouter = require('./routes/index');

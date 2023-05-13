@@ -376,6 +376,10 @@ dailyrfid:(c)=>{
         var month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
         var year = date_ob.getFullYear();
         var date = year + "-" + month + "-" + day;
+        let hours = date_ob.getHours();
+        let minutes = date_ob.getMinutes();
+        let seconds = date_ob.getSeconds();
+        var time=hours+":"+minutes+":"+seconds;
         var sql="select studentid from studentrfidmap where rfidid=? and institutioncode=?";
         db.query(sql,[cardid,instid1],(err,ress)=>{
             if(err){console.log(err);
@@ -425,8 +429,8 @@ dailyrfid:(c)=>{
                                                     console.log(latitude,longitude);
                                                 }
                                             })
-                                            var user1=[[stunid,tripid,busid,vehicid,"rfid","punch in",date, latitude,longitude,instid1,"active"]]
-                                            var sql4="INSERT INTO dailystudent (studentid, tripid, vehicleid,assignedvehicleid, punchby, punchinout, date, latitude, longitude, institutioncode, status) VALUES ? "
+                                            var user1=[[stunid,tripid,busid,vehicid,"rfid","punch in",date,time, latitude,longitude,instid1,"active"]]
+                                            var sql4="INSERT INTO dailystudent (studentid, tripid, vehicleid,assignedvehicleid, punchby, punchinout, date,time, latitude, longitude, institutioncode, status) VALUES ? "
                                             db.query(sql4,[user1],(err4,ress4)=>{
                                                 if(err4){
                                                     console.log(err4);
@@ -454,8 +458,8 @@ dailyrfid:(c)=>{
                                                         console.log(latitude,longitude);
                                                     }
                                                 })
-                                                var user1=[[stunid,tripid,busid,"rfid","punch out",date, latitude,longitude,instid1,"active"]]
-                                                var sql4="insert into dailystudent (studentid,tripid,vehicleid,punchby,punchinout,date,latitude,longitude,institutioncode,status) values?"
+                                                var user1=[[stunid,tripid,busid,"rfid","punch out",date,time, latitude,longitude,instid1,"active"]]
+                                                var sql4="insert into dailystudent (studentid,tripid,vehicleid,punchby,punchinout,date,time,latitude,longitude,institutioncode,status) values?"
                                                 db.query(sql4,[user1],(err4,ress4)=>{
                                                     if(err4){
                                                         console.log(err4);
@@ -497,8 +501,8 @@ dailyrfid:(c)=>{
                                                     console.log(latitude,longitude);
                                                 }
                                             })
-                                            var user1=[[stunid,busid,"rfid","punch in",date, latitude,longitude,instid1,"active"]]
-                                            var sql4="INSERT INTO dailystudent (studentid, vehicleid, punchby, punchinout, date, latitude, longitude, institutioncode, status) VALUES ? "
+                                            var user1=[[stunid,busid,"rfid","punch in",date,time, latitude,longitude,instid1,"active"]]
+                                            var sql4="INSERT INTO dailystudent (studentid, vehicleid, punchby, punchinout, date,time, latitude, longitude, institutioncode, status) VALUES ? "
                                             db.query(sql4,[user1],(err4,ress4)=>{
                                                 if(err4){
                                                     console.log(err4);
@@ -526,8 +530,8 @@ dailyrfid:(c)=>{
                                                         console.log(latitude,longitude);
                                                     }
                                                 })
-                                                var user1=[[stunid,busid,"rfid","punch out",date, latitude,longitude,instid1,"active"]]
-                                                var sql4="insert into dailystudent (studentid,vehicleid,punchby,punchinout,date,latitude,longitude,institutioncode,status) values?"
+                                                var user1=[[stunid,busid,"rfid","punch out",date,time, latitude,longitude,instid1,"active"]]
+                                                var sql4="insert into dailystudent (studentid,vehicleid,punchby,punchinout,date,time,latitude,longitude,institutioncode,status) values?"
                                                 db.query(sql4,[user1],(err4,ress4)=>{
                                                     if(err4){
                                                         console.log(err4);
@@ -569,6 +573,10 @@ dailyfinger:(c)=>{
         var month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
         var year = date_ob.getFullYear();
         var date = year + "-" + month + "-" + day;
+        let hours = date_ob.getHours();
+        let minutes = date_ob.getMinutes();
+        let seconds = date_ob.getSeconds();
+        var time=hours+":"+minutes+":"+seconds;
         var sql="select studentid from studentfingermap where fingerid=? and institutioncode=?";
         db.query(sql,[cardid,instid1],(err,ress)=>{
             if(err){console.log(err);
@@ -618,8 +626,8 @@ dailyfinger:(c)=>{
                                                     console.log(latitude,longitude);
                                                 }
                                             })
-                                            var user1=[[stunid,tripid,busid,vehicid,"rfid","punch in",date, latitude,longitude,instid1,"active"]]
-                                            var sql4="INSERT INTO dailystudent (studentid, tripid, vehicleid,assignedvehicleid, punchby, punchinout, date, latitude, longitude, institutioncode, status) VALUES ? "
+                                            var user1=[[stunid,tripid,busid,vehicid,"fingerprint","punch in",date,time, latitude,longitude,instid1,"active"]]
+                                            var sql4="INSERT INTO dailystudent (studentid, tripid, vehicleid,assignedvechileid, punchby, punchinout, date, time,latitude, longitude, institutioncode, status) VALUES ? "
                                             db.query(sql4,[user1],(err4,ress4)=>{
                                                 if(err4){
                                                     console.log(err4);
@@ -647,8 +655,8 @@ dailyfinger:(c)=>{
                                                         console.log(latitude,longitude);
                                                     }
                                                 })
-                                                var user1=[[stunid,tripid,busid,"rfid","punch out",date, latitude,longitude,instid1,"active"]]
-                                                var sql4="insert into dailystudent (studentid,tripid,vehicleid,punchby,punchinout,date,latitude,longitude,institutioncode,status) values?"
+                                                var user1=[[stunid,tripid,busid,vehicid,"fingerprint","punch out",date,time, latitude,longitude,instid1,"active"]]
+                                                var sql4="insert into dailystudent (studentid,tripid,vehicleid,assignedvechileid,punchby,punchinout,date,time,latitude,longitude,institutioncode,status) values?"
                                                 db.query(sql4,[user1],(err4,ress4)=>{
                                                     if(err4){
                                                         console.log(err4);
@@ -690,8 +698,8 @@ dailyfinger:(c)=>{
                                                     console.log(latitude,longitude);
                                                 }
                                             })
-                                            var user1=[[stunid,busid,"rfid","punch in",date, latitude,longitude,instid1,"active"]]
-                                            var sql4="INSERT INTO dailystudent (studentid, vehicleid, punchby, punchinout, date, latitude, longitude, institutioncode, status) VALUES ? "
+                                            var user1=[[stunid,busid,"rfid","punch in",date,time, latitude,longitude,instid1,"active"]]
+                                            var sql4="INSERT INTO dailystudent (studentid, vehicleid, punchby, punchinout, date, time, latitude, longitude, institutioncode, status) VALUES ? "
                                             db.query(sql4,[user1],(err4,ress4)=>{
                                                 if(err4){
                                                     console.log(err4);
@@ -719,8 +727,8 @@ dailyfinger:(c)=>{
                                                         console.log(latitude,longitude);
                                                     }
                                                 })
-                                                var user1=[[stunid,busid,"rfid","punch out",date, latitude,longitude,instid1,"active"]]
-                                                var sql4="insert into dailystudent (studentid,vehicleid,punchby,punchinout,date,latitude,longitude,institutioncode,status) values?"
+                                                var user1=[[stunid,busid,"rfid","punch out",date, time,latitude,longitude,instid1,"active"]]
+                                                var sql4="insert into dailystudent (studentid,vehicleid,punchby,punchinout,date,time,latitude,longitude,institutioncode,status) values?"
                                                 db.query(sql4,[user1],(err4,ress4)=>{
                                                     if(err4){
                                                         console.log(err4);
@@ -751,4 +759,64 @@ dailyfinger:(c)=>{
          })
 
 },
+livelocation:(data)=>{
+    console.log(data);
+    var date_ob = new Date();
+        var day = ("0" + date_ob.getDate()).slice(-2);
+        var month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+        var year = date_ob.getFullYear();
+        var date = year + "-" + month + "-" + day;
+        var busid=data.busid
+        var insti=data.institutioncode;
+        var latitude=data.latitude;
+        console.log(latitude)
+        
+        var longitude=data.longitutude;
+        console.log(longitude)
+        let hours = date_ob.getHours();
+        let minutes = date_ob.getMinutes();
+        let seconds = date_ob.getSeconds();
+        var time=hours+":"+minutes+":"+seconds;
+    return new Promise((resolve,reject)=>{
+        var sql="select * from vehiclelivelocation where vehicleid=? and date=?"
+        db.query(sql,[busid,date],(err,ress)=>{
+            if(err){console.log(err);resolve(false)}
+            else
+            {
+                if(ress.length>0)
+                {
+                
+
+                    var sql2="UPDATE vehiclelivelocation SET latitude = ?, longitude = ?, time = ? WHERE institutioncode = ? AND vehicleid = ? AND date = ?";
+                    db.query(sql2,[latitude,longitude,time,insti,busid,date],(err1,ress1)=>{
+                        if(err1){console.log(err1);resolve(false) }
+                        else
+                        {
+                            var re="entred"
+                            console.log("cgvhbjnmk")
+                            resolve(re);
+                        }
+                    })
+                }
+                else
+                {
+                    var user=[[busid,latitude,longitude,insti,date,time]];
+                    var sql3="insert into vehiclelivelocation (vehicleid,latitude,longitude,institutioncode,date,time) values ?"
+                    db.query(sql3,[user],(err2,ress2)=>{
+                        if(err2){console.log(err2);resolve(false)}
+                        else
+                        {
+                            console.log("entred")
+                            var re="entred"
+                            resolve(re);
+                        }
+                    })
+                }
+            }
+        })
+        
+    })
+    
+},
+
 }

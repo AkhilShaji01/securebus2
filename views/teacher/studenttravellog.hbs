@@ -31,7 +31,7 @@
           <div class="col-12">
             
             <!-- /.card -->
-
+          
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">Student</h3>
@@ -43,35 +43,34 @@
                   <tr>
                     <th>Admission number</th>
                     <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Address</th>
-                    <th>Class</th>
+                    <th>latitude</th>
+                    <th>Longitude</th>
+                    <th>assignedbus</th>
+                    <th>vehicleid</th>
+                    <th>date</th>
+                    <th>time</th>
                     <th>options</th>
                   </tr>
                   </thead>
                   <tbody>
                     {{#each dt}}
-                  <tr>
-                    <td>{{this.admissionnumber}}</td>
-                    <td>{{this.firstname}} {{this.lastname}}</td>
-                    <td>{{this.email}}</td>
-                    <td>{{this.phone}}</td>
-                    
-                    <td>{{this.address}}</td>
-                    <td>{{this.classname}}</td>
-                    <td>
-                      <form action="/teacher/addrfid" method="post">
-                      <input type="text" name="studentid" id="" value="{{this.studentid}}" hidden>
-                      <input type="submit" value="ADDRFID" style="background-color: rgb(70, 158, 240);">
-                      </form>
-                      <form action="/teacher/addfinger" method="post">
-                      <input type="text" name="studentid" id="" value="{{this.studentid}}" hidden>
-                      <input type="submit" value="ADD FINGERPRINT" style="background-color: rgb(17, 155, 68); border-radius: 5px;">
-                      </form>
-                    </td>
+                
 
+                  <tr >
+                    
+                    <td >{{this.admissionnumber}}</td>
+                    <td>{{this.firstname}} {{this.lastname}}</td>
+                    <td>{{this.latitude}}</td>
+                    <td>{{this.longitude}}</td>
+                     <td >{{this.assignedvechileid}}</td>
+                     <td >{{this.vehicleid}}</td>
+                    <td>{{this.date}}</td>
+                    <td>{{this.time}}</td>
+                    <td id="las"></td>
+                   
+                  
                   </tr>
+                  
                  {{/each}}
                   </tbody>
                   <tfoot>
@@ -79,6 +78,47 @@
                 </table>
               </div>
               <!-- /.card-body -->
+
+              <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                    <th>Admission number</th>
+                    <th>Name</th>
+                    <th>latitude</th>
+                    <th>Longitude</th>
+                    <th>assignedbus</th>
+                    <th>vehicleid</th>
+                    <th>date</th>
+                    <th>time</th>
+                    <th>options</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    {{#each dt1}}
+                
+
+                  <tr style="color: red;">
+                    
+                    <td >{{this.admissionnumber}}</td>
+                    <td>{{this.firstname}} {{this.lastname}}</td>
+                    <td>{{this.latitude}}</td>
+                    <td>{{this.longitude}}</td>
+                     <td >{{this.assignedvechileid}}</td>
+                     <td >{{this.vehicleid}}</td>
+                    <td>{{this.date}}</td>
+                    <td>{{this.time}}</td>
+                    <td id="las"></td>
+                   
+                  
+                  </tr>
+                  
+                 {{/each}}
+                  </tbody>
+                  <tfoot>
+                 
+                </table>
+              </div>
             </div>
             <!-- /.card -->
           </div>
@@ -145,3 +185,15 @@
     });
   });
 </script>
+
+ {{!-- <script type="text/javascript">
+                  //  var er=document.getElementById("avh").value;
+                   // var vehiceli=parseInt(er);
+                    //var er1=document.getElementById("vh").value;
+                    //var avehiceli=parseInt(er1);
+                    //if(vehiceli==avehiceli)
+                    {
+                     // document.getElementById("las").innerHTML="travelled in unassigned bus"
+                    }
+                   
+                  </script> --}}

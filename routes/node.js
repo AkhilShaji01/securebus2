@@ -331,4 +331,47 @@ router.post("/rfidsensor",(req,res)=>{
   //res.status(200).send("pk");
   //res.send("pk");
 })
+router.post("/dailyfinger",(req,res)=>{
+  //busid=req.params.id;
+  console.log(req.body);
+  Helper.dailyfinger(req.body).then((studentid)=>{
+    console.log(studentid);
+    if(studentid==false)
+    {
+      res.status(200).send("no");
+    }
+    else 
+    {
+      if(studentid=="goodbye")
+      {
+        res.status(200).send("goodbye");
+      }
+      else{
+      res.status(200).send("entred");
+      }
+    }
+  }) 
+  //res.status(200).send("pk");
+  //res.send("pk");
+})
+
+router.post("/livelocation",(req,res)=>{
+  //busid=req.params.id;
+  console.log(req.body);
+  Helper.livelocation(req.body).then((dat)=>{
+    
+    if(dat==false)
+    {
+      //res.status(200).send("not entered location");
+    }
+    else
+    {
+      res.status(200).send(String(dat))
+    }
+    
+  }) 
+  //// res.status(200).send("pk");
+  // res.send("pk");
+})
+
 module.exports = router;
