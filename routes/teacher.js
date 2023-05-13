@@ -3,7 +3,8 @@ var router = express.Router();
 var db = require('../config/connection')
 const bcrypt = require('bcrypt')
 const saltRounds = 10;
-const Helper=require('../config/tablename')
+const Helper=require('../config/tablename');
+const { route } = require('./inst');
 const verifyLogin=(req,res,next)=>{
     if(req.session.loggedIn){
       next()
@@ -393,4 +394,9 @@ router.get('/profile',verifyLogin,function(req, res, next) {
             
         
     })
+
+router.get("/eachstudent",(req,res)=>{
+  var res1=req.session.data
+  res.render('teacher/eachstudent',{teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1 })
+})
 module.exports = router;

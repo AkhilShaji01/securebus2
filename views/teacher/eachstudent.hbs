@@ -1,0 +1,188 @@
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Student Profile</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Widgets</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <h5 class="mb-2">Basic Details</h5>
+        <div class="row">
+          <div class="col-12">
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Basic Details </h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                        <div class="row margin">
+                            
+                            <div class="col-sm-6">
+                            <img src="../../images/avatar5.png" alt="no image" />
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="row margin">
+                                    Admission number:
+                                </div>
+                                <div class="row margin">
+                                    Name
+                                </div>
+                                <div class="row margin">
+                                    Class
+                                </div>
+                                <div class="row margin">
+                                    Phone number
+                                </div>
+                                <div class="row margin">
+                                    Address
+                                </div>
+                                
+                            </div>
+                            <br><br>
+                            <hr>
+                            
+                        </div>
+                        <br>
+                        <br>
+                        <hr>
+                        
+                        <div class="row margin">
+                        
+                            <form action="/viewstudentprofile" method="post" style="margin-left: 10px;">
+                            <input type="text" name="studentid" id="" value="" hidden>
+                                <button type="submit" formmethod="post" class="btn btn-primary">Full profile</button>        
+                        </form>
+                        
+                        <form action="/teacher/addrfid"  method="post" style="margin-left: 10px;">
+                            <input type="text" name="studentid" id="" value="" hidden>
+                            <button type="submit" formmethod="post" class="btn btn-success">Add RFID</button>
+                        </form>
+                        <form action="/teacher/addfinger"  method="post" style="margin-left: 10px;">
+                            <input type="text" name="studentid" id="" value="" hidden>
+                            <button type="submit" formmethod="post" class="btn btn-success">ADD FINGER</button>
+                        </form>
+                        <form action="/teacher/removerfid"  method="post" style="margin-left: 10px;">
+                            <input type="text" name="studentid" id="" value="" hidden>
+                            <button type="submit" formmethod="post" class="btn btn-danger">Remove RFID</button>
+                        </form>
+                        <form action="/teacher/removefinger"  method="post" style="margin-left: 10px;">
+                            <input type="text" name="studentid" id="" value="" hidden>
+                            <button type="submit" formmethod="post" class="btn btn-danger">Remove Finger</button>
+                        </form>
+                        
+                        </div>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+        <!-- /.row -->
+
+        <!-- =========================================================== -->
+        <h5 class="mb-2">Travel Log</h5>
+        <div class="row">
+          <div class="col-md-3 col-sm-6 col-12">
+            <div class="info-box shadow-none">
+              <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Shadows</span>
+                <span class="info-box-number">None</span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+          <div class="col-md-3 col-sm-6 col-12">
+            <div class="info-box shadow-sm">
+              <span class="info-box-icon bg-success"><i class="far fa-flag"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Shadows</span>
+                <span class="info-box-number">Small</span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+          <div class="col-md-3 col-sm-6 col-12">
+            <div class="info-box shadow">
+              <span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Shadows</span>
+                <span class="info-box-number">Regular</span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+          <div class="col-md-3 col-sm-6 col-12">
+            <div class="info-box shadow-lg">
+              <span class="info-box-icon bg-danger"><i class="far fa-star"></i></span>
+
+              <div class="info-box-content">
+                <span class="info-box-text">Shadows</span>
+                <span class="info-box-number">Large</span>
+              </div>
+              <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+          </div>
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+        
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+
+    <a id="back-to-top" href="#" class="btn btn-primary back-to-top" role="button" aria-label="Scroll to top">
+      <i class="fas fa-chevron-up"></i>
+    </a>
+  </div>
+  <!-- /.content-wrapper -->
+
+  <footer class="main-footer">
+    <div class="float-right d-none d-sm-block">
+      <b>Version</b> 3.2.0
+    </div>
+    <strong>Copyright &copy; 2014-2021 <a href="">SecureBus</a>.</strong> All rights reserved.
+  </footer>
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="../plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../dist/js/demo.js"></script>
