@@ -126,7 +126,7 @@ router.post('/login',async(req,res)=>{
               if(err) {console.log("error");res.redirect('/login');}
               else{
                     var res1=ress
-                    if(res1[0].roleid='R1')
+                    if(res1[0].roleid==1)
                     {
                       console.log(res1)
                       var sql2="SELECT *, department.name AS departmentname, designation.name AS designationname, teacherclassmapping.classid, class.classname FROM staff INNER JOIN department ON department.departmentid = staff.departmentid  INNER JOIN designation ON designation.designationid = staff.designationid INNER JOIN teacherclassmapping ON teacherclassmapping.teacherid = staff.staffid INNER JOIN class ON class.classid=(select teacherclassmapping.classid from teacherclassmapping WHERE teacherclassmapping.teacherid=staff.staffid) WHERE email = ?;"
@@ -146,7 +146,7 @@ router.post('/login',async(req,res)=>{
                       req.session.data=ress
                       var res1=ress
                       console.log(res1)
-                      res.render('driver/profile',{ teacher:true,title: 'SecureBus',style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1
+                      res.render('driver/profile',{ driver:true,title: 'SecureBus',style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1
                       })
                     }
                     
@@ -162,8 +162,8 @@ router.post('/login',async(req,res)=>{
               else{
                   req.session.data=ress
                   var res1=ress
-                  //res.redirect('/student/profile')
-                  res.render('student/profile',{ student:true,title: 'SecureBus',style:'dist/css/adminlte.min.css',plug:'plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'plugins/fontawesome-free/css/all.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1   })
+                  res.redirect('/student/profile')
+                  //res.render('student/profile',{ student:true,title: 'SecureBus',style:'dist/css/adminlte.min.css',plug:'plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'plugins/fontawesome-free/css/all.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1   })
                     
             }
           })

@@ -24,7 +24,7 @@ table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control:before {
   display: block;
   position: absolute;
   color: white;
-  border: 0.15em solid white;
+  border: 0.15em solid rgb(26, 6, 6);
   border-radius: 1em;
   box-shadow: 0 0 0.2em #444;
   box-sizing: content-box;

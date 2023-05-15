@@ -21,7 +21,7 @@ router.get('/student',verifyLogin, function(req, res, next) {
   console.log(res1)
   var sql="SELECT *, studentclassmapping.classid, class.classname FROM student INNER JOIN studentclassmapping ON student.studentid = studentclassmapping.studentid INNER JOIN class ON class.classid = studentclassmapping.classid WHERE studentclassmapping.classid = ? AND student.institutioncode = ? AND student.departmentid = ? "
   db.query(sql,[clas,instid,depid],(err,res2)=>{
-    if(err){console.log("database fetching error");res.render('teacher/student', {teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1 })}
+    if(err){console.log("database fetching error",err);res.render('teacher/student', {teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1 })}
     else {
       if(res2.length>0){
         dt=res2
@@ -133,8 +133,9 @@ router.get('/profile',verifyLogin,function(req, res, next) {
   console.log(req.session.rfidstudentid);
   var res2=req.session.data
   console.log(res2)
-  res.render('teacher/profile',{ teacher:true,title: 'SecureBus',style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res2 })
-
+  var pc=req.session.pc
+  res.render('teacher/profile',{pc, teacher:true,title: 'SecureBus',style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res2 })
+  req.session.pc=false
   });
   router.get('/studenttripmap',verifyLogin, function(req, res, next) {
     var res1=req.session.data
@@ -773,5 +774,75 @@ router.post("/genyearlyreport",verifyLogin,(req,res)=>{
 
   })
 })
+router.post("/editprofile",(req,res)=>{
+  var res1=req.session.data
+  var staffid=req.body.staffid;
+  var sql="select * from staff inner join designation on staff.designationid=designation.designationid where staffid=?"
+  db.query(sql,[staffid],(err,ress)=>{
+    if(err){console.log(err)}
+    else
+    {
+      if(ress.length>0)
+      {
+        dt=ress;
+        res.render('teacher/editprofile', {dt,teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,p1:'',p2:'',p3:'',res1 });
 
+      }
+    }
+  })
+})
+
+
+router.post('/editprofile1',verifyLogin,(req,res)=>{
+  var res1=req.session.data
+ 
+  var date_ob = new Date();
+  var day = ("0" + date_ob.getDate()).slice(-2);
+  var month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+  var year = date_ob.getFullYear();
+  var date = year + "-" + month + "-" + day;
+  const user=[[req.body.firstname,req.body.lastname,req.body.email,req.body.mobile,req.body.address]]
+  
+  var sql1 = "UPDATE staff SET firstname = ?, lastname = ?, email = ?, mobile = ?, address = ? WHERE staffid = ?";
+  db.query(sql1,[req.body.firstname,req.body.lastname,req.body.email,req.body.mobile,req.body.address,req.body.staffid],function (err,result){
+      if(err) console.log(err)
+      else{
+        console.log("updated to staff")
+        res.redirect("/teacher/profile")
+        
+    }
+      
+  })
+
+  }
+)
+
+router.post("/changepassword",verifyLogin,(req,res)=>{
+  res1=req.session.data
+  var staffid=req.body.staffid
+  var email=req.body.email
+  res.render('teacher/changepassword', {staffid,email,teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,p1:'',p2:'https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback',p3:'',res1 });
+
+  
+})
+router.post("/changepassword1",verifyLogin, async(req,res)=>{
+  res1=req.session.data
+  var staffid=req.body.staffid
+  var email=req.body.email
+  var password=req.body.password
+  console.log(req.body.password)
+  var encryptpassword= await bcrypt.hash(password,saltRounds);
+  var sql="update login set password=? where username=?"
+  db.query(sql,[encryptpassword,email],(err,ress)=>{
+    if(err)console.log(err)
+    else{
+      console.log("password changed");
+      req.session.pc=true
+      res.redirect("/teacher/profile");
+    }
+  })
+  // res.render('teacher/changepassword', {staffid,email,teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,p1:'',p2:'https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback',p3:'',res1 });
+
+  
+})
 module.exports = router;

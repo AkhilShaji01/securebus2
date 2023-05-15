@@ -5,6 +5,7 @@
 .table {
   &:not(.table-dark) {
     color: inherit;
+    border: 5;
   }
 
   // fixed table head
@@ -33,7 +34,7 @@
     &,
     td,
     th {
-      border: 0;
+      border: 5;
     }
   }
 
