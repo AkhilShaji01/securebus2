@@ -556,6 +556,10 @@ router.post("/genmonthreport",verifyLogin,(req,res)=>{
   })
 })
 
-
+router.post("/studentfullprofile",(req,res)=>{
+  var sid=req.body.studentid;
+  var res1=req.session.data
+  var sql="select student.* ,class.classname"
+})
 
 module.exports = router;
