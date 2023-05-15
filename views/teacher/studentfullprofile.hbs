@@ -19,7 +19,7 @@
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
-        <h5 class="mb-2">Basic Details</h5>
+        {{!-- <h5 class="mb-2">Basic Details</h5> --}}
         <div class="row">
           <div class="col-12">
             <div class="card card-primary">
@@ -49,7 +49,15 @@
                                 <div class="row margin">
                                     Address: {{this.address}}
                                 </div>
-                                
+                                {{!-- <div class="row margin">
+                                    Class: {{this.classname}}
+                                </div> --}}
+                                <div class="row margin">
+                                    vehicle: {{this.regnumber}}
+                                </div>
+                                 <div class="row margin">
+                                    trip: {{this.tripname}}
+                                </div>
                             </div>
                             <br><br>
                             <hr>
@@ -59,31 +67,7 @@
                         <br>
                         <hr>
                         
-                        <div class="row margin">
                         
-                            <form action="/viewstudentprofile" method="post" style="margin-left: 10px;">
-                            <input type="text" name="studentid" id="studentid" value="{{this.studentid}}" hidden>
-                                <button type="submit" formmethod="post" class="btn btn-primary">Full profile</button>        
-                        </form>
-                        
-                        <form action="/teacher/addrfid"  method="post" style="margin-left: 10px;">
-                            <input type="text" name="studentid" id="" value="{{this.studentid}}" hidden>
-                            <button type="submit" formmethod="post" class="btn btn-success">Add RFID</button>
-                        </form>
-                        <form action="/teacher/addfinger"  method="post" style="margin-left: 10px;">
-                            <input type="text" name="studentid" id="" value="{{this.studentid}}" hidden>
-                            <button type="submit" formmethod="post" class="btn btn-success">ADD FINGER</button>
-                        </form>
-                        <form action="/teacher/removerfid"  method="post" style="margin-left: 10px;">
-                            <input type="text" name="studentid" id="" value="{{this.studentid}}" hidden>
-                            <button type="submit" formmethod="post" class="btn btn-danger">Remove RFID</button>
-                        </form>
-                        <form action="/teacher/removefinger"  method="post" style="margin-left: 10px;">
-                            <input type="text" name="studentid" id="" value="{{this.studentid}}" hidden>
-                            <button type="submit" formmethod="post" class="btn btn-danger">Remove Finger</button>
-                        </form>
-                        
-                        </div>
               </div>
               <!-- /.card-body -->
             </div>
@@ -102,31 +86,44 @@
           <div class="col-12">
             <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Basic Details </h3>
+                <h3 class="card-title">Parent Details </h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
                         <div class="row margin" style="font-size: larger;">
                             {{#each dt}}
-                            <div class="col-sm-6">
+                            {{!-- <div class="col-sm-6">
                             <img src="../../images/avatar5.png" alt="no image" />
-                            </div>
+                            </div> --}}
                             <div class="col-sm-6">
                                 <div class="row margin">
-                                    Admission number:{{this.admissionnumber}}
+                                    Father Name:{{this.fathername}}
                                 </div>
                                 <div class="row margin">
-                                    Name: {{this.firstname}} {{this.lastname}}
+                                    Father Number:{{this.fathermobile}}
                                 </div>
                                 <div class="row margin">
-                                    Class: {{this.classname}}
+                                    Father email:{{this.fatheremail}}
                                 </div>
                                 <div class="row margin">
-                                    Phone number:{{this.phone}}
+                                    Mother Name: {{this.mothername}}
                                 </div>
                                 <div class="row margin">
-                                    Address: {{this.address}}
+                                    Mother Number: {{this.motherphone}}
                                 </div>
+                                <div class="row margin">
+                                    Mother email: {{this.motheremail}}
+                                </div>
+                                <div class="row margin">
+                                    Guardian Name: {{this.guardianname}}
+                                </div>
+                                <div class="row margin">
+                                    Guardian Phone: {{this.guardianphone}}
+                                </div>
+                                <div class="row margin">
+                                    Guardian Email: {{this.guardianemail}}
+                                </div>
+                                
                                 
                             </div>
                             <br><br>
@@ -139,12 +136,12 @@
                         
                         <div class="row margin">
                         
-                            <form action="/viewstudentprofile" method="post" style="margin-left: 10px;">
+                            <form action="/teacher/editstudentprofile" method="post" style="margin-left: 10px;">
                             <input type="text" name="studentid" id="studentid" value="{{this.studentid}}" hidden>
-                                <button type="submit" formmethod="post" class="btn btn-primary">Full profile</button>        
+                                <button type="submit" formmethod="post" class="btn btn-primary">Edit profile</button>        
                         </form>
                         
-                        <form action="/teacher/addrfid"  method="post" style="margin-left: 10px;">
+                        {{!-- <form action="/teacher/addrfid"  method="post" style="margin-left: 10px;">
                             <input type="text" name="studentid" id="" value="{{this.studentid}}" hidden>
                             <button type="submit" formmethod="post" class="btn btn-success">Add RFID</button>
                         </form>
@@ -159,7 +156,7 @@
                         <form action="/teacher/removefinger"  method="post" style="margin-left: 10px;">
                             <input type="text" name="studentid" id="" value="{{this.studentid}}" hidden>
                             <button type="submit" formmethod="post" class="btn btn-danger">Remove Finger</button>
-                        </form>
+                        </form> --}}
                         
                         </div>
               </div>
@@ -173,6 +170,7 @@
       </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
+    {{/each}}
 
     <a id="back-to-top" href="#" class="btn btn-primary back-to-top" role="button" aria-label="Scroll to top">
       <i class="fas fa-chevron-up"></i>

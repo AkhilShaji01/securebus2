@@ -556,10 +556,222 @@ router.post("/genmonthreport",verifyLogin,(req,res)=>{
   })
 })
 
-router.post("/studentfullprofile",(req,res)=>{
+router.post("/studentfullprofile",verifyLogin,(req,res)=>{
   var sid=req.body.studentid;
+  
   var res1=req.session.data
-  var sql="select student.* ,class.classname"
+  var insti=res1[0].institutioncode
+  var sql="SELECT student.*, class.classname, trip.tripname, studenttripmap.tripid, vehicle.regnumber, vehicletripmap.vehicleid FROM student INNER JOIN studenttripmap ON studenttripmap.studentid = student.studentid INNER JOIN class ON class.classid = (SELECT studentclassmapping.classid FROM studentclassmapping WHERE studentclassmapping.studentid = student.studentid) INNER JOIN vehicletripmap ON vehicletripmap.tripid = (SELECT studenttripmap.tripid FROM studenttripmap WHERE studenttripmap.studentid = student.studentid) INNER JOIN trip ON trip.tripid = studenttripmap.tripid INNER JOIN vehicle ON vehicle.vehicleid = vehicletripmap.vehicleid WHERE student.studentid = ? AND student.institutioncode = ? AND student.status = 'active' ";
+  db.query(sql,[sid,insti],(err,ress)=>{
+    if(err){console.log(err);}
+    else
+    {
+      if(ress.length>0){
+      var dt=ress;
+      console.log(dt)
+      res.render('teacher/studentfullprofile', {teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
+      }
+      else
+      {
+        var sql1="select student.*, class.classname from student inner join class on class.classid=(select studentclassmapping.classid from studentclassmapping where studentclassmapping.studentid=student.studentid) where student.studentid=? and student.status='active'"
+        db.query(sql1,[sid],(err1,ress1)=>{
+          if(err1){console.log(err1)}
+          else{
+          var dt=ress1;
+          res.render('teacher/studentfullprofile', {teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
+          }
+        })
+      }
+    }
+  })
+})
+
+router.post("/editstudentprofile",verifyLogin,(req,res)=>{
+  var res1=req.session.data
+  var sid=req.body.studentid;
+  console.log(sid)
+  var sql="select * from student where studentid=?"
+  db.query(sql,[sid],(err,ress)=>{
+    if(err){
+      console.log(err)
+    }
+    else{
+      var dt=ress;
+      console.log(dt)
+      res.render('teacher/editstudentprofile', {sid,res1,teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,p1:'',p2:'',p3:'',dt });
+
+    }
+  })
+})
+router.post('/editstudent',(req,res)=>{
+  console.log(req.body)
+  var res1=req.session.data
+  var depid=res1[0].departmentid
+  var clas=res1[0].classid
+  var date_ob = new Date();
+  var day = ("0" + date_ob.getDate()).slice(-2);
+  var month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+  var year = date_ob.getFullYear();
+  var date = year + "-" + month + "-" + day;
+  const user=[[req.body.admissionnumber,req.body.firstname,req.body.lastname,req.body.email,req.body.phone,req.body.address,depid,req.body.fathername,req.body.mothername,req.body.fatheremail,req.body.fathermobile,req.body.motheremail,req.body.motherphone,req.body.guardianname,req.body.guardianemail,req.body.guardianphone,res1[0].staffid,res1[0].institutioncode,res1[0].institutioncode,'active',date,req.body.studentid]]
+   var sql1="UPDATE student SET admissionnumber = ?, firstname = ?,  lastname = ?, email = ?, phone = ?, address = ?, departmentid = ?, fathername = ?, mothername = ?, fatheremail = ?, fathermobile = ?,  motheremail = ?, motherphone = ?, guardianname = ?, guardianemail = ?, guardianphone = ?, addedby = ?, institutioncode = ?, tenentid = ?, status = ?, addeddate = ? WHERE studentid = ?;"
+  db.query(sql1,[req.body.admissionnumber,req.body.firstname,req.body.lastname,req.body.email,req.body.phone,req.body.address,depid,req.body.fathername,req.body.mothername,req.body.fatheremail,req.body.fathermobile,req.body.motheremail,req.body.motherphone,req.body.guardianname,req.body.guardianemail,req.body.guardianphone,res1[0].staffid,res1[0].institutioncode,res1[0].institutioncode,'active',date,req.body.studentid],(err2,ress3)=>{
+              if(err2){console.log(err2);}
+              else{
+                console.log("updated sucessfully");
+                req.session.esid=req.body.stuentid
+                res.redirect("/teacher/eachstudent")
+              }
+            })
+           // res.redirect("/teacher/student")
+          }
+)
+
+
+router.post("/gendailyreport",verifyLogin,(req,res)=>{
+  var res1=req.session.data
+  //var sid=req.session.profilesid;
+  var instid=res1[0].institutioncode;
+  var depid=res1[0].departmentid
+  var clas=res1[0].classid
+  var sid=req.body.studentid;
+  req.session.msid=sid;
+  //var month=req.body.month;
+  //var year=req.body.year;
+  dd=req.body.date;
+  //my=year;
+  //console.log(sid,month,year)
+  var sql="SELECT *, studentclassmapping.classid, class.classname FROM student INNER JOIN studentclassmapping ON student.studentid = studentclassmapping.studentid INNER JOIN class ON class.classid = studentclassmapping.classid WHERE studentclassmapping.classid = ? AND student.institutioncode = ? AND student.departmentid = ? and student.studentid=?"
+  db.query(sql,[clas,instid,depid,sid],(err,res2)=>{
+    if(err){console.log("database fetching error",err);res.render('teacher/studentreport', {mm,my,teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1 })}
+    else {
+      if(res2.length>0){
+        dt=res2
+        console.log(dt);
+        var sql="SELECT *, student.firstname, student.lastname, studentclassmapping.classid, vehicle.regnumber, student.admissionnumber FROM dailystudent INNER JOIN student ON dailystudent.studentid = student.studentid INNER JOIN vehicle ON vehicle.vehicleid = dailystudent.vehicleid INNER JOIN studentclassmapping on studentclassmapping.studentid=student.studentid WHERE studentclassmapping.classid=? and student.institutioncode = ? AND student.status = 'active' and dailystudent.studentid=? and dailystudent.vehicleid=dailystudent.assignedvechileid and dailystudent.date=?;"
+        db.query(sql,[clas,instid,sid,dd],(err3,res3)=>{
+        if(err3){console.log("database fetching error",err3);res.render('teacher/studentreport', {dddt,teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1 })}
+        else {
+          if(res3.length>0){
+            dt1=res3
+            console.log(dt1)
+            var oket=res3.length
+            var sql1="SELECT *, student.firstname, student.lastname, studentclassmapping.classid, vehicle.regnumber, student.admissionnumber FROM dailystudent INNER JOIN student ON dailystudent.studentid = student.studentid INNER JOIN vehicle ON vehicle.vehicleid = dailystudent.vehicleid INNER JOIN studentclassmapping on studentclassmapping.studentid=student.studentid WHERE studentclassmapping.classid=? and student.institutioncode = ? AND student.status = 'active' and dailystudent.studentid=? and dailystudent.vehicleid<>dailystudent.assignedvechileid  and dailystudent.date=?;"
+            db.query(sql1,[clas,instid,sid,dd],(err1,ress2)=>{
+              if(err1){console.log("database fetching error1",err1);res.render('teacher/studentreport', {dd,dt,teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1 })}
+              else
+              {
+                dt2=ress2;
+                var noet=ress2.length
+                console.log("2563845")
+                res.render('teacher/studentreport', {dd,oket,noet,dt1,dt2,teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
+
+                
+              }
+            })
+            
+            //res.render('teacher/studenttravellog', {teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
+          }
+          else{
+            var sql1="SELECT *, student.firstname, student.lastname, studentclassmapping.classid, vehicle.regnumber, student.admissionnumber FROM dailystudent INNER JOIN student ON dailystudent.studentid = student.studentid INNER JOIN vehicle ON vehicle.vehicleid = dailystudent.vehicleid INNER JOIN studentclassmapping on studentclassmapping.studentid=student.studentid WHERE studentclassmapping.classid=? and student.institutioncode = ? AND student.status = 'active' and dailystudent.studentid=? and dailystudent.vehicleid<>dailystudent.assignedvechileid  and dailystudent.date=?;"
+            db.query(sql1,[clas,instid,sid,dd],(err4,ress4)=>{
+              if(err4){console.log("database fetching error1",err4);res.render('teacher/studentreport', {dd,teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })}
+              else
+              {
+                dt2=ress4;
+                var noet=ress4.length
+                console.log("2563845")
+                res.render('teacher/studentreport', {dd,noet,dt2,teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
+
+                
+              }
+            })
+            
+            // res.render('teacher/eachstudent', {teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt }
+            }
+        }
+    
+      })
+        //res.render('teacher/eachstudent', {teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
+
+      }
+      else{res.render('teacher/studentreport', {dd,teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1 })}
+    }
+
+  })
+});
+
+router.post("/genyearlyreport",verifyLogin,(req,res)=>{
+  var res1=req.session.data
+  //var sid=req.session.profilesid;
+  var instid=res1[0].institutioncode;
+  var depid=res1[0].departmentid
+  var clas=res1[0].classid
+  var sid=req.body.studentid;
+  req.session.msid=sid;
+ // var month=req.body.month;
+  var year=req.body.year;
+ // mm=month;
+  my=year;
+ // console.log(sid,month,year)
+  var sql="SELECT *, studentclassmapping.classid, class.classname FROM student INNER JOIN studentclassmapping ON student.studentid = studentclassmapping.studentid INNER JOIN class ON class.classid = studentclassmapping.classid WHERE studentclassmapping.classid = ? AND student.institutioncode = ? AND student.departmentid = ? and student.studentid=?"
+  db.query(sql,[clas,instid,depid,sid],(err,res2)=>{
+    if(err){console.log("database fetching error",err);res.render('teacher/studentreport', {my,teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1 })}
+    else {
+      if(res2.length>0){
+        dt=res2
+        console.log(dt);
+        var sql="SELECT *, student.firstname, student.lastname, studentclassmapping.classid, vehicle.regnumber, student.admissionnumber FROM dailystudent INNER JOIN student ON dailystudent.studentid = student.studentid INNER JOIN vehicle ON vehicle.vehicleid = dailystudent.vehicleid INNER JOIN studentclassmapping on studentclassmapping.studentid=student.studentid WHERE studentclassmapping.classid=? and student.institutioncode = ? AND student.status = 'active' and dailystudent.studentid=? and dailystudent.vehicleid=dailystudent.assignedvechileid and year(dailystudent.date)=?;"
+        db.query(sql,[clas,instid,sid,year],(err3,res3)=>{
+        if(err3){console.log("database fetching error",err3);res.render('teacher/studentreport', {my,dt,teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1 })}
+        else {
+          if(res3.length>0){
+            dt1=res3
+            console.log(dt1)
+            var oket=res3.length
+            var sql1="SELECT *, student.firstname, student.lastname, studentclassmapping.classid, vehicle.regnumber, student.admissionnumber FROM dailystudent INNER JOIN student ON dailystudent.studentid = student.studentid INNER JOIN vehicle ON vehicle.vehicleid = dailystudent.vehicleid INNER JOIN studentclassmapping on studentclassmapping.studentid=student.studentid WHERE studentclassmapping.classid=? and student.institutioncode = ? AND student.status = 'active' and dailystudent.studentid=? and dailystudent.vehicleid<>dailystudent.assignedvechileid  and year(dailystudent.date)=?;"
+            db.query(sql1,[clas,instid,sid,year],(err1,ress2)=>{
+              if(err1){console.log("database fetching error1",err1);res.render('teacher/studentreport', {my,dt,teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1 })}
+              else
+              {
+                dt2=ress2;
+                var noet=ress2.length
+                console.log("2563845")
+                res.render('teacher/studentreport', {my,oket,noet,dt1,dt2,teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
+
+                
+              }
+            })
+            
+            //res.render('teacher/studenttravellog', {teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
+          }
+          else{
+            var sql1="SELECT *, student.firstname, student.lastname, studentclassmapping.classid, vehicle.regnumber, student.admissionnumber FROM dailystudent INNER JOIN student ON dailystudent.studentid = student.studentid INNER JOIN vehicle ON vehicle.vehicleid = dailystudent.vehicleid INNER JOIN studentclassmapping on studentclassmapping.studentid=student.studentid WHERE studentclassmapping.classid=? and student.institutioncode = ? AND student.status = 'active' and dailystudent.studentid=? and dailystudent.vehicleid<>dailystudent.assignedvechileid  and year(dailystudent.date)=?;"
+            db.query(sql1,[clas,instid,sid,year],(err4,ress4)=>{
+              if(err4){console.log("database fetching error1",err4);res.render('teacher/studentreport', {my,teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })}
+              else
+              {
+                dt2=ress4;
+                var noet=ress4.length
+                console.log("2563845")
+                res.render('teacher/studentreport', {my,noet,dt2,teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
+
+                
+              }
+            })
+            
+            // res.render('teacher/eachstudent', {teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt }
+            }
+        }
+    
+      })
+        //res.render('teacher/eachstudent', {teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
+
+      }
+      else{res.render('teacher/studentreport', {my,teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1 })}
+    }
+
+  })
 })
 
 module.exports = router;

@@ -3,6 +3,9 @@
 @media print{
     #btn{visibility: hidden;}
     #cap{visibility: visible;}
+    #tr{
+      style="border: 5px;"
+    }
 }
 </style>
 <div class="content-wrapper" id="example">
@@ -91,7 +94,7 @@
         <!-- /.row -->
         <!-- =========================================================== -->
 <div style="text-align: center;font-size: xx-large;">
-     <p id="h5m" style="color:crimson"></p>
+     <p id="h5m" style="color:crimson">{{dd}}{{my}}</p>
                                     Number of Authorised Entry: {{oket}}
 <br>
                                     Number of Unauthorised Entry: {{noet}}
@@ -152,10 +155,10 @@
 
       
         <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
+                <table id="example1" class="table table-bordered table-striped" style="border: 5px;">
                     
                   <thead>
-                  <tr>
+                  <tr id="tr">
                     <th>Name</th>
                     <th>Location</th>
                     <th>vehicle Number</th>
@@ -182,7 +185,7 @@
               <!-- /.card-body -->
         <h5 class="mb-2">Travel Log - Unauthorised Entry</h5>
               <div class="card-body">
-                <table id="example3" class="table table-bordered table-striped">
+                <table id="example3" class="table table-bordered table-striped" style="border: 5px;">
                   <thead>
                   <tr>
                     <th>Name</th>
@@ -306,7 +309,7 @@
 
     $(function () {
     $("#example3").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "responsive": true, "lengthChange": false, "autoWidth": false, 
       "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
     }).buttons().container().appendTo('#example3_wrapper .col-md-6:eq(0)');
     $('#example4').DataTable({

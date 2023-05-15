@@ -61,7 +61,7 @@
                         
                         <div class="row margin">
                         
-                            <form action="/viewstudentprofile" method="post" style="margin-left: 10px;">
+                            <form action="/teacher/studentfullprofile" method="post" style="margin-left: 10px;">
                             <input type="text" name="studentid" id="studentid" value="{{this.studentid}}" hidden>
                                 <button type="submit" formmethod="post" class="btn btn-primary">Full profile</button>        
                         </form>
@@ -149,8 +149,8 @@
                         var currentYear = new Date().getFullYear();
 
                         // Generate the HTML for month and year selection
-                        var formHTML = '<form action="gendailyreport" method="post"><input type="text" name="studentid" value="'+sid+'" hidden><label for="date">Select Date:</label>' +
-                            '<input type="date" name="name"></input> ';
+                        var formHTML = '<form action="/teacher/gendailyreport" method="post"><input type="text" name="studentid" value="'+sid+'" hidden><label for="date">Select Date:</label>' +
+                            '<input type="date" name="date"></input> ';
                         // Generate options for months
                        
                         
@@ -169,7 +169,7 @@
                         var currentYear = new Date().getFullYear();
 
                         // Generate the HTML for month and year selection
-                        var formHTML = '<form action="genyearlyreport" method="post"> <input type="text" name="studentid" value="'+sid+'" hidden>';
+                        var formHTML = '<form action="/teacher/genyearlyreport" method="post"> <input type="text" name="studentid" value="'+sid+'" hidden>';
 
                         formHTML += '<label for="selectedYear">Select Year:</label>' +
                             '<select id="selectedYear" name="year">';
@@ -196,7 +196,7 @@
         <div>
            
         <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
+                <table id="example1" class="table table-bordered table-striped" border="1">
                   <thead>
                   <tr>
                     <th>Name</th>
@@ -226,7 +226,7 @@
               <!-- /.card-body -->
         <h5 class="mb-2">Travel Log - Unauthorised Entry</h5>
               <div class="card-body">
-                <table id="example3" class="table table-bordered table-striped">
+                <table id="example3" class="table table-bordered table-striped" border="1">
                   <thead>
                   <tr>
                     <th>Name</th>

@@ -1,0 +1,157 @@
+<div class="content-wrapper" >
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Add Staff</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              {{!-- <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Signup</li> --}}
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <!-- left column -->
+          <div class="col-md-6">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Edit student profile</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              
+              <form action="/teacher/editstudent" method="post">
+                {{!-- <div class="form-group">
+                    <label for="exampleInputEmail1">Role ID</label>
+                    <input type="text" class="form-control" id="exampleInputname" placeholder="institutioncode" name="roleid">
+                  </div> --}}
+                   <div class="form-group">
+                   
+                    <input type="text" class="form-control" id="exampleInputname" placeholder="Admission number" name="studentid" value="{{sid}}" readonly hidden>
+                  </div>
+                  {{#each dt}}
+                 
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Admission Number</label>
+                    <input type="text" class="form-control" id="exampleInputname" placeholder="Admission number" name="admissionnumber" value="{{this.admissionnumber}}" readonly>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">First Name</label>
+                    <input type="text" class="form-control" id="exampleInputname" placeholder="first name" name="firstname" value="{{this.firstname}}" readonly  >
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Last Name</label>
+                    <input type="text" class="form-control" id="exampleInputname" placeholder="last name" name="lastname"   value="{{this.lastname}}" readonly >
+                  </div>
+                   <div class="form-group">
+                  <label for="exampleInputEmail1">Email</label>
+                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email" name="email"   value="{{this.email}}" readonly >
+                  </div>
+                 
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Moible</label>
+                    <input type="text" class="form-control" id="exampleInputname" placeholder="phone" name="phone" required  value="{{this.phone}}" readonly >
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Address</label>
+                    <input type="text" class="form-control" id="exampleInputname" placeholder="address" name="address" required  value="{{this.address}}" >
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Father's Name</label>
+                    <input type="text" class="form-control" id="exampleInputname" placeholder="father's name" name="fathername" required  value="{{this.fathername}}" readonly >
+                  </div>
+                   <div class="form-group">
+                  <label for="exampleInputEmail1">Father's Email</label>
+                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Father's email" name="fatheremail"  value="{{this.fatheremail}}">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Father's Moible</label>
+                    <input type="text" class="form-control" id="exampleInputname" placeholder="phone" name="fathermobile" required  value="{{this.fathermobile}}" readonly>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Mother's Name</label>
+                    <input type="text" class="form-control" id="exampleInputname" placeholder="father's name" name="mothername" required  value="{{this.mothername}}" >
+                  </div>
+                   <div class="form-group">
+                  <label for="exampleInputEmail1">Mother's Email</label>
+                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Father's email" name="motheremail"  value="{{this.motheremail}}" >
+                  </div>
+
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">mother's Moible</label>
+                    <input type="text" class="form-control" id="exampleInputname" placeholder="phone" name="motherphone" required  value="{{this.motherphone}}" >
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">guardian's Name</label>
+                    <input type="text" class="form-control" id="exampleInputname" placeholder="guardian's name" name="guardianname"  value="{{this.guardianname}}" >
+                  </div>
+                   <div class="form-group">
+                  <label for="exampleInputEmail1">Guardian's Email</label>
+                    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="guardian's email" name="guardianemail"  value="{{this.guardianemail}}"  >
+                  </div>
+
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Guardian's Moible</label>
+                    <input type="text" class="form-control" id="exampleInputname" placeholder="phone" name="guardianphone"   value="{{this.guardianphone}}"  >
+                  </div>
+
+                   
+                <!-- /.card-body -->
+                {{/each}}
+             <div class="card-footer">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+              </form>
+            </div>
+            <!-- /.card -->
+
+            <!-- general form elements -->
+            
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <footer class="main-footer">
+    <div class="float-right d-none d-sm-block">
+      {{!-- <b>Version</b> 3.2.0 --}}
+    </div>
+    <strong>Copyright &copy; 2014-2021 <a href="">SecureBUs</a>.</strong> All rights reserved.
+  </footer>
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="../../plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- bs-custom-file-input -->
+<script src="../../plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../../dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../../dist/js/demo.js"></script>
+<!-- Page specific script -->
+<script>
+$(function () {
+  bsCustomFileInput.init();
+});
+</script>
+
