@@ -311,11 +311,12 @@ router.post("/gendailyreport",verifyLogin,(req,res)=>{
   var instid=res1[0].institutioncode;
   var depid=res1[0].departmentid
   var clas=cdata[0].classid
-  var sid=res1[0].studentiid;
+  var sid=res1[0].studentid;
   req.session.msid=sid;
   //var month=req.body.month;
   //var year=req.body.year;
-  dd=req.body.date;
+  var dd=req.body.date;
+  console.log(dd)
   //my=year;
   //console.log(sid,month,year)
   var sql="SELECT *, studentclassmapping.classid, class.classname FROM student INNER JOIN studentclassmapping ON student.studentid = studentclassmapping.studentid INNER JOIN class ON class.classid = studentclassmapping.classid WHERE studentclassmapping.classid = ? AND student.institutioncode = ? AND student.departmentid = ? and student.studentid=?"
@@ -340,7 +341,7 @@ router.post("/gendailyreport",verifyLogin,(req,res)=>{
               {
                 dt2=ress2;
                 var noet=ress2.length
-                console.log("2563845")
+                console.log(dt2)
                 res.render('student/studentreport', {dd,oket,noet,dt1,dt2,student:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
 
                 
@@ -358,7 +359,8 @@ router.post("/gendailyreport",verifyLogin,(req,res)=>{
                 dt2=ress4;
                 var noet=ress4.length
                 console.log("2563845")
-                res.render('student/studentreport', {dd,noet,dt2,student:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
+                console.log(dt2);
+                res.render('student/studentreport', {dd,noet,dt2,student:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt,dt1 })
 
                 
               }
