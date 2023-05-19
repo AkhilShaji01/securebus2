@@ -263,9 +263,12 @@ router.post("/checktodeletefinger",(req,res)=>{
       }
       else
       {
-        var fids=toString(studentid);
+        var fids=String(studentid);
+        console.log(fids,"dfghjk")
+      
         res.status(200).send(fids);
       }
+        
     }) 
     // if(req.session.rfid==true){
     //   res.status(200).send("addrfid");

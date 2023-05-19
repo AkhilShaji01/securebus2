@@ -177,7 +177,9 @@
                   <tr id="tr">
                     <th>Name</th>
                     <th>Location</th>
+                    <th>Punch IN/OUT</th>
                     <th>vehicle Number</th>
+                    
                     <th>date</th>
                     <th>time</th>
                   </tr>
@@ -188,7 +190,7 @@
                   <tr>
                     <td>{{this.firstname}} {{this.lastname}}</td>
                     <td><iframe src = "https://maps.google.com/maps?q={{this.latitude}},{{this.longitude}}&hl=es;z=14&amp;output=embed"></iframe></td>
-
+                    <td>{{this.punchinout}}</td>
                     <td>{{this.regnumber}}</td>
                     <td>{{this.date}}</td>
                     <td>{{this.time}}</td>
@@ -206,6 +208,7 @@
                   <tr>
                     <th>Name</th>
                     <th>Location</th>
+                    <th>Punch IN/OUT</th>
                     <th>assignedbus</th>
                     <th>vehicleid</th>
                     <th>date</th>
@@ -220,6 +223,7 @@
                     
                     <td>{{this.firstname}} {{this.lastname}}</td>
                     <td><iframe src = "https://maps.google.com/maps?q={{this.latitude}},{{this.longitude}}&hl=es;z=14&amp;output=embed"></iframe></td>
+                     <td>{{this.punchinout}}</td>
                      <td >{{this.assignedvechileid}}</td>
                      <td >{{this.vehicleid}}</td>
                     <td>{{this.date}}</td>

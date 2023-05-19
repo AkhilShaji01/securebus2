@@ -151,7 +151,7 @@ module.exports={
             var year = date_ob.getFullYear();
             var date = year + "-" + month + "-" + day;
             if(finger==true){
-                var sql1="select * from studentfingermap where studentid= ?"
+                var sql1="select * from studentfingermap where studentid= ? and status='active'"
                 db.query(sql1,[studentid],(err1,ress1)=>{
                     if(err1){console.log(err1);
                     resolve(false);
@@ -273,7 +273,7 @@ module.exports={
     delfingert:(sid)=>{
         delfinger=true;
         studentid=sid;
-        var sql="select fingerid from studentfingermap where studentid=?";
+        var sql="select fingerid from studentfingermap where studentid=? and status='active'";
         db.query(sql,[studentid],(err,ress)=>{
             if(err){
                 console.log("error",err)
@@ -282,7 +282,8 @@ module.exports={
                 {
                     if(ress.length==1)
                     {
-                        delfingerid=ress;
+                        delfingerid=ress[0].fingerid;
+                        console.log(delfingerid)
                     }
                 }
             
@@ -299,23 +300,29 @@ module.exports={
         return new Promise((resolve,reject)=>{
             //delfinger=true;
             if(delfinger==true){
-                // var sql="select fingerid from studentfingermap where studentid=?";
-                // db.query(sql,[studentid],(err,ress)=>{
-                //     if(err){
-                //         console.log("error",err);
-                //         resolve(flase);
-                //     }
-                //         else
-                //         {
-                //             if(ress.length==1)
-                //             {
-                //                 delfingerid=ress;
-                //                 resolve(delfingerid);
-                //             }
-                //         }
+                var sql="select fingerid from studentfingermap where studentid=?";
+                db.query(sql,[studentid],(err,ress)=>{
+                    if(err){
+                        console.log("error",err);
+                        resolve(flase);
+                    }
+                        else
+                        {
+                            if(ress.length>0)
+                            {
+                                var sql1="update studentfingermap set status='deleted' where studentid=? and fingerid=?"
+                                db.query(sql1,[studentid,delfingerid],(err1,ress1)=>{
+                                    if(err1){console.log(err1)}
+                                    {
+                                        resolve(delfingerid);
+                                        delfinger=false
+                                    }
+                                })
+                            }
+                        }
                     
-                // })
-                resolve(delfingerid);
+                })
+                
 
             //resolve(delfingerid);}
             }
@@ -577,7 +584,7 @@ dailyfinger:(c)=>{
         let minutes = date_ob.getMinutes();
         let seconds = date_ob.getSeconds();
         var time=hours+":"+minutes+":"+seconds;
-        var sql="select studentid from studentfingermap where fingerid=? and institutioncode=?";
+        var sql="select studentid from studentfingermap where fingerid=? and institutioncode=? and status='active'";
         db.query(sql,[cardid,instid1],(err,ress)=>{
             if(err){console.log(err);
                 var fingerid1="error";resolve(fingerid1);}
@@ -698,7 +705,7 @@ dailyfinger:(c)=>{
                                                     console.log(latitude,longitude);
                                                 }
                                             })
-                                            var user1=[[stunid,busid,"rfid","punch in",date,time, latitude,longitude,instid1,"active"]]
+                                            var user1=[[stunid,busid,"fingerprint","punch in",date,time, latitude,longitude,instid1,"active"]]
                                             var sql4="INSERT INTO dailystudent (studentid, vehicleid, punchby, punchinout, date, time, latitude, longitude, institutioncode, status) VALUES ? "
                                             db.query(sql4,[user1],(err4,ress4)=>{
                                                 if(err4){
@@ -727,7 +734,7 @@ dailyfinger:(c)=>{
                                                         console.log(latitude,longitude);
                                                     }
                                                 })
-                                                var user1=[[stunid,busid,"rfid","punch out",date, time,latitude,longitude,instid1,"active"]]
+                                                var user1=[[stunid,busid,"finger","punch out",date, time,latitude,longitude,instid1,"active"]]
                                                 var sql4="insert into dailystudent (studentid,vehicleid,punchby,punchinout,date,time,latitude,longitude,institutioncode,status) values?"
                                                 db.query(sql4,[user1],(err4,ress4)=>{
                                                     if(err4){

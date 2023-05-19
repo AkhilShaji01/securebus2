@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Live Map</title>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.css' rel='stylesheet' />
+  <style>
+    #map {
+      height: 400px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js"></script>
+  <script>
+    mapboxgl.accessToken = "pk.eyJ1IjoiYWtoaWxzaGFqaSIsImEiOiJjbGdha2JmMzgwZWhiM2pxbDd0MWlocWhrIn0.lhOd2dJuMo9ppCPmJCt2oQ";
+    
+    var map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/streets-v11',
+      center: [76.72635904489503,9.727204742711532],
+      zoom: 12
+    });
+
+    var marker = new mapboxgl.Marker()
+      .setLngLat([76.72635904489503, 9.727204742711532])
+      .addTo(map);
+
+    // Function to update the marker location
+    function updateMarker(lng, lat) {
+      marker.setLngLat([lng, lat]);
+    }
+    
+    // Function to periodically update the marker location
+    // function updateMap() {
+    //   fetch('/location')
+    //     .then(response => response.json())
+    //     .then(data => {
+    //       updateMarker(data.longitude, data.latitude);
+    //     })
+    //     .catch(error => console.error(error));
+    // }
+
+    // Call the updateMap function every few seconds
+    //setInterval(updateMap, 3000);
+  </script>
+  <div id="map" style="width: 800px; height: 1000px;"></div>
+</body>
+</html>

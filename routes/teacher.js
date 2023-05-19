@@ -32,6 +32,7 @@ router.get('/student',verifyLogin, function(req, res, next) {
         {
           showalert=true;
         }
+        console.log("crtvbynjmk,lxdcfvgbhnjmk")
         res.render('teacher/student', {showalert,er2,teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
         console.log(er2);
         req.session.rfiderror="";
@@ -134,7 +135,7 @@ router.get('/profile',verifyLogin,function(req, res, next) {
   var res2=req.session.data
   console.log(res2)
   var pc=req.session.pc
-  res.render('teacher/profile',{pc, teacher:true,title: 'SecureBus',style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res2 })
+  res.render('teacher/profile',{pc, teacher:true,title: 'SecureBus',style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res2 })
   req.session.pc=false
   });
   router.get('/studenttripmap',verifyLogin, function(req, res, next) {
@@ -407,6 +408,12 @@ router.get("/eachstudent",verifyLogin,(req,res)=>{
   var depid=res1[0].departmentid
   var clas=res1[0].classid
   console.log(res1)
+  var comment="";
+  if(req.session.rfiddel)
+  {
+    comment="RFID card deleted";
+    req.session.rfiddel=false;
+  }
   var sql="SELECT *, studentclassmapping.classid, class.classname FROM student INNER JOIN studentclassmapping ON student.studentid = studentclassmapping.studentid INNER JOIN class ON class.classid = studentclassmapping.classid WHERE studentclassmapping.classid = ? AND student.institutioncode = ? AND student.departmentid = ? and student.studentid=?"
   db.query(sql,[clas,instid,depid,studentid],(err,res2)=>{
     if(err){console.log("database fetching error");res.render('teacher/eachstudent', {teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1 })}
@@ -428,7 +435,7 @@ router.get("/eachstudent",verifyLogin,(req,res)=>{
               {
                 dt2=ress2;
                 console.log("2563845")
-                res.render('teacher/eachstudent', {dt1,dt2,teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
+                res.render('teacher/eachstudent', {comment,dt1,dt2,teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
 
                 
               }
@@ -444,7 +451,7 @@ router.get("/eachstudent",verifyLogin,(req,res)=>{
               {
                 dt2=ress4;
                 console.log("2563845")
-                res.render('teacher/eachstudent', {dt2,teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
+                res.render('teacher/eachstudent', {comment,dt2,teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
 
                 
               }
@@ -844,5 +851,71 @@ router.post("/changepassword1",verifyLogin, async(req,res)=>{
   // res.render('teacher/changepassword', {staffid,email,teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,p1:'',p2:'https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback',p3:'',res1 });
 
   
+})
+router.post("/livelocation",(req,res)=>{
+  var res1=req.session.data
+  var busid=req.body.busid;
+  var date_ob = new Date();
+  var day = ("0" + date_ob.getDate()).slice(-2);
+  var month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+  var year = date_ob.getFullYear();
+  var date = year + "-" + month + "-" + day;
+  var sql="select * from vehiclelivelocation where vehicleid=? and date=? "
+  db.query(sql,[busid,date],(err,ress)=>{
+    if(err){console.log(err)}
+    else
+    {
+      if(ress.length>0){
+      var re=ress
+      
+      var latitude=re[0].latitude
+       var longitude=re[0].longitude
+       req.session.livebusid=busid
+       console.log(re,latitude,longitude)
+      res.render('teacher/livelocation1', {busid,latitude,longitude,teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,p4:'https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.css'});
+      }
+    }
+  })
+ 
+})
+router.get("/po",(req,res)=>{
+  res1=req.session.data
+  console.log(res1)
+  res.render('teacher/livelocation1', {teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,p1:'',p2:'https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback',p3:'',res1 });
+
+})
+router.get('/location1', (req, res) => {
+  var busid=req.session.livebusid
+  var date_ob = new Date();
+  var day = ("0" + date_ob.getDate()).slice(-2);
+  var month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+  var year = date_ob.getFullYear();
+  var date = year + "-" + month + "-" + day;
+  // Execute MySQL query to fetch the latest latitude and longitude from the database
+  var sql="select latitude,longitude from vehiclelivelocation where vehicleid=? and date=? "
+  db.query(sql,[busid,date], (error, results) => {
+    if (error) throw error;
+    else{ 
+    const { latitude, longitude } = results[0];  
+    // Send the latitude and longitude as JSON response
+    res.json({ latitude, longitude });
+    }
+  });
+});
+router.post("/removerfid",(req,res)=>{
+  res1=req.session.data
+  var insti=res1[0].institutioncode
+  var studentid=req.body.studentid;
+  var sql="delete from studentrfidmap where studentid=? and institutioncode=?"
+  db.query(sql,[studentid,insti],(err,ress)=>{
+    if(err){console.log(err)}
+    else
+    {
+      console.log(deleted);
+      req.session.profilesid=req.body.studentid;
+      req.session.rfiddel=true
+      res.redirect("/teacher/eachstudent")
+    }
+  })
 })
 module.exports = router;
