@@ -28,7 +28,7 @@ var app = express();
 // app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
-app.use(session({secret:"Key",cookie:{maxAge:864000000}}))
+app.use(session({secret:"Key",cookie:{maxAge:2592000000}}))
 app.engine('hbs',hbs.engine({extname:'hbs',defaultLayout:'layout',layoutsDir:__dirname+'/views/layout/',partialsDir:__dirname+'/views/partials/'}))
 app.use(express.static(__dirname + '/public'));
 app.use(express.static(path.join(__dirname, 'public')));

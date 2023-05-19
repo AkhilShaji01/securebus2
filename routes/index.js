@@ -26,7 +26,54 @@ console.log(time)
     var rt="Incorrect email or password"
     req.session.logerror=false
   }
+  if(req.session.loggedIn)
+  {
+    var res1=req.session.data
+    email=res1[0].email
+    console.log(email)
+    var sql="select * from login where username=?"
+    db.query(sql,[email],(err,ress)=>{
+      if(err){console.log(err)}
+      else{
+        dt=ress
+        if(dt[0].type==0)
+        {
+          res.redirect("/superadmin/profile")
+        }
+        if(dt[0].type==1)
+        {
+          res.redirect("/insti/profile")
+        }
+        if(dt[0].type==2)
+        {
+          
+            var sql1="select * from staff where email=?"
+            db.query(sql1,[email],(err1,ress1)=>{
+              if(err1){console.log(err1)}
+              else{
+                dt1=ress1
+                if(dt1[0].roleid==1)
+                {
+                  res.redirect("/teacher/profile")
+                }
+                if(dt1[0].roleid==2)
+                {
+                  res.redirect("/driver/profile")
+                }
+              }
+            })
+          
+        }
+        if(dt[0].type==3)
+        {
+          res.redirect("/student/profile")
+        }
+      }
+    })
+  }
+  else{
   res.render('login', {rt, title: 'SecureBUS',style:'dist/css/adminlte.min.css',plug:'/plugins/icheck-bootstrap/icheck-bootstrap.min.css',plug1:'plugins/fontawesome-free/css/all.min.css',login1:true,bodyclass:'hold-transition login-page' });
+  }
 });
 
 router.post('/sn',async(req,res)=>{
