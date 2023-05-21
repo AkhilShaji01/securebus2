@@ -146,8 +146,10 @@ router.post('/login',async(req,res)=>{
                       console.log(req.session.data)
 
                       console.log(req.session.data);
-            res.render('superadmin/profile',{ title: 'SecureBus',style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1
-              })
+           // res.render('superadmin/profile',{ title: 'SecureBus',style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1
+             
+          //})
+          res.redirect("/superadmin/profile")
             }
           })
           }
