@@ -445,7 +445,15 @@ dailyrfid:(c)=>{
                                                 }
                                                 else{
                                                     var s="entered"
-                                                    resolve(s);
+                                                    
+                                                    var sqll="update nodecount set count=count+1 where date=?"
+                                                    db.query(sqll,[date],(errr1,ress11)=>{
+                                                        if(errr1){console.log("errorr in adding count"); resolve(s);}
+                                                        else
+                                                        {
+                                                            resolve(s);
+                                                        }
+                                                    })
                                                 }
                                             })
                                         }
@@ -475,7 +483,14 @@ dailyrfid:(c)=>{
                                                     }
                                                     else{
                                                         var s="goodbye"
-                                                        resolve(s);
+                                                        var sqll="update nodecount set count=count+1 where date=?"
+                                                    db.query(sqll,[date],(errr1,ress11)=>{
+                                                        if(errr1){console.log("errorr in adding count"); resolve(s);}
+                                                        else
+                                                        {
+                                                            resolve(s);
+                                                        }
+                                                    })
                                                     }
                                                 })
                                             }
@@ -519,7 +534,14 @@ dailyrfid:(c)=>{
                                                 }
                                                 else{
                                                     var s="entered"
-                                                    resolve(s);
+                                                    var sqll="update nodecount set count=count+1 where date=?"
+                                                    db.query(sqll,[date],(errr1,ress11)=>{
+                                                        if(errr1){console.log("errorr in adding count"); resolve(s);}
+                                                        else
+                                                        {
+                                                            resolve(s);
+                                                        }
+                                                    })
                                                 }
                                             })
                                         }
@@ -549,7 +571,14 @@ dailyrfid:(c)=>{
                                                     }
                                                     else{
                                                         var s="goodbye"
-                                                        resolve(s);
+                                                        var sqll="update nodecount set count=count+1 where date=?"
+                                                    db.query(sqll,[date],(errr1,ress11)=>{
+                                                        if(errr1){console.log("errorr in adding count"); resolve(s);}
+                                                        else
+                                                        {
+                                                            resolve(s);
+                                                        }
+                                                    })
                                                     }
                                                 })
                                             }
@@ -646,7 +675,14 @@ dailyfinger:(c)=>{
                                                 }
                                                 else{
                                                     var s="entered"
-                                                    resolve(s);
+                                                    var sqll="update nodecount set count=count+1 where date=?"
+                                                    db.query(sqll,[date],(errr1,ress11)=>{
+                                                        if(errr1){console.log("errorr in adding count"); resolve(s);}
+                                                        else
+                                                        {
+                                                            resolve(s);
+                                                        }
+                                                    })
                                                 }
                                             })
 
@@ -676,8 +712,14 @@ dailyfinger:(c)=>{
                                                         resolve(fingerid1)
                                                     }
                                                     else{
-                                                        var s="goodbye"
-                                                        resolve(s);
+                                                        var sqll="update nodecount set count=count+1 where date=?"
+                                                    db.query(sqll,[date],(errr1,ress11)=>{
+                                                        if(errr1){console.log("errorr in adding count"); resolve(s);}
+                                                        else
+                                                        {
+                                                            resolve(s);
+                                                        }
+                                                    })
                                                     }
                                                 })
                                             }
@@ -721,7 +763,14 @@ dailyfinger:(c)=>{
                                                 }
                                                 else{
                                                     var s="entered"
-                                                    resolve(s);
+                                                    var sqll="update nodecount set count=count+1 where date=?"
+                                                    db.query(sqll,[date],(errr1,ress11)=>{
+                                                        if(errr1){console.log("errorr in adding count"); resolve(s);}
+                                                        else
+                                                        {
+                                                            resolve(s);
+                                                        }
+                                                    })
                                                 }
                                             })
                                         }
@@ -751,7 +800,14 @@ dailyfinger:(c)=>{
                                                     }
                                                     else{
                                                         var s="goodbye"
-                                                        resolve(s);
+                                                        var sqll="update nodecount set count=count+1 where date=?"
+                                                    db.query(sqll,[date],(errr1,ress11)=>{
+                                                        if(errr1){console.log("errorr in adding count"); resolve(s);}
+                                                        else
+                                                        {
+                                                            resolve(s);
+                                                        }
+                                                    })
                                                     }
                                                 })
                                             }

@@ -50,6 +50,8 @@ router.post("/start",(req,res)=>{
     console.log(req.body);
     var busid=req.body.busid;
     var dt=[[busid,req.body.institutioncode,date]];
+    var dt1=[[busid,date,0,req.body.institutioncode]];
+    var dt2=[[busid,date,0,req.body.institutioncode]];
     var sql1="select * from vehiclelivelocation where date=?";
     db.query(sql1,[date],(err1,ress1)=>{
       if(err1){console.log("err1");res.status(200).send("no");}
@@ -64,7 +66,26 @@ router.post("/start",(req,res)=>{
           db.query(sql,[dt],(err,ress)=>{
             if(err){console.log(err);res.status(200).send("no");}
             else{
-              res.status(200).send("start");
+              var sql1="insert into nodecount (busid,date,count,institutioncode) values?"
+              db.query(sql1,dt1,(err1,ress1)=>{
+                if(err1){console.log(err1);res.status(200).send("no");
+
+                }
+                else
+                {
+                  var sql2="insert into ircount (busid,date,count,institutioncode) values?"
+                  db.query(sql1,dt1,(err2,ress2)=>{
+                if(err2){console.log(err2);res.status(200).send("no");
+
+                }
+                else
+                {
+                  res.status(200).send("start");
+                }
+              })
+                }
+              })
+              
       }
     })
         }
