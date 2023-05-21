@@ -15,7 +15,8 @@
         </div>
       </div><!-- /.container-fluid -->
     </section>
-
+<input type="text" name="" id="isrf" value="{{isrdifadded}}" hidden>
+<input type="text" name="" id="isfinger" value="{{isfingeradded}}" hidden >
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
@@ -29,6 +30,7 @@
               <!-- /.card-header -->
               <div class="card-body">
                         <div class="row margin" style="font-size: larger;">
+                          
                             {{#each dt}}
                             <div class="col-sm-6">
                             <img src="../../images/avatar5.png" alt="no image" />
@@ -65,24 +67,10 @@
                             <input type="text" name="studentid" id="studentid" value="{{this.studentid}}" hidden>
                                 <button type="submit" formmethod="post" class="btn btn-primary">Full profile</button>        
                         </form>
+                        <div id="rf3"></div>
+                        <div id="rf4"></div>
                         
-                        <form action="/teacher/addrfid"  method="post" style="margin-left: 10px;">
-                            <input type="text" name="studentid" id="" value="{{this.studentid}}" hidden>
-                            <button type="submit" formmethod="post" class="btn btn-success">Add RFID</button>
-                        </form>
-                        <form action="/teacher/addfinger"  method="post" style="margin-left: 10px;">
-                            <input type="text" name="studentid" id="" value="{{this.studentid}}" hidden>
-                            <button type="submit" formmethod="post" class="btn btn-success">ADD FINGER</button>
-                        </form>
-                        <form action="/teacher/removerfid"  method="post" style="margin-left: 10px;">
-                            <input type="text" name="studentid" id="" value="{{this.studentid}}" hidden>
-                            <button type="submit" formmethod="post" class="btn btn-danger">Remove RFID</button>
-                        </form>
-                        <form action="/teacher/removefinger"  method="post" style="margin-left: 10px;">
-                            <input type="text" name="studentid" id="" value="{{this.studentid}}" hidden>
-                            <button type="submit" formmethod="post" class="btn btn-danger">Remove Finger</button>
-                        </form>
-                       
+                                              
                         </div>
               </div>
               <!-- /.card-body -->
@@ -91,10 +79,43 @@
           </div>
           <!-- /.col -->
         </div>
-       {{/each}}
+       
         <!-- /.row -->
         <!-- /.row -->
         
+         <script>
+          var rf=document.getElementById("isrf").value;
+          var sid=document.getElementById("studentid").value;
+          if(rf=='yes')
+          {
+            var y='<form action="/teacher/removerfid"  method="post" style="margin-left: 10px;"><input type="text" name="studentid" id="" value="'+sid+'" hidden><button type="submit" formmethod="post" class="btn btn-danger">Remove RFID</button></form>'
+            var e=document.getElementById("rf3")
+            e.innerHTML=y
+          }
+          else
+          {
+            var y='<form action="/teacher/addrfid"  method="post" style="margin-left: 10px;"><input type="text" name="studentid" id="" value="'+sid+'" hidden><button type="submit" formmethod="post" class="btn btn-success">Add RFID</button></form>'
+            var e=document.getElementById("rf3")
+            e.innerHTML=y
+          }
+         </script>
+         <script>
+          var sid=document.getElementById("studentid").value;
+          var fin=document.getElementById("isfinger").value
+           if(fin=='yes')
+          {
+            var g='<form action="/teacher/removefinger"  method="post" style="margin-left: 10px;">    <input type="text" name="studentid" id="" value="'+sid+'" hidden>     <button type="submit" formmethod="post" class="btn btn-danger">Remove Finger</button></form>'
+            var f=document.getElementById("rf4")
+            f.innerHTML=g
+          }
+          else
+          {
+            var g='<form action="/teacher/addfinger"  method="post" style="margin-left: 10px;"> <input type="text" name="studentid" id="" value="'+sid+'" hidden>    <button type="submit" formmethod="post" class="btn btn-success">ADD FINGER</button>    </form>'
+            var f=document.getElementById("rf4")
+            f.innerHTML=g
+          }
+         </script>
+         {{/each}}
         <!-- =========================================================== -->
         <hr>
          <h2>Generate Report</h2>
@@ -194,9 +215,75 @@
         <hr>
         <h5 class="mb-2">Travel Log</h5>
         <div>
-           
-        <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped" border="1">
+           <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                   <th>Name</th>
+                    <th>Location</th>
+                    <th>assignedbus</th>
+                    <th>vehicleid</th>
+                    <th>date</th>
+                    <th>time</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                     {{#each dt1}}
+                  <tr>
+                    <td>{{this.firstname}} {{this.lastname}}</td>
+                    <td><iframe src = "https://maps.google.com/maps?q={{this.latitude}},{{this.longitude}}&hl=es;z=14&amp;output=embed"></iframe></td>
+
+                    <td>{{this.regnumber}}</td>
+                    <td>{{this.date}}</td>
+                    <td>{{this.time}}</td>
+                  <td>
+                     <form action="/teacher/livelocation"  method="post" style="margin-left: 10px;">
+                            <input type="text" name="busid" id="" value="{{this.vehicleid}}" hidden>
+                            <button type="submit" formmethod="post" class="btn btn-danger">live location</button>
+                        </form>
+                  </td>
+                 {{/each}}
+                  </tbody>
+                  <tfoot>
+                 
+                </table>
+              </div>
+              <div class="card-body">
+                <table id="example3" class="table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Location</th>
+                    <th>assignedbus</th>
+                    <th>vehicleid</th>
+                    <th>date</th>
+                    <th>time</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                   {{#each dt2}}
+                
+
+                  <tr style="color: red;">
+                    
+                    <td>{{this.firstname}} {{this.lastname}}</td>
+                    <td><iframe src = "https://maps.google.com/maps?q={{this.latitude}},{{this.longitude}}&hl=es;z=14&amp;output=embed"></iframe></td>
+                     <td >{{this.assignedvechileid}}</td>
+                     <td >{{this.vehicleid}}</td>
+                    <td>{{this.date}}</td>
+                    <td>{{this.time}}</td>
+               
+                  
+                  </tr>
+                  
+                 {{/each}}
+                  </tbody>
+                  <tfoot>
+                 
+                </table>
+              </div>
+        {{!-- <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
                   <thead>
                   <tr>
                     <th>Name</th>
@@ -232,7 +319,7 @@
               
         <h5 class="mb-2">Travel Log - Unauthorised Entry</h5>
               <div class="card-body">
-                <table id="example3" class="table table-bordered table-striped" border="1">
+                <table id="example3" class="table table-bordered table-striped">
                   <thead>
                   <tr>
                     <th>Name</th>
@@ -266,8 +353,8 @@
                 </table>
               </div>
         <!-- /.row -->
-
-         
+      </div>
+         </div> --}}
       </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
@@ -278,7 +365,7 @@
   </div>
   <!-- /.content-wrapper -->
 
-  <footer class="main-footer">
+ <footer class="main-footer">
     <div class="float-right d-none d-sm-block">
       <b>Version</b> 3.2.0
     </div>
@@ -321,6 +408,10 @@
       "responsive": true, "lengthChange": false, "autoWidth": false,
       "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+     $("#example3").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#example3_wrapper .col-md-6:eq(0)');
     $('#example2').DataTable({
       "paging": true,
       "lengthChange": false,

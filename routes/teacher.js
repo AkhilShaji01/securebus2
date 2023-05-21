@@ -135,7 +135,7 @@ router.get('/profile',verifyLogin,function(req, res, next) {
   var res2=req.session.data
   console.log(res2)
   var pc=req.session.pc
-  res.render('teacher/profile',{pc, teacher:true,title: 'SecureBus',style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res2 })
+  res.render('teacher/profile',{pc, teacher:true,title: 'SecureBus',style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res2,res1 })
   req.session.pc=false
   });
   router.get('/studenttripmap',verifyLogin, function(req, res, next) {
@@ -407,6 +407,8 @@ router.get("/eachstudent",verifyLogin,(req,res)=>{
   var instid=res1[0].institutioncode;
   var depid=res1[0].departmentid
   var clas=res1[0].classid
+  var isrdifadded=false;
+  var isfingeradded=false;
   console.log(res1)
   var comment="";
   if(req.session.rfiddel)
@@ -414,28 +416,54 @@ router.get("/eachstudent",verifyLogin,(req,res)=>{
     comment="RFID card deleted";
     req.session.rfiddel=false;
   }
+  var sqll1="select * from studentrfidmap where studentid=?"
+  db.query(sqll1,[studentid],(errr1,resss1)=>{
+    if(errr1){console.log(errr1)}
+    else
+    {
+      //console.log(resss1)
+      if(resss1.length>0)
+      {
+        isrdifadded='yes'
+      }
+    }
+  })
+  var sqll2="select * from studentfingermap where studentid=? and status='active'"
+  db.query(sqll2,[studentid],(errr2,resss2)=>{
+    if(errr2){console.log(errr2)}
+    else
+    {
+      if(resss2.length>0)
+      {
+        //console.log(resss2)
+        isfingeradded='yes'
+      }
+    }
+  })
   var sql="SELECT *, studentclassmapping.classid, class.classname FROM student INNER JOIN studentclassmapping ON student.studentid = studentclassmapping.studentid INNER JOIN class ON class.classid = studentclassmapping.classid WHERE studentclassmapping.classid = ? AND student.institutioncode = ? AND student.departmentid = ? and student.studentid=?"
   db.query(sql,[clas,instid,depid,studentid],(err,res2)=>{
-    if(err){console.log("database fetching error");res.render('teacher/eachstudent', {teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1 })}
+    if(err){console.log("database fetching error");res.render('teacher/eachstudent', {isfingeradded,isrdifadded,teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1 })}
     else {
       if(res2.length>0){
         dt=res2
         console.log(dt);
+       
+        console.log(isfingeradded,isrdifadded)
         var sql="SELECT *, student.firstname, student.lastname, studentclassmapping.classid, vehicle.regnumber, student.admissionnumber FROM dailystudent INNER JOIN student ON dailystudent.studentid = student.studentid INNER JOIN vehicle ON vehicle.vehicleid = dailystudent.vehicleid INNER JOIN studentclassmapping on studentclassmapping.studentid=student.studentid WHERE studentclassmapping.classid=? and student.institutioncode = ? AND student.status = 'active' and dailystudent.studentid=? and dailystudent.vehicleid=dailystudent.assignedvechileid;"
         db.query(sql,[clas,instid,studentid],(err3,res3)=>{
-        if(err3){console.log("database fetching error",err);res.render('teacher/eachstudent', {teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1 })}
+        if(err3){console.log("database fetching error",err);res.render('teacher/eachstudent', {isfingeradded,isrdifadded,teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1 })}
         else {
           if(res3.length>0){
             dt1=res3
             console.log(dt1)
             var sql1="SELECT *, student.firstname, student.lastname, studentclassmapping.classid, vehicle.regnumber, student.admissionnumber FROM dailystudent INNER JOIN student ON dailystudent.studentid = student.studentid INNER JOIN vehicle ON vehicle.vehicleid = dailystudent.vehicleid INNER JOIN studentclassmapping on studentclassmapping.studentid=student.studentid WHERE studentclassmapping.classid=? and student.institutioncode = ? AND student.status = 'active' and dailystudent.studentid=? and dailystudent.vehicleid<>dailystudent.assignedvechileid;"
             db.query(sql1,[clas,instid,studentid],(err1,ress2)=>{
-              if(err1){console.log("database fetching error1",err);res.render('teacher/eachstudent', {teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1 })}
+              if(err1){console.log("database fetching error1",err);res.render('teacher/eachstudent', {isfingeradded,isrdifadded,teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1 })}
               else
               {
                 dt2=ress2;
                 console.log("2563845")
-                res.render('teacher/eachstudent', {comment,dt1,dt2,teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
+                res.render('teacher/eachstudent', {isfingeradded,isrdifadded,comment,dt1,dt2,teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
 
                 
               }
@@ -446,12 +474,12 @@ router.get("/eachstudent",verifyLogin,(req,res)=>{
           else{
             var sql1="SELECT *, student.firstname, student.lastname, studentclassmapping.classid, vehicle.regnumber, student.admissionnumber FROM dailystudent INNER JOIN student ON dailystudent.studentid = student.studentid INNER JOIN vehicle ON vehicle.vehicleid = dailystudent.vehicleid INNER JOIN studentclassmapping on studentclassmapping.studentid=student.studentid WHERE studentclassmapping.classid=? and student.institutioncode = ? AND student.status = 'active' and dailystudent.studentid=? and dailystudent.vehicleid<>dailystudent.assignedvechileid;"
             db.query(sql1,[clas,instid,studentid],(err4,ress4)=>{
-              if(err4){console.log("database fetching error1",err);res.render('teacher/eachstudent', {teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1 })}
+              if(err4){console.log("database fetching error1",err);res.render('teacher/eachstudent', {isfingeradded,isrdifadded,teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1 })}
               else
               {
                 dt2=ress4;
                 console.log("2563845")
-                res.render('teacher/eachstudent', {comment,dt2,teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
+                res.render('teacher/eachstudent', {isfingeradded,isrdifadded,comment,dt2,teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
 
                 
               }
@@ -465,7 +493,7 @@ router.get("/eachstudent",verifyLogin,(req,res)=>{
         //res.render('teacher/eachstudent', {teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
 
       }
-      else{res.render('teacher/eachstudent', {teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1 })}
+      else{res.render('teacher/eachstudent', {isfingeradded,isrdifadded,teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1 })}
     }
 
   })

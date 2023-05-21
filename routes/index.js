@@ -181,10 +181,10 @@ router.post('/login',async(req,res)=>{
                         if(err2){console.log("error in session entry");res.redirect('/')}
                         else{
                           req.session.data=ress2
-                          var res2=ress2
-                          console.log(res2)
+                          var res1=ress2
+                          console.log(res1)
                           //res.redirect("/teacher/profile")
-                          res.render('teacher/profile',{ teacher:true,title: 'SecureBus',style:'dist/css/adminlte.min.css',plug:'plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'plugins/fontawesome-free/css/all.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res2 })
+                          res.render('teacher/profile',{ teacher:true,title: 'SecureBus',style:'dist/css/adminlte.min.css',plug:'plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'plugins/fontawesome-free/css/all.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1 })
                         }
                       })
                       // res.render('teacher/profile',{ teacher:true,title: 'SecureBus',style:'dist/css/adminlte.min.css',plug:'plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'plugins/fontawesome-free/css/all.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1 })
@@ -193,8 +193,9 @@ router.post('/login',async(req,res)=>{
                       req.session.data=ress
                       var res1=ress
                       console.log(res1)
-                      res.render('driver/profile',{ driver:true,title: 'SecureBus',style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1
-                      })
+                      res.redirect("/driver/profile")
+                      //res.render('driver/profile',{ driver:true,title: 'SecureBus',style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1
+                      //})
                     }
                     
             }
