@@ -446,8 +446,8 @@ dailyrfid:(c)=>{
                                                 else{
                                                     var s="entered"
                                                     
-                                                    var sqll="update nodecount set count=count+1 where date=?"
-                                                    db.query(sqll,[date],(errr1,ress11)=>{
+                                                    var sqll="update nodecount set count=count+1 where busid=? and date=?"
+                                                    db.query(sqll,[busid,date],(errr1,ress11)=>{
                                                         if(errr1){console.log("errorr in adding count"); resolve(s);}
                                                         else
                                                         {
@@ -483,14 +483,14 @@ dailyrfid:(c)=>{
                                                     }
                                                     else{
                                                         var s="goodbye"
-                                                        var sqll="update nodecount set count=count+1 where date=?"
-                                                    db.query(sqll,[date],(errr1,ress11)=>{
-                                                        if(errr1){console.log("errorr in adding count"); resolve(s);}
-                                                        else
-                                                        {
-                                                            resolve(s);
-                                                        }
-                                                    })
+                                                        var sqll="update nodecount set count=count+1 where busid=? and date=?"
+                                                        db.query(sqll,[busid,date],(errr1,ress11)=>{
+                                                            if(errr1){console.log("errorr in adding count"); resolve(s);}
+                                                            else
+                                                            {
+                                                                resolve(s);
+                                                            }
+                                                        })
                                                     }
                                                 })
                                             }
@@ -534,8 +534,8 @@ dailyrfid:(c)=>{
                                                 }
                                                 else{
                                                     var s="entered"
-                                                    var sqll="update nodecount set count=count+1 where date=?"
-                                                    db.query(sqll,[date],(errr1,ress11)=>{
+                                                    var sqll="update nodecount set count=count+1 where busid=? and date=?"
+                                                    db.query(sqll,[busid,date],(errr1,ress11)=>{
                                                         if(errr1){console.log("errorr in adding count"); resolve(s);}
                                                         else
                                                         {
@@ -571,14 +571,14 @@ dailyrfid:(c)=>{
                                                     }
                                                     else{
                                                         var s="goodbye"
-                                                        var sqll="update nodecount set count=count+1 where date=?"
-                                                    db.query(sqll,[date],(errr1,ress11)=>{
-                                                        if(errr1){console.log("errorr in adding count"); resolve(s);}
-                                                        else
-                                                        {
-                                                            resolve(s);
-                                                        }
-                                                    })
+                                                        var sqll="update nodecount set count=count+1 where busid=? and date=?"
+                                                        db.query(sqll,[busid,date],(errr1,ress11)=>{
+                                                            if(errr1){console.log("errorr in adding count"); resolve(s);}
+                                                            else
+                                                            {
+                                                                resolve(s);
+                                                            }
+                                                        })
                                                     }
                                                 })
                                             }
@@ -675,8 +675,8 @@ dailyfinger:(c)=>{
                                                 }
                                                 else{
                                                     var s="entered"
-                                                    var sqll="update nodecount set count=count+1 where date=?"
-                                                    db.query(sqll,[date],(errr1,ress11)=>{
+                                                    var sqll="update nodecount set count=count+1 where busid=? and date=?"
+                                                    db.query(sqll,[busid,date],(errr1,ress11)=>{
                                                         if(errr1){console.log("errorr in adding count"); resolve(s);}
                                                         else
                                                         {
@@ -712,14 +712,15 @@ dailyfinger:(c)=>{
                                                         resolve(fingerid1)
                                                     }
                                                     else{
-                                                        var sqll="update nodecount set count=count+1 where date=?"
-                                                    db.query(sqll,[date],(errr1,ress11)=>{
-                                                        if(errr1){console.log("errorr in adding count"); resolve(s);}
-                                                        else
-                                                        {
-                                                            resolve(s);
-                                                        }
-                                                    })
+                                                        s="goodbye"
+                                                        var sqll="update nodecount set count=count+1 where busid=? and date=?"
+                                                        db.query(sqll,[busid,date],(errr1,ress11)=>{
+                                                            if(errr1){console.log("errorr in adding count"); resolve(s);}
+                                                            else
+                                                            {
+                                                                resolve(s);
+                                                            }
+                                                        })
                                                     }
                                                 })
                                             }
@@ -763,8 +764,8 @@ dailyfinger:(c)=>{
                                                 }
                                                 else{
                                                     var s="entered"
-                                                    var sqll="update nodecount set count=count+1 where date=?"
-                                                    db.query(sqll,[date],(errr1,ress11)=>{
+                                                    var sqll="update nodecount set count=count+1 where busid=? and date=?"
+                                                    db.query(sqll,[busid,date],(errr1,ress11)=>{
                                                         if(errr1){console.log("errorr in adding count"); resolve(s);}
                                                         else
                                                         {
@@ -800,8 +801,8 @@ dailyfinger:(c)=>{
                                                     }
                                                     else{
                                                         var s="goodbye"
-                                                        var sqll="update nodecount set count=count+1 where date=?"
-                                                    db.query(sqll,[date],(errr1,ress11)=>{
+                                                        var sqll="update nodecount set count=count+1 where busid=? and date=?"
+                                                    db.query(sqll,[busid,date],(errr1,ress11)=>{
                                                         if(errr1){console.log("errorr in adding count"); resolve(s);}
                                                         else
                                                         {
@@ -889,6 +890,100 @@ livelocation:(data)=>{
         })
         
     })
+    
+},
+updateircount:(data)=>{
+    //console.log(data);
+    var date_ob = new Date();
+        var day = ("0" + date_ob.getDate()).slice(-2);
+        var month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+        var year = date_ob.getFullYear();
+        var date = year + "-" + month + "-" + day;
+        var busid=data.busid
+        var insti=data.institutioncode;
+        let hours = date_ob.getHours();
+        let minutes = date_ob.getMinutes();
+        let seconds = date_ob.getSeconds();
+        var time=hours+":"+minutes+":"+seconds;
+    return new Promise((resolve,reject)=>{
+        var sql="update ircount set count=count+1 where busid=? and date=?"
+        db.query(sql,[busid,date],(err,ress)=>{
+            if(err){console.log(err);resolve(false)}
+            else
+            {
+                var sql2="select count from nodecount where busid=? and date=?"
+                db.query(sql2,[busid,date],(err1,ress1)=>{
+                    if(err1){console.log(err1)}
+                    else
+                    {
+                        var nc=ress1[0].count
+                        var sql3="select count from ircount where busid=? and date=?"
+                        db.query(sql3,[busid,date],(err2,ress2)=>{
+                            if(err2){console.log(err2)}
+                            else
+                            {
+                                var ic=ress2[0].count
+                               if(ic==nc)
+                               {
+                                var s="ok"
+                                resolve(s)
+                               }else
+                               {
+                                var s="no"
+                                resolve(s)
+                               }
+                            }
+                        })
+                    }
+                })
+
+            }
+        })
+        
+    })
+    
+},
+ircheck:(data)=>{
+    //console.log(data);
+    var date_ob = new Date();
+        var day = ("0" + date_ob.getDate()).slice(-2);
+        var month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+        var year = date_ob.getFullYear();
+        var date = year + "-" + month + "-" + day;
+        var busid=data.busid
+        var insti=data.institutioncode;
+        let hours = date_ob.getHours();
+        let minutes = date_ob.getMinutes();
+        let seconds = date_ob.getSeconds();
+        var time=hours+":"+minutes+":"+seconds;
+    return new Promise((resolve,reject)=>{
+       var sql2="select count from nodecount where busid=? and date=?"
+                db.query(sql2,[busid,date],(err1,ress1)=>{
+                    if(err1){console.log(err1)}
+                    else
+                    {
+                        var nc=ress1[0].count
+                        var sql3="select count from ircount where busid=? and date=?"
+                        db.query(sql3,[busid,date],(err2,ress2)=>{
+                            if(err2){console.log(err2)}
+                            else
+                            {
+                                var ic=ress2[0].count
+                               if(ic==nc)
+                               {
+                                var s="ok"
+                                resolve(s)
+                               }else
+                               {
+                                var s="no"
+                                resolve(s)
+                               }
+                            }
+                        })
+                    }
+                })
+
+            })
     
 },
 

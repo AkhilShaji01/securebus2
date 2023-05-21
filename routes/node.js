@@ -58,7 +58,55 @@ router.post("/start",(req,res)=>{
       else
       {
         if(ress1.length>0){
-          res.status(200).send("start");
+          var sqlw="select * from nodecount where busid= ? and date=?"
+          db.query(sqlw,[busid,date],(errw,ressw)=>{
+            if(errw){
+              console.log(errw)
+            }
+            else
+            {
+                    if(ressw.length>0)
+                    {res.status(200).send("start");}
+                    else
+                    {
+                      var sqlw1="select * from ircount where busid= ? and date=?"
+                db.query(sqlw,[busid,date],(errw1,ressw1)=>{
+                  if(errw1){
+                    console.log(errw1)
+                  }
+                  else
+                  {
+                    if(ressw1.length>0)
+                    {
+                      res.status(200).send("start");}
+                    else
+                    {
+                      var sql1="insert into nodecount (busid,date,count,institutioncode) values ?"
+              db.query(sql1,[dt1],(err1,ress1)=>{
+                if(err1){console.log(err1);res.status(200).send("no");
+
+                }
+                else
+                {
+                  var sql2="insert into ircount (busid,date,count,institutioncode) values ?"
+                  db.query(sql2,[dt1],(err2,ress2)=>{
+                if(err2){console.log(err2);res.status(200).send("no");
+
+                }
+                else
+                {
+                  res.status(200).send("start");
+                }
+              })
+                }
+              })
+                    }
+                  }
+                })
+              }
+            }
+          })
+          
         }
         else
         {
@@ -66,15 +114,15 @@ router.post("/start",(req,res)=>{
           db.query(sql,[dt],(err,ress)=>{
             if(err){console.log(err);res.status(200).send("no");}
             else{
-              var sql1="insert into nodecount (busid,date,count,institutioncode) values?"
-              db.query(sql1,dt1,(err1,ress1)=>{
+              var sql1="insert into nodecount (busid,date,count,institutioncode) values ?"
+              db.query(sql1,[dt1],(err1,ress1)=>{
                 if(err1){console.log(err1);res.status(200).send("no");
 
                 }
                 else
                 {
-                  var sql2="insert into ircount (busid,date,count,institutioncode) values?"
-                  db.query(sql1,dt1,(err2,ress2)=>{
+                  var sql2="insert into ircount (busid,date,count,institutioncode) values ?"
+                  db.query(sql1,[dt1],(err2,ress2)=>{
                 if(err2){console.log(err2);res.status(200).send("no");
 
                 }
@@ -397,5 +445,14 @@ router.post("/livelocation",(req,res)=>{
   //// res.status(200).send("pk");
   // res.send("pk");
 })
-
+router.post("/irupdate",(req,res)=>{
+  Helper.updateircount(req.body).then((r)=>{
+    res.status(200).send(r)
+  })
+})
+router.post("/ircheck",(req,res)=>{
+  Helper.ircheck(req.body).then((r)=>{
+    res.status(200).send(r)
+  })
+})
 module.exports = router;
