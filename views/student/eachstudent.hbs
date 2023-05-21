@@ -189,6 +189,7 @@
                     <th>vehicle Number</th>
                     <th>date</th>
                     <th>time</th>
+                    <th>Livelocation</th>
                   </tr>
                   </thead>
                  
@@ -201,7 +202,12 @@
                     <td>{{this.regnumber}}</td>
                     <td>{{this.date}}</td>
                     <td>{{this.time}}</td>
-                  
+                  <td>
+                     <form action="/student/livelocation"  method="post" style="margin-left: 10px;">
+                            <input type="text" name="busid" id="" value="{{this.vehicleid}}" hidden>
+                            <button type="submit" formmethod="post" class="btn btn-danger">live location</button>
+                        </form>
+                  </td>
                  {{/each}}
                   </tbody>
                   <tfoot>
@@ -221,6 +227,7 @@
                     <th>vehicleid</th>
                     <th>date</th>
                     <th>time</th>
+                    <th>live location</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -236,7 +243,12 @@
                      <td >{{this.vehicleid}}</td>
                     <td>{{this.date}}</td>
                     <td>{{this.time}}</td>
-               
+               <td>
+                     <form action="/student/livelocation"  method="post" style="margin-left: 10px;">
+                            <input type="text" name="busid" id="" value="{{this.vehicleid}}" hidden>
+                            <button type="submit" formmethod="post" class="btn btn-danger">live location</button>
+                        </form>
+                  </td>
                   
                   </tr>
                   

@@ -1077,4 +1077,38 @@ router.post("/depstudent",(req,res)=>{
       console.log(res1[0].companyid)
       res.render('insti/profile', {inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,p1:'',p2:'',p3:'' });
     });
+
+    router.post('/changeimage',(req,res)=>{
+      res1=req.session.data
+      console.log(req.files.image)
+    
+        let image=req.files.image
+        image.mv('./public/profileimages/inst'+res1[0].institutionid+'.png')
+        res.redirect("/inst/profile")
+          
+    })
+    router.get("/changeimage",(req,res)=>{
+      res1=req.session.data
+     
+          res.render('insti/uploadimage',{ insti:true,title: 'SecureBus',style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1})
+    
+        
+    })
+
+    router.get('/academics',verifyLogin,function(req, res, next) {
+      var res1=req.session.data
+      
+      var instid=res1[0].institutioncode;
+      console.log(res1[0].companyid)
+      // var sql="select * from department where institutioncode=?"
+      // db.query(sql,[instid],(err,ress1)=>{
+      //   if(err){console.log("Error in fetching department details");
+        res.render('insti/academics', {inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,p1:'',p2:'',p3:'' });
+      //   else{
+      //     dep1=ress1
+      //     res.render('insti/busmain', {dep1,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,p1:'',p2:'',p3:'' });
+      //   }
+      // })
+      //res.render(dep1,'insti/staffmain', {inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,p1:'',p2:'',p3:'' });
+    });
 module.exports = router;

@@ -453,4 +453,47 @@ router.post("/genyearlyreport",verifyLogin,(req,res)=>{
 
   })
 })
+router.post('/changeimage',(req,res)=>{
+  res1=req.session.data
+  console.log(req.files.image)
+
+    let image=req.files.image
+    image.mv('./public/profileimages/student'+res1[0].studentid+'.png')
+    res.redirect("/student/profile")
+      
+})
+router.get("/changeimage",(req,res)=>{
+  res1=req.session.data
+ 
+      res.render('student/uploadimage',{student:true, title: 'SecureBus',style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1})
+
+    
+})
+
+router.post("/livelocation",(req,res)=>{
+  var res1=req.session.data
+  var busid=req.body.busid;
+  var date_ob = new Date();
+  var day = ("0" + date_ob.getDate()).slice(-2);
+  var month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+  var year = date_ob.getFullYear();
+  var date = year + "-" + month + "-" + day;
+  var sql="select * from vehiclelivelocation where vehicleid=? and date=? "
+  db.query(sql,[busid,date],(err,ress)=>{
+    if(err){console.log(err)}
+    else
+    {
+      if(ress.length>0){
+      var re=ress
+      
+      var latitude=re[0].latitude
+       var longitude=re[0].longitude
+       req.session.livebusid=busid
+       console.log(re,latitude,longitude)
+      res.render('student/livelocation1', {busid,latitude,longitude,student:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,p4:'https://api.mapbox.com/mapbox-gl-js/v2.8.1/mapbox-gl.css'});
+      }
+    }
+  })
+ 
+})
 module.exports = router;

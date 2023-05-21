@@ -6,7 +6,7 @@ var logger = require('morgan');
 var mysql=require('mysql');
 var bodyParser = require('body-parser')
 var hbs=require('express-handlebars');
-//var fileUpload=require('express-fileupload');
+var fileUpload=require('express-fileupload');
 var session=require('express-session');
 var db=require('./config/connection')
 const handlebarHelper=require('./config/handlebar-helper')
@@ -38,7 +38,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(fileUpload());
 
 
 

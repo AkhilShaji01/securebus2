@@ -33,7 +33,17 @@
 
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">{{#each dt}}{{this.departmentname}}{{/each}}</h3>
+                <h3 class="card-title" id="hd"></h3>
+                {{#each dt}}
+                <input type="text" name="" id="dp" value="{{this.departmentname}}" hidden>
+                {{/each}}
+                <script>
+                  var e=document.getElementById("dp").value
+                  var dp=document.getElementById("hd")
+                  dp.innerHTML=e
+                </script>
+                
+
               </div>
               <!-- /.card-header -->
               <div class="card-body">

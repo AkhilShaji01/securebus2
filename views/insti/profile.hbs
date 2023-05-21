@@ -48,8 +48,9 @@
               <div class="card-body">
                         <div class="row margin" style="font-size: larger;">
                             {{#each res1}}
-                            <div class="col-sm-6">
-                            <img src="../../images/avatar5.png" alt="no image" />
+                            <div class="col-sm-6" id="img">
+                            <img src="../../profileimages/inst{{this.institutionid}}.png" alt="no image" style="height: 215px;width:215px" />
+                            <a href="/inst/changeimage"><button>Change Image</button></a>
                             </div>
                             <div class="col-sm-6">
                                 {{!-- <div class="row margin">

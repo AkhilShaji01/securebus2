@@ -316,6 +316,7 @@ module.exports={
                                     {
                                         resolve(delfingerid);
                                         delfinger=false
+                                        pc=true
                                     }
                                 })
                             }
@@ -433,11 +434,10 @@ dailyrfid:(c)=>{
                                                 {
                                                     latitude=ress3[0].latitude;
                                                     longitude=ress3[0].longitude;
-                                                    console.log(latitude,longitude);
-                                                }
-                                            })
+                                                    console.log(latitude,longitude,"ghjhjhjhy");
+                                                
                                             var user1=[[stunid,tripid,busid,vehicid,"rfid","punch in",date,time, latitude,longitude,instid1,"active"]]
-                                            var sql4="INSERT INTO dailystudent (studentid, tripid, vehicleid,assignedvehicleid, punchby, punchinout, date,time, latitude, longitude, institutioncode, status) VALUES ? "
+                                            var sql4="INSERT INTO dailystudent (studentid, tripid, vehicleid,assignedvechileid, punchby, punchinout, date,time, latitude, longitude, institutioncode, status) VALUES ? "
                                             db.query(sql4,[user1],(err4,ress4)=>{
                                                 if(err4){
                                                     console.log(err4);
@@ -448,6 +448,8 @@ dailyrfid:(c)=>{
                                                     resolve(s);
                                                 }
                                             })
+                                        }
+                                    })
                                         }
                                         else
                                         {
@@ -463,10 +465,9 @@ dailyrfid:(c)=>{
                                                         latitude=ress3[0].latitude;
                                                         longitude=ress3[0].longitude;
                                                         console.log(latitude,longitude);
-                                                    }
-                                                })
-                                                var user1=[[stunid,tripid,busid,"rfid","punch out",date,time, latitude,longitude,instid1,"active"]]
-                                                var sql4="insert into dailystudent (studentid,tripid,vehicleid,punchby,punchinout,date,time,latitude,longitude,institutioncode,status) values?"
+                                                    
+                                                var user1=[[stunid,tripid,busid,vehicid,"rfid","punch out",date,time, latitude,longitude,instid1,"active"]]
+                                                var sql4="insert into dailystudent (studentid,tripid,vehicleid,assignedvechileid,punchby,punchinout,date,time,latitude,longitude,institutioncode,status) values?"
                                                 db.query(sql4,[user1],(err4,ress4)=>{
                                                     if(err4){
                                                         console.log(err4);
@@ -477,6 +478,8 @@ dailyrfid:(c)=>{
                                                         resolve(s);
                                                     }
                                                 })
+                                            }
+                                        })
                                             }
                                         }
                                     }
@@ -506,8 +509,7 @@ dailyrfid:(c)=>{
                                                     latitude=ress3[0].latitude;
                                                     longitude=ress3[0].longitude;
                                                     console.log(latitude,longitude);
-                                                }
-                                            })
+                                                
                                             var user1=[[stunid,busid,"rfid","punch in",date,time, latitude,longitude,instid1,"active"]]
                                             var sql4="INSERT INTO dailystudent (studentid, vehicleid, punchby, punchinout, date,time, latitude, longitude, institutioncode, status) VALUES ? "
                                             db.query(sql4,[user1],(err4,ress4)=>{
@@ -519,6 +521,8 @@ dailyrfid:(c)=>{
                                                     var s="entered"
                                                     resolve(s);
                                                 }
+                                            })
+                                        }
                                             })
                                         }
                                         else
@@ -535,8 +539,7 @@ dailyrfid:(c)=>{
                                                         latitude=ress3[0].latitude;
                                                         longitude=ress3[0].longitude;
                                                         console.log(latitude,longitude);
-                                                    }
-                                                })
+                                                   
                                                 var user1=[[stunid,busid,"rfid","punch out",date,time, latitude,longitude,instid1,"active"]]
                                                 var sql4="insert into dailystudent (studentid,vehicleid,punchby,punchinout,date,time,latitude,longitude,institutioncode,status) values?"
                                                 db.query(sql4,[user1],(err4,ress4)=>{
@@ -549,6 +552,8 @@ dailyrfid:(c)=>{
                                                         resolve(s);
                                                     }
                                                 })
+                                            }
+                                        })
                                             }
                                         }
                                     }
@@ -631,8 +636,7 @@ dailyfinger:(c)=>{
                                                     latitude=ress3[0].latitude;
                                                     longitude=ress3[0].longitude;
                                                     console.log(latitude,longitude);
-                                                }
-                                            })
+                                                
                                             var user1=[[stunid,tripid,busid,vehicid,"fingerprint","punch in",date,time, latitude,longitude,instid1,"active"]]
                                             var sql4="INSERT INTO dailystudent (studentid, tripid, vehicleid,assignedvechileid, punchby, punchinout, date, time,latitude, longitude, institutioncode, status) VALUES ? "
                                             db.query(sql4,[user1],(err4,ress4)=>{
@@ -645,6 +649,9 @@ dailyfinger:(c)=>{
                                                     resolve(s);
                                                 }
                                             })
+
+                                        }
+                                    })
                                         }
                                         else
                                         {
@@ -660,8 +667,7 @@ dailyfinger:(c)=>{
                                                         latitude=ress3[0].latitude;
                                                         longitude=ress3[0].longitude;
                                                         console.log(latitude,longitude);
-                                                    }
-                                                })
+                                                   
                                                 var user1=[[stunid,tripid,busid,vehicid,"fingerprint","punch out",date,time, latitude,longitude,instid1,"active"]]
                                                 var sql4="insert into dailystudent (studentid,tripid,vehicleid,assignedvechileid,punchby,punchinout,date,time,latitude,longitude,institutioncode,status) values?"
                                                 db.query(sql4,[user1],(err4,ress4)=>{
@@ -674,6 +680,8 @@ dailyfinger:(c)=>{
                                                         resolve(s);
                                                     }
                                                 })
+                                            }
+                                        })
                                             }
                                         }
                                     }
@@ -703,8 +711,7 @@ dailyfinger:(c)=>{
                                                     latitude=ress3[0].latitude;
                                                     longitude=ress3[0].longitude;
                                                     console.log(latitude,longitude);
-                                                }
-                                            })
+                                               
                                             var user1=[[stunid,busid,"fingerprint","punch in",date,time, latitude,longitude,instid1,"active"]]
                                             var sql4="INSERT INTO dailystudent (studentid, vehicleid, punchby, punchinout, date, time, latitude, longitude, institutioncode, status) VALUES ? "
                                             db.query(sql4,[user1],(err4,ress4)=>{
@@ -717,6 +724,8 @@ dailyfinger:(c)=>{
                                                     resolve(s);
                                                 }
                                             })
+                                        }
+                                    })
                                         }
                                         else
                                         {
@@ -732,8 +741,7 @@ dailyfinger:(c)=>{
                                                         latitude=ress3[0].latitude;
                                                         longitude=ress3[0].longitude;
                                                         console.log(latitude,longitude);
-                                                    }
-                                                })
+                                                  
                                                 var user1=[[stunid,busid,"finger","punch out",date, time,latitude,longitude,instid1,"active"]]
                                                 var sql4="insert into dailystudent (studentid,vehicleid,punchby,punchinout,date,time,latitude,longitude,institutioncode,status) values?"
                                                 db.query(sql4,[user1],(err4,ress4)=>{
@@ -746,6 +754,8 @@ dailyfinger:(c)=>{
                                                         resolve(s);
                                                     }
                                                 })
+                                            }
+                                        })
                                             }
                                         }
                                     }

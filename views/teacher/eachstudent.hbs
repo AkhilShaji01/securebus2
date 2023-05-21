@@ -33,7 +33,8 @@
                           
                             {{#each dt}}
                             <div class="col-sm-6">
-                            <img src="../../images/avatar5.png" alt="no image" />
+                            <img src="../../profileimages/student{{this.studentid}}.png" alt="no image" style="height: 215px;width:215px" />
+
                             </div>
                             <div class="col-sm-6">
                                 <div class="row margin">
@@ -225,6 +226,7 @@
                     <th>vehicleid</th>
                     <th>date</th>
                     <th>time</th>
+                    <th>Livelocation</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -232,7 +234,7 @@
                   <tr>
                     <td>{{this.firstname}} {{this.lastname}}</td>
                     <td><iframe src = "https://maps.google.com/maps?q={{this.latitude}},{{this.longitude}}&hl=es;z=14&amp;output=embed"></iframe></td>
-
+                  <td>{{this.assignedvechileid}}</td>
                     <td>{{this.regnumber}}</td>
                     <td>{{this.date}}</td>
                     <td>{{this.time}}</td>
@@ -258,6 +260,7 @@
                     <th>vehicleid</th>
                     <th>date</th>
                     <th>time</th>
+                    <th>live location</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -273,7 +276,12 @@
                     <td>{{this.date}}</td>
                     <td>{{this.time}}</td>
                
-                  
+                   <td>
+                     <form action="/teacher/livelocation"  method="post" style="margin-left: 10px;">
+                            <input type="text" name="busid" id="" value="{{this.vehicleid}}" hidden>
+                            <button type="submit" formmethod="post" class="btn btn-danger">live location</button>
+                        </form>
+                  </td>
                   </tr>
                   
                  {{/each}}

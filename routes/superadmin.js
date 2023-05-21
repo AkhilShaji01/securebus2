@@ -86,6 +86,34 @@ router.get('/insti',verifyLogin, function(req, res, next) {
     }
   )
 
-
+  router.get("/profile",(req,res)=>{
+    res1=req.session.data
+    var sql="select * from company where companyid=?"
+    db.query(sql,[res1[0].companyid],(err,ress)=>{
+      if(err){console.log(err)}
+      else{
+        var res1=ress
+        req.session.data=ress
+        res.render('superadmin/profile',{ title: 'SecureBus',style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1})
+  
+      }
+    })
+  })
+  router.get("/changeimage",(req,res)=>{
+    res1=req.session.data
+   
+        res.render('superadmin/uploadimage',{ title: 'SecureBus',style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1})
+  
+      
+  })
+  router.post('/changeimage',(req,res)=>{
+    res1=req.session.data
+    console.log(req.files.image)
+  
+      let image=req.files.image
+      image.mv('./public/profileimages/com'+res1[0].companyid+'.png')
+      res.redirect("/superadmin/profile")
+        
+  })
 
 module.exports = router;

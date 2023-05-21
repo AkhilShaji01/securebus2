@@ -946,4 +946,22 @@ router.post("/removerfid",(req,res)=>{
     }
   })
 })
+
+
+router.post('/changeimage',(req,res)=>{
+  res1=req.session.data
+  console.log(req.files.image)
+
+    let image=req.files.image
+    image.mv('./public/profileimages/teacher'+res1[0].staffid+'.png')
+    res.redirect("/teacher/profile")
+      
+})
+router.get("/changeimage",(req,res)=>{
+  res1=req.session.data
+ 
+      res.render('teacher/uploadimage',{ teacher:true,title: 'SecureBus',style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1})
+
+    
+})
 module.exports = router;
