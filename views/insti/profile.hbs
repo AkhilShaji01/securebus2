@@ -102,13 +102,13 @@
                         <hr>
                         <div class="row margin">
                         
-                            <form action="/teacher/editprofile" method="post" style="margin-left: 10px;">
+                            {{!-- <form action="/teacher/editprofile" method="post" style="margin-left: 10px;">
                             <input type="text" name="staffid" id="studentid" value="{{this.staffid}}" hidden>
                                 <button type="submit" formmethod="post" class="btn btn-primary">Edit Profile</button>        
-                        </form>
+                        </form> --}}
                         
-                        <form action="/teacher/changepassword"  method="post" style="margin-left: 10px;">
-                            <input type="text" name="staffid" id="" value="{{this.staffid}}" hidden>
+                        <form action="/inst/changepassword"  method="post" style="margin-left: 10px;">
+                            <input type="text" name="institutionid" id="" value="{{this.institutionid}}" hidden>
                             <input type="email" name="email" id="" value="{{this.email}}" hidden>
                             <button type="submit" formmethod="post" class="btn btn-success">Change password</button>
                         </form>

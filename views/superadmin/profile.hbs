@@ -100,13 +100,13 @@
                         <hr>
                         <div class="row margin">
                         
-                            <form action="/superadmin/editprofile" method="post" style="margin-left: 10px;">
+                            {{!-- <form action="/superadmin/editprofile" method="post" style="margin-left: 10px;">
                             <input type="text" name="staffid" id="studentid" value="{{this.companyid}}" hidden>
                                 <button type="submit" formmethod="post" class="btn btn-primary">Edit Profile</button>        
                         </form>
-                        
+                         --}}
                         <form action="/superadmin/changepassword"  method="post" style="margin-left: 10px;">
-                            <input type="text" name="staffid" id="" value="{{this.companyid}}" hidden>
+                            <input type="text" name="companyid" id="" value="{{this.companyid}}" hidden>
                             <input type="email" name="email" id="" value="{{this.email}}" hidden>
                             <button type="submit" formmethod="post" class="btn btn-success">Change password</button>
                         </form>

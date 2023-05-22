@@ -115,5 +115,33 @@ router.get('/insti',verifyLogin, function(req, res, next) {
       res.redirect("/superadmin/profile")
         
   })
+  router.post("/changepassword",verifyLogin,(req,res)=>{
+    res1=req.session.data
+    var companyid=req.body.companyid
+    var email=req.body.email
+    res.render('superadmin/changepassword', {companyid,email,teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,p1:'',p2:'https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback',p3:'',res1 });
+  
+    
+  })
+  router.post("/changepassword1",verifyLogin, async(req,res)=>{
+    res1=req.session.data
+    var companyid=req.body.companyid
+    var email=req.body.email
+    var password=req.body.password
+    console.log(req.body.password)
+    var encryptpassword= await bcrypt.hash(password,saltRounds);
+    var sql="update login set password=? where username=?"
+    db.query(sql,[encryptpassword,email],(err,ress)=>{
+      if(err)console.log(err)
+      else{
+        console.log("password changed");
+        req.session.pc=true
+        res.redirect("/superadmin/profile");
+      }
+    })
+    // res.render('teacher/changepassword', {staffid,email,teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,p1:'',p2:'https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback',p3:'',res1 });
+  
+    
+  })
 
 module.exports = router;
