@@ -880,7 +880,7 @@ router.post("/changepassword1",verifyLogin, async(req,res)=>{
 
   
 })
-router.post("/livelocation",(req,res)=>{
+router.post("/livelocation",verifyLogin,(req,res)=>{
   var res1=req.session.data
   var busid=req.body.busid;
   var date_ob = new Date();
@@ -912,7 +912,7 @@ router.get("/po",(req,res)=>{
   res.render('teacher/livelocation1', {teacher:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,p1:'',p2:'https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback',p3:'',res1 });
 
 })
-router.get('/location1', (req, res) => {
+router.get('/location1', verifyLogin,(req, res) => {
   var busid=req.session.livebusid
   var date_ob = new Date();
   var day = ("0" + date_ob.getDate()).slice(-2);
@@ -930,7 +930,7 @@ router.get('/location1', (req, res) => {
     }
   });
 });
-router.post("/removerfid",(req,res)=>{
+router.post("/removerfid",verifyLogin,(req,res)=>{
   res1=req.session.data
   var insti=res1[0].institutioncode
   var studentid=req.body.studentid;
@@ -948,7 +948,7 @@ router.post("/removerfid",(req,res)=>{
 })
 
 
-router.post('/changeimage',(req,res)=>{
+router.post('/changeimage',verifyLogin,(req,res)=>{
   res1=req.session.data
   console.log(req.files.image)
 

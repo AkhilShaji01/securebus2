@@ -1140,4 +1140,41 @@ router.post("/depstudent",(req,res)=>{
     
       
     })
+
+    router.get("/driverleaves",verifyLogin,(req,res)=>{
+      res1=req.session.data
+      var sql= "select *,driverleave.status as sstatus, staff.firstname,staff.lastname from driverleave inner join staff on staff.staffid=driverleave.driverid where driverleave.institutioncode=?"
+      db.query(sql,[res1[0].institutioncode],(err,ress)=>{
+        if(err){console.log(err)}
+        else{
+          dt=ress
+          res.render('insti/driverleave', {inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
+
+        }
+      })
+    })
+    router.post("/dapprove",verifyLogin,(req,res)=>{
+      res1=req.session.data
+      driverid=req.body.driverid
+      var sql= "update driverleave set status='approved' where driverid=? and institutioncode=?"
+      db.query(sql,[driverid,res1[0].institutioncode],(err,ress)=>{
+        if(err){console.log(err)}
+        else{
+          res.redirect('/inst/driverleaves')
+
+        }
+      })
+    })
+    router.post("/dreject",(req,res)=>{
+      res1=req.session.data
+      driverid=req.body.driverid
+      var sql= "update driverleave set status='rejected' where driverid=? and institutioncode=?"
+      db.query(sql,[driverid,res1[0].institutioncode],(err,ress)=>{
+        if(err){console.log(err)}
+        else{
+          res.redirect('/inst/driverleaves')
+
+        }
+      })
+    })
 module.exports = router;

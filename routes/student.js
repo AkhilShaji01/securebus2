@@ -453,7 +453,7 @@ router.post("/genyearlyreport",verifyLogin,(req,res)=>{
 
   })
 })
-router.post('/changeimage',(req,res)=>{
+router.post('/changeimage',verifyLogin,(req,res)=>{
   res1=req.session.data
   console.log(req.files.image)
 
@@ -470,7 +470,7 @@ router.get("/changeimage",(req,res)=>{
     
 })
 
-router.post("/livelocation",(req,res)=>{
+router.post("/livelocation",verifyLogin,(req,res)=>{
   var res1=req.session.data
   var busid=req.body.busid;
   var date_ob = new Date();
