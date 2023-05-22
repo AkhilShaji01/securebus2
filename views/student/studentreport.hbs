@@ -3,9 +3,62 @@
 @media print{
     #btn{visibility: hidden;}
     #cap{visibility: visible;}
-    #tr{
-      style="border: 5px;"
+    #back-to-top{visibility: hidden;}
+    
+    @page {
+        size: A4; /* Set the page size to A4 */
+        margin: 0; /* Remove default page margins */
+    border: 1px solid black; /* Add a border around the page */
+    box-sizing: border-box;
     }
+    
+    body {
+         /* Set the desired margin for A4 size */
+        border: 1px solid black; /* Add a border around the page */
+    box-sizing: border-box;
+    }
+
+    
+}
+.dataTables_wrapper {
+            border: 1px solid black;
+            padding: 10px;
+            
+        }
+        table.dataTable tbody tr {
+            border: 1px solid black;
+        }
+        
+        table.dataTable tbody td {
+            border: 1px solid black;
+            padding: 8px;
+        }
+         table.dataTable tbody th {
+            border: 1px solid black;
+            padding: 8px;
+        }
+         table.dataTable thead th {
+            border: 1px solid black;
+            padding: 8px;
+         }
+         .pg{
+          border: 1px solid black;
+         }
+        
+body {
+         /* Set the desired margin for A4 size */
+        border: 1px solid black; /* Add a border around the page */
+    box-sizing: border-box;
+    }
+  @media (max-width: 767px) {
+  .btn {
+    visibility: hidden;
+  }
+   #example1_wrapper .dt-buttons,
+  #example3_wrapper .dt-buttons {
+    display: none !important;
+  }
+
 }
 </style>
 <div class="content-wrapper" id="example">
