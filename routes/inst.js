@@ -1177,4 +1177,305 @@ router.post("/depstudent",(req,res)=>{
         }
       })
     })
+
+    router.get('/triplist',verifyLogin, function(req, res, next) {
+      var res1=req.session.data
+      console.log(res1)
+      var instid=res1[0].institutioncode;
+      var sql="select * from trip where institutioncode =?"
+      db.query(sql,[instid],(err,res2)=>{
+        if(err){console.log("database fetching error");res.render('insti/triplist', {inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1 })}
+        else {
+          if(res2.length>0){
+            dt=res2
+            console.log(dt)
+            res.render('insti/triplist', {inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
+          }
+          else{res.render('insti/triplist', {inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1 })}
+        }
+    
+      })
+      // res.render('superadmin/inst', {style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1 });
+    });
+
+    router.post("/eachtripl",verifyLogin,(req,res)=>{
+      res1=req.session.data
+      tpid=req.body.tripid;
+      var vhid;
+      var date_ob = new Date();
+      var day = ("0" + date_ob.getDate()).slice(-2);
+      var month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+      var year = date_ob.getFullYear();
+      var date = year + "-" + month + "-" + day;
+      var inc=res1[0].institutioncode;
+      
+      var sql="select vehicletripmap.vehicleid,vehicle.*,trip.* from vehicletripmap inner join vehicle on vehicle.vehicleid=vehicletripmap.vehicleid inner join trip on trip.tripid=vehicletripmap.tripid where trip.tripid=?"
+      db.query(sql,[tpid],(err,ress)=>{
+        if(err){console.log(err);                          res.render('insti/eachtripo', {date,tpid,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })}
+        else{
+          if(ress.length>0){
+            vhid=ress[0].vehicleid;
+            vdata=ress;
+            var sql1="select drivertripmap.driverid,staff.* from drivertripmap inner join staff on staff.staffid=drivertripmap.driverid where tripid=?"
+            db.query(sql1,[tpid],(err1,ress1)=>{
+              if(err1){console.log(err1);                          res.render('insti/eachtripo', {date,vdata,tpid,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })}
+              else
+              {if(ress1.length>0){
+                dis=ress1[0].driverid
+                ddata=ress1
+                var sql2="select dailystudent.*,student.firstname,student.lastname from dailystudent inner join student on dailystudent.studentid=student.studentid where dailystudent.vehicleid=? and dailystudent.institutioncode=? and dailystudent.date=? and dailystudent.vehicleid=dailystudent.assignedvechileid"
+                db.query(sql2,[vhid,inc,date],(err2,ress2)=>{
+                  if(err2){console.log(err2);                          res.render('insti/eachtripo', {date,tpid,vdata,ddata,dt,dt2,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })}
+                  else
+                  {
+                    dt=ress2
+                    if(ress2.length>0)
+                    {
+                      var sql3="select dailystudent.*,student.firstname,student.lastname from dailystudent inner join student on dailystudent.studentid=student.studentid where dailystudent.vehicleid=? and dailystudent.institutioncode=? and dailystudent.date=? and dailystudent.vehicleid<>dailystudent.assignedvechileid"
+                      db.query(sql3,[vhid,inc,date],(err3,ress3)=>{
+                        if(err3){console.log(err3);                          res.render('insti/eachtripo', {date,tpid,vdata,ddata,dt,dt2,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })}
+                        else{
+                          dt2=ress3
+                          res.render('insti/eachtripo', {date,tpid,vdata,ddata,dt,dt2,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
+                          console.log(vdata,ddata,dt,dt2)
+                        }
+                      })
+                    }
+                    else
+                    {
+                      var sql3="select dailystudent.*,student.studentid,student.firstname,student.lastname from dailystudent inner join student on dailystudent.studentid=student.studentid where dailystudent.vehicleid=? and dailystudent.institutioncode=? and dailystudent.date=? and dailystudent.vehicleid<>dailystudent.assignedvechileid"
+                      db.query(sql3,[vhid,inc,date],(err3,ress3)=>{
+                        if(err3){console.log(err3);                          res.render('insti/eachtripo', {date,tpid,vdata,ddata,dt,dt2,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })}
+                        else{
+                          dt2=ress3
+                          res.render('insti/eachtripo', {date,tpid,vdata,ddata,dt,dt2,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
+                          console.log(vdata,ddata,dt,dt2,"jij")
+                        }
+                      })
+                    }
+
+                  }
+                })
+              }}
+            })
+          }
+          else
+          {
+            res.render('insti/eachtripo', {date,tpid,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
+          }
+        }
+      })
+    })
+    router.post("/newdayreport",verifyLogin,(req,res)=>{
+      res1=req.session.data
+      tpid=req.body.tripid;
+      var vhid;
+      // var date_ob = new Date();
+      // var day = ("0" + date_ob.getDate()).slice(-2);
+      // var month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+      // var year = date_ob.getFullYear();
+      // var date = year + "-" + month + "-" + day;
+      var date=req.body.newdate;
+      var inc=res1[0].institutioncode;
+      console.log(tpid)
+      var sql="select vehicletripmap.vehicleid,vehicle.*,trip.* from vehicletripmap inner join vehicle on vehicle.vehicleid=vehicletripmap.vehicleid inner join trip on trip.tripid=vehicletripmap.tripid where trip.tripid=?"
+      db.query(sql,[tpid],(err,ress)=>{
+        if(err){console.log(err) ;res.render('insti/eachtripo', {date,tpid,vdata,ddata,dt,dt2,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
+      }
+        else{
+          if(ress.length>0){
+            vhid=ress[0].vehicleid;
+            vdata=ress;
+            var sql1="select drivertripmap.driverid,staff.* from drivertripmap inner join staff on staff.staffid=drivertripmap.driverid where tripid=?"
+            db.query(sql1,[tpid],(err1,ress1)=>{
+              if(err1){console.log(err1);res.render('insti/eachtripo', {date,tpid,vdata,ddata,dt,dt2,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
+            }
+              else
+              {if(ress1.length>0){
+                dis=ress1[0].driverid
+                ddata=ress1
+                var sql2="select dailystudent.*,student.firstname,student.lastname from dailystudent inner join student on dailystudent.studentid=student.studentid where dailystudent.vehicleid=? and dailystudent.institutioncode=? and dailystudent.date=? and dailystudent.vehicleid=dailystudent.assignedvechileid"
+                db.query(sql2,[vhid,inc,date],(err2,ress2)=>{
+                  if(err2){console.log(err2);  res.render('insti/eachtripo', {date,tpid,vdata,ddata,dt,dt2,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
+                }
+                  else
+                  {
+                    dt=ress2
+                    if(ress2.length>0)
+                    {
+                      var sql3="select dailystudent.*,student.firstname,student.lastname from dailystudent inner join student on dailystudent.studentid=student.studentid where dailystudent.vehicleid=? and dailystudent.institutioncode=? and dailystudent.date=? and dailystudent.vehicleid<>dailystudent.assignedvechileid"
+                      db.query(sql3,[vhid,inc,date],(err3,ress3)=>{
+                        if(err3){console.log(err3); res.render('insti/eachtripo', {date,tpid,vdata,ddata,dt,dt2,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
+                      }
+                        else{
+                          dt2=ress3
+                          res.render('insti/eachtripo', {date,tpid,vdata,ddata,dt,dt2,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
+                          console.log(date,vdata,ddata,dt,dt2,tpid)
+                        }
+                      })
+                    }
+                    else
+                    {
+                      var sql3="select dailystudent.*,student.studentid,student.firstname,student.lastname from dailystudent inner join student on dailystudent.studentid=student.studentid where dailystudent.vehicleid=? and dailystudent.institutioncode=? and dailystudent.date=? and dailystudent.vehicleid<>dailystudent.assignedvechileid"
+                      db.query(sql3,[vhid,inc,date],(err3,ress3)=>{
+                        if(err3){console.log(err3);res.render('insti/eachtripo', {date,tpid,vdata,ddata,dt,dt2,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
+                      }
+                        else{
+                          dt2=ress3
+                          res.render('insti/eachtripo', {date,tpid,vdata,ddata,dt,dt2,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
+                          console.log(vdata,ddata,dt,dt2,"jij",tpid)
+                        }
+                      })
+                    }
+
+                  }
+                })
+              }}
+            })
+          }
+          else{
+            res.render('insti/eachtripo', {date,tpid,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
+          }
+        }
+      })
+    })
+    // router.post("/date1",verifyLogin,(req,res)=>{
+    //   res1=req.session.data
+    //   tpid=req.body.tripid;
+    //   var vhid;
+    //   // var date_ob = new Date();
+    //   // var day = ("0" + date_ob.getDate()).slice(-2);
+    //   // var month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+    //   // var year = date_ob.getFullYear();
+    //   // var date = year + "-" + month + "-" + day;
+    //   var date=req.body.date;
+    //   var inc=res1[0].institutioncode;
+    //   console.log(tpid)
+    //   var sql="select vehicletripmap.vehicleid,vehicle.*,trip.* from vehicletripmap inner join vehicle on vehicle.vehicleid=vehicletripmap.vehicleid inner join trip on trip.tripid=vehicletripmap.tripid where trip.tripid=?"
+    //   db.query(sql,[tpid],(err,ress)=>{
+    //     if(err){console.log(err)}
+    //     else{
+    //       if(ress.length>0){
+    //         vhid=ress[0].vehicleid;
+    //         vdata=ress;
+    //         var sql1="select drivertripmap.driverid,staff.* from drivertripmap inner join staff on staff.staffid=drivertripmap.driverid where tripid=?"
+    //         db.query(sql1,[tpid],(err1,ress1)=>{
+    //           if(err1){console.log(err1)}
+    //           else
+    //           {if(ress1.length>0){
+    //             dis=ress1[0].driverid
+    //             ddata=ress1
+    //             var sql2="select dailystudent.*,student.firstname,student.lastname from dailystudent inner join student on dailystudent.studentid=student.studentid where dailystudent.vehicleid=? and dailystudent.institutioncode=? and dailystudent.date=? and dailystudent.vehicleid=dailystudent.assignedvechileid"
+    //             db.query(sql2,[vhid,inc,date],(err2,ress2)=>{
+    //               if(err2){console.log(err2)}
+    //               else
+    //               {
+    //                 dt=ress2
+    //                 if(ress2.length>0)
+    //                 {
+    //                   var sql3="select dailystudent.*,student.firstname,student.lastname from dailystudent inner join student on dailystudent.studentid=student.studentid where dailystudent.vehicleid=? and dailystudent.institutioncode=? and dailystudent.date=? and dailystudent.vehicleid<>dailystudent.assignedvechileid"
+    //                   db.query(sql3,[vhid,inc,date],(err3,ress3)=>{
+    //                     if(err3){console.log(err3)}
+    //                     else{
+    //                       dt2=ress3
+    //                       //res.render('insti/eachtripo', {tpid,vdata,ddata,dt,dt2,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
+    //                       res.json(dt,dt2,tpid)
+    //                       console.log(vdata,ddata,dt,dt2,tpid)
+    //                     }
+    //                   })
+    //                 }
+    //                 else
+    //                 {
+    //                   var sql3="select dailystudent.*,student.studentid,student.firstname,student.lastname from dailystudent inner join student on dailystudent.studentid=student.studentid where dailystudent.vehicleid=? and dailystudent.institutioncode=? and dailystudent.date=? and dailystudent.vehicleid<>dailystudent.assignedvechileid"
+    //                   db.query(sql3,[vhid,inc,date],(err3,ress3)=>{
+    //                     if(err3){console.log(err3)}
+    //                     else{
+    //                       dt2=ress3
+    //                       //res.render('insti/eachtripo', {tpid,vdata,ddata,dt,dt2,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
+    //                       res.json(dt,dt2,tpid)
+    //                       console.log(vdata,ddata,dt,dt2,"jij",tpid)
+    //                     }
+    //                   }) 
+    //                 }
+
+    //               }
+    //             })
+    //           }}
+    //         })
+    //       }
+    //     }
+    //   })
+    // })
+
+
+
+
+    router.post("/date1", verifyLogin, (req, res) => {
+      const res1 = req.session.data;
+      const tpid = req.body.tripid;
+      let vhid;
+      const date = req.body.date;
+      console.log(date)
+      const inc = res1[0].institutioncode;
+    
+      const sql = "SELECT vehicletripmap.vehicleid, vehicle.*, trip.* FROM vehicletripmap INNER JOIN vehicle ON vehicle.vehicleid=vehicletripmap.vehicleid INNER JOIN trip ON trip.tripid=vehicletripmap.tripid WHERE trip.tripid=?";
+      db.query(sql, [tpid], (err, ress) => {
+        if (err) {
+          console.log(err);
+        } else {
+          if (ress.length > 0) {
+            vhid = ress[0].vehicleid;
+            const vdata = ress;
+    
+            const sql1 = "SELECT drivertripmap.driverid, staff.* FROM drivertripmap INNER JOIN staff ON staff.staffid=drivertripmap.driverid WHERE tripid=?";
+            db.query(sql1, [tpid], (err1, ress1) => {
+              if (err1) {
+                console.log(err1);
+              } else {
+                if (ress1.length > 0) {
+                  const dis = ress1[0].driverid;
+                  const ddata = ress1;
+    
+                  const sql2 = "SELECT dailystudent.*, student.firstname, student.lastname FROM dailystudent INNER JOIN student ON dailystudent.studentid=student.studentid WHERE dailystudent.vehicleid=? AND dailystudent.institutioncode=? AND dailystudent.date=? AND dailystudent.vehicleid=dailystudent.assignedvechileid";
+                  db.query(sql2, [vhid, inc, date], (err2, ress2) => {
+                    if (err2) {
+                      console.log(err2);
+                    } else {
+                      const dt = ress2;
+                      if (ress2.length > 0) {
+                        const sql3 = "SELECT dailystudent.*, student.firstname, student.lastname FROM dailystudent INNER JOIN student ON dailystudent.studentid=student.studentid WHERE dailystudent.vehicleid=? AND dailystudent.institutioncode=? AND dailystudent.date=? AND dailystudent.vehicleid<>dailystudent.assignedvechileid";
+                        db.query(sql3, [vhid, inc, date], (err3, ress3) => {
+                          if (err3) {
+                            console.log(err3);
+                          } else {
+                            const dt2 = ress3;
+                            res.json({ dt, dt2, tpid, vdata, ddata });
+                            console.log(dt,dt2)
+                          }
+                        });
+                      } else {
+                        const sql3 = "SELECT dailystudent.*, student.studentid, student.firstname, student.lastname FROM dailystudent INNER JOIN student ON dailystudent.studentid=student.studentid WHERE dailystudent.vehicleid=? AND dailystudent.institutioncode=? AND dailystudent.date=? AND dailystudent.vehicleid<>dailystudent.assignedvechileid";
+                        db.query(sql3, [vhid, inc, date], (err3, ress3) => {
+                          if (err3) {
+                            console.log(err3);
+                          } else {
+                            const dt2 = ress3;
+                            res.json({ dt, dt2, tpid, vdata, ddata });
+                            console.log(dt,dt2)
+                          }
+                        });
+                      }
+                    }
+                  });
+                }
+              }
+            });
+          }
+          else{
+            res.render('insti/eachtripo', {date,tpid,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
+          }
+        }
+      });
+    });
+    
 module.exports = router;

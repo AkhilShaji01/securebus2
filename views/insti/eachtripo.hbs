@@ -1,0 +1,481 @@
+
+<style>
+@media print{
+    #btn{visibility: hidden;}
+    #cap{visibility: visible;}
+    #back-to-top{visibility: hidden;}
+    
+    @page {
+        size: A4; /* Set the page size to A4 */
+        margin: 0; /* Remove default page margins */
+    border: 1px solid black; /* Add a border around the page */
+    box-sizing: border-box;
+    }
+    
+    body {
+         /* Set the desired margin for A4 size */
+        border: 1px solid black; /* Add a border around the page */
+    box-sizing: border-box;
+    }
+
+    
+}
+.dataTables_wrapper {
+            border: 1px solid black;
+            padding: 10px;
+            
+        }
+        table.dataTable tbody tr {
+            border: 1px solid black;
+        }
+        
+        table.dataTable tbody td {
+            border: 1px solid black;
+            padding: 8px;
+        }
+         table.dataTable tbody th {
+            border: 1px solid black;
+            padding: 8px;
+        }
+         table.dataTable thead th {
+            border: 1px solid black;
+            padding: 8px;
+         }
+         .pg{
+          border: 1px solid black;
+         }
+        
+body {
+         /* Set the desired margin for A4 size */
+        border: 1px solid black; /* Add a border around the page */
+    box-sizing: border-box;
+    }
+  @media (max-width: 767px) {
+  .btn {
+    visibility: hidden;
+  }
+   #example1_wrapper .dt-buttons,
+  #example3_wrapper .dt-buttons {
+    display: none !important;
+  }
+
+}
+</style>
+<div class="content-wrapper" id="example" class="pg">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            {{!-- <h1>Student Travel Log</h1> --}}
+          </div>
+          
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              {{!-- <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Widgets</li> --}}
+              {{!-- <button onclick="convertToPDF()" id="btn" class="btn" style="float: right; ">Print Report</button> --}}
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+ 
+    <!-- Main content -->
+    <section class="content">
+        
+      <div class="container-fluid">
+        
+   
+        {{!-- <h5 class="mb-2">Basic Details</h5> --}}
+        
+        <div class="row">
+          <div class="col-12">
+            <div class="card card-primary">
+              <div class="card-header">
+                
+                <h3 class="card-title">Trip Details </h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                        <div class="row margin" style="font-size: larger;">
+                            {{#each vdata}}
+                            {{!-- <div class="col-sm-6">
+                            <img src="../../profileimages/student{{this.studentid}}.png" alt="no image" style="height: 215px;width:215px" />
+
+                            </div> --}}
+                            <div class="col-sm-6">
+                                <div class="row margin">
+                                    Tripname:{{this.tripname}}
+                                </div>
+                                <hr>
+                                <div class="row margin">
+                                    Vehicle: {{this.regnumber}} - {{this.model}}
+                                    bus number-{{this.vehicleid}}
+                                </div>
+                                <hr>
+                                {{/each}}
+                                {{#each ddata}}
+                                <div class="row margin">
+                                    Driver name: {{this.firstname}} {{this.lastname}}
+                                </div>
+                                <div class="row margin">
+                                    Phone number:{{this.mobile}}
+                                </div>
+                                {{!-- <div class="row margin">
+                                    Address: {{this.address}}
+                                </div> --}}
+                                {{/each}}
+                                 {{!-- <div class="row margin">
+                                    Number of Authorised Entry: {{oket}}
+                                </div>
+                                <div class="row margin">
+                                    Number of Unauthorised Entry: {{noet}}
+                                </div> --}}
+                                <div class="row margin" id="d">
+                                   {{!-- Assigned vechile number:{{this.regnumber}} (bus number:{{this.vehicleid}}) --}}
+                                </div>
+                                {{#each dt1}}
+                                <input type="text" name="vechilereg" id="reg" value="{{this.regnumber}}" hidden>
+                                <input type="text" name="vechileid" id="idd" value="{{this.vehicleid}}" hidden>
+                                {{/each}}
+                                <script>
+                                  var reg=document.getElementById("reg").value
+                                  var idd=document.getElementById("idd").value
+                                  var d=document.getElementById("d")
+                                  var c="Assigned vechile number:"+reg+" Bus number:"+idd
+                                  d.innerHTML=c
+                                </script>
+                                 
+                                
+                                
+                            </div>
+                            <br><br>
+                            <hr>
+                            
+                        </div>
+                        
+                        
+                        
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+       
+        <!-- /.row -->
+        <!-- /.row -->
+        <!-- =========================================================== -->
+<div style="text-align: center;font-size: xx-large;">
+     <p id="h5m" style="color:crimson">{{dd}}{{my}}</p>
+                                    {{!-- Number of Authorised Entry: {{oket}}
+<br>
+                                    Number of Unauthorised Entry: {{noet}} --}}
+
+        <input type="text" name="" id="mm" value="{{mm}}" hidden style="font-size: xx-large;">
+        <script type="text/javascript">
+    var mm = document.getElementById("mm").value;
+    var mm1 = parseInt(mm);
+    var month1 = "";
+    if (mm1 == 1) {
+        month1 = "January";
+    }
+    if (mm1 == 2) {
+        month1 = "February";
+    }
+    if (mm1 == 3) {
+        month1 = "March";
+    }
+    if (mm1 == 4) {
+        month1 = "April";
+    }
+    if (mm1 == 5) {
+        month1 = "May";
+    }
+    if (mm1 == 6) {
+        month1 = "June";
+    }
+    if (mm1 == 7) {
+        month1 = "July";
+    }
+    if (mm1 == 8) {
+        month1 = "August";
+    }
+    if (mm1 == 9) {
+        month1 = "September";
+    }
+    if (mm1 == 10) {
+        month1 = "October";
+    }
+    if (mm1 == 11) {
+        month1 = "November";
+    }
+    if (mm1 == 12) {
+        month1 = "December";
+    }
+    var c = document.getElementById("h5m");
+    c.innerHTML = month1+' '+{{my}};
+</script>
+</div>
+
+
+    
+
+<hr>
+        <h5 class="mb-2">Travel Log</h5>
+        <hr>
+         <div>
+            <form action="/inst/newdayreport" method="post">
+            <input type="date" name="newdate" id="newdate">
+            <input type="text" name="tripid" id="" value="{{tpid}}" hidden>
+            <input type="submit" name="submit">
+            </form>
+         </div>
+
+      
+        <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped" style="border: 5px;">
+                    
+                  <thead>
+                  <tr id="tr">
+                    <th>Name</th>
+                    <th>Location</th>
+                    
+                    <th>date</th>
+                    <th>time</th>
+                  </tr>
+                  </thead>
+                 
+                  <tbody id="dtt">
+                    {{#each dt}}
+                  <tr id="dtt"> 
+                    <td>{{this.firstname}} {{this.lastname}}</td>
+                    <td><iframe src = "https://maps.google.com/maps?q={{this.latitude}},{{this.longitude}}&hl=es;z=14&amp;output=embed"></iframe></td>
+
+                    
+                    <td>{{this.date}}</td>
+                    <td>{{this.time}}</td>
+                  
+                 {{/each}}
+                  </tbody>
+                   {{!-- <tbody id="dtt"></tbody> --}}
+                  <tfoot>
+                </table>
+              </div>
+              <!-- /.card-body -->
+        <h5 class="mb-2">Wrong Trip </h5>
+              <div class="card-body">
+                <table id="example3" class="table table-bordered table-striped" style="border: 5px;">
+                  <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Location</th>
+                    <th>assignedbus</th>
+                    <th>vehicleid</th>
+                    <th>date</th>
+                    <th>time</th>
+                  </tr>
+                  </thead>
+                  <tbody id="dt22">
+                    {{#each dt2}}
+                
+
+                  <tr style="color: red;" id="dt22">
+                    
+                    <td>{{this.firstname}} {{this.lastname}}</td>
+                    <td><iframe src = "https://maps.google.com/maps?q={{this.latitude}},{{this.longitude}}&hl=es;z=14&amp;output=embed"></iframe></td>
+                     <td >{{this.assignedvechileid}}</td>
+                     <td >{{this.vehicleid}}</td>
+                    <td>{{this.date}}</td>
+                    <td>{{this.time}}</td>
+               
+                  
+                  </tr>
+                  
+                 {{/each}}
+                  </tbody>
+                  {{!-- <tbody id="dt22"></tbody> --}}
+                  <tfoot>
+                 
+                </table>
+              </div>
+        <!-- /.row -->
+    
+    
+{{!-- <script>
+     // function updateMarker(lng, lat) {
+   //   var dtt1=" <td>"+data.dt.firstname data.dt.firstname+"</td><td><iframe src = 'https://maps.google.com/maps?q="+data.dt.latitude+","+data.dt.longitude+"&hl=es;z=14&amp;output=embed/></iframe></td> <td>"+data.dt.date+"</td><td>"+data.dt.time+"</td>"
+     // var dtt2="<td>"+data.dt2.firstname data.dt2.firstname+"</td>"+
+       //             "<td><iframe src = 'https://maps.google.com/maps?q="+data.dt2.latitude,data.dt2.longitude+"&hl=es;z=14&amp;output=embed'></iframe></td>"+
+         //            "<td >"+data.dt2.assignedvechileid+"</td>"+
+           //          "<td >"+data.dt2.this.vehicleid+"</td>"+
+             //       "<td>"+data.dt2.date+"</td>"+
+               //       "<td>"+data.dt.time+"</td>";
+     //var dttr=document.getElementById("dtt")
+     //var dttr2=document.getElementById("dt22")
+     //dttr.innerHTML=dtt1;
+   //  dttr2.innerHTML=dtt2;
+    
+    }
+    //function updateMap() {
+   //      const currentDate = new Date();
+ // const formattedDate = formatDate(currentDate);
+     // fetch('/inst/date1',, {
+    //method: 'POST',
+   // headers: {
+      'Content-Type': 'application/json'
+    },
+    //body: JSON.stringify({ tripid: {{tpid}}, date: formattedDate })
+  })
+      //  .then(response => response.json())
+        //.then(data => {
+      //    updateMarker(data);
+        })
+     //   .catch(error => console.error(error));
+    }
+
+    // Call the updateMap function every few seconds
+   // setInterval(updateMap, 3000);
+</script> --}}
+<script>
+    function updateMarker(data) {
+      let dtt1 = "";
+      let dtt2 = "";
+
+      data.dt.forEach(dt => {
+        dtt1 += `<tr>
+          <td>${dt.firstname} ${dt.lastname}</td>
+          <td><iframe src="https://maps.google.com/maps?q=${dt.latitude},${dt.longitude}&hl=es;z=14&amp;output=embed"></iframe></td>
+          <td>${dt.date}</td>
+          <td>${dt.time}</td>
+        </tr>`;
+      });
+
+      data.dt2.forEach(dt2 => {
+        dtt2 += `<tr>
+          <td>${dt2.firstname} ${dt2.lastname}</td>
+          <td><iframe src="https://maps.google.com/maps?q=${dt2.latitude},${dt2.longitude}&hl=es;z=14&amp;output=embed"></iframe></td>
+          <td>${dt2.assignedvechileid}</td>
+          <td>${dt2.this.vehicleid}</td>
+          <td>${dt2.date}</td>
+          <td>${dt2.time}</td>
+        </tr>`;
+      });
+
+      const dttr = document.getElementById("dtt");
+      const dttr2 = document.getElementById("dt22");
+      dttr.innerHTML = dtt1;
+      dttr2.innerHTML = dtt2;
+    }
+
+    function formatDate(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+
+    function updateMap() {
+      const currentDate = new Date();
+      const formattedDate = formatDate(currentDate);
+
+      fetch('/inst/date1', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ tripid: "{{tpid}}", date:"{{date}}" })
+      })
+        .then(response => response.json())
+        .then(data => {
+          updateMarker(data);
+        })
+        .catch(error => console.error(error));
+    }
+
+    // Call the updateMap function every few seconds
+    setInterval(updateMap, 60000);
+  </script>
+         
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+
+    <a id="back-to-top" href="#" class="btn btn-primary back-to-top" role="button" aria-label="Scroll to top">
+      <i class="fas fa-chevron-up"></i>
+    </a>
+    
+    <script>
+        function convertToPDF() {
+        
+        $('#example1').DataTable().buttons().container().hide();
+         $('#example3').DataTable().buttons().container().hide();
+        window.print();
+        $('#example1').DataTable().buttons().container().show();
+         $('#example3').DataTable().buttons().container().show();
+        }
+
+    </script>
+  </div>
+  <!-- /.content-wrapper -->
+
+  <footer class="main-footer">
+    <div class="float-right d-none d-sm-block">
+      <b>Version</b> 3.2.0
+    </div>
+    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">SecureBus</a>.</strong> All rights reserved.
+  </footer>
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="../../plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- DataTables  & Plugins -->
+<script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="../../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="../../plugins/jszip/jszip.min.js"></script>
+<script src="../../plugins/pdfmake/pdfmake.min.js"></script>
+<script src="../../plugins/pdfmake/vfs_fonts.js"></script>
+<script src="../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../../dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../../dist/js/demo.js"></script>
+<!-- Page specific script -->
+<script>
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+     $("#example3").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#example3_wrapper .col-md-6:eq(0)');
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
+</script>

@@ -1,0 +1,433 @@
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Student Profile</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              {{!-- <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Widgets</li> --}}
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+<input type="text" name="" id="isrf" value="{{isrdifadded}}" hidden>
+<input type="text" name="" id="isfinger" value="{{isfingeradded}}" hidden >
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <h5 class="mb-2"></h5>
+        <div class="row">
+          <div class="col-12">
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Trip:</h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                        <div class="row margin" style="font-size: larger;">
+                          
+                            {{#each dt}}
+                            <div class="col-sm-6">
+                            <img src="../../profileimages/student{{this.studentid}}.png" alt="no image" style="height: 215px;width:215px" />
+
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="row margin">
+                                    Admission number:{{this.admissionnumber}}
+                                </div>
+                                <div class="row margin">
+                                    Name: {{this.firstname}} {{this.lastname}}
+                                </div>
+                                <div class="row margin">
+                                    Class: {{this.classname}}
+                                </div>
+                                <div class="row margin">
+                                    Phone number:{{this.phone}}
+                                </div>
+                                <div class="row margin">
+                                    Address: {{this.address}}
+                                </div>
+                                
+                            </div>
+                            <br><br>
+                            <hr>
+                            
+                        </div>
+                        <br>
+                        <br>
+                        <hr>
+                        
+                        <div class="row margin">
+                        
+                            <form action="/teacher/studentfullprofile" method="post" style="margin-left: 10px;">
+                            <input type="text" name="studentid" id="studentid" value="{{this.studentid}}" hidden>
+                                <button type="submit" formmethod="post" class="btn btn-primary">Full profile</button>        
+                        </form>
+                        <div id="rf3"></div>
+                        <div id="rf4"></div>
+                        
+                                              
+                        </div>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!-- /.col -->
+        </div>
+       
+        <!-- /.row -->
+        <!-- /.row -->
+        
+         <script>
+          var rf=document.getElementById("isrf").value;
+          var sid=document.getElementById("studentid").value;
+          if(rf=='yes')
+          {
+            var y='<form action="/teacher/removerfid"  method="post" style="margin-left: 10px;"><input type="text" name="studentid" id="" value="'+sid+'" hidden><button type="submit" formmethod="post" class="btn btn-danger">Remove RFID</button></form>'
+            var e=document.getElementById("rf3")
+            e.innerHTML=y
+          }
+          else
+          {
+            var y='<form action="/teacher/addrfid"  method="post" style="margin-left: 10px;"><input type="text" name="studentid" id="" value="'+sid+'" hidden><button type="submit" formmethod="post" class="btn btn-success">Add RFID</button></form>'
+            var e=document.getElementById("rf3")
+            e.innerHTML=y
+          }
+         </script>
+         <script>
+          var sid=document.getElementById("studentid").value;
+          var fin=document.getElementById("isfinger").value
+           if(fin=='yes')
+          {
+            var g='<form action="/teacher/removefinger"  method="post" style="margin-left: 10px;">    <input type="text" name="studentid" id="" value="'+sid+'" hidden>     <button type="submit" formmethod="post" class="btn btn-danger">Remove Finger</button></form>'
+            var f=document.getElementById("rf4")
+            f.innerHTML=g
+          }
+          else
+          {
+            var g='<form action="/teacher/addfinger"  method="post" style="margin-left: 10px;"> <input type="text" name="studentid" id="" value="'+sid+'" hidden>    <button type="submit" formmethod="post" class="btn btn-success">ADD FINGER</button>    </form>'
+            var f=document.getElementById("rf4")
+            f.innerHTML=g
+          }
+         </script>
+         {{/each}}
+        <!-- =========================================================== -->
+        <hr>
+         <h2>Generate Report</h2>
+        Select the mode of report:
+        <select name="report" id="rp1">
+            <option value="">-</option>
+            <option value="monthly">monthly</option>
+            <option value="daily">Daily</option>
+            <option value="yearly">yearly</option>
+        </select>
+        
+        <div id="rp"></div>
+        </div>
+        <script>
+            const dropdown=document.getElementById("rp1");
+            dropdown.addEventListener("change",e=>{
+                var valu=dropdown.value;
+                if(valu=="monthly")
+                {
+                    //function generateForm() {
+                        // Get the current year
+                        var sid=document.getElementById("studentid").value;
+                        var currentYear = new Date().getFullYear();
+
+                        // Generate the HTML for month and year selection
+                        var formHTML = '<form action="/teacher/genmonthreport" method="post"><input type="text" name="studentid" value="'+sid+'" hidden><label for="selectedMonth">Select Month:</label>' +
+                            '<select id="selectedMonth" name="month">';
+                        // Generate options for months
+                        for (var i = 1; i <= 12; i++) {
+                            formHTML += '<option value="' + i + '">' + i + '</option>';
+                        }
+                        formHTML += '</select>';
+
+                        formHTML += '<label for="selectedYear">Select Year:</label>' +
+                            '<select id="selectedYear" name="year">';
+                        // Generate options for years (adjust as per your requirements)
+                        for (var j = currentYear; j >= currentYear - 10; j--) {
+                            formHTML += '<option value="' + j + '">' + j + '</option>';
+                        }
+                        formHTML += '</select> <input type="submit" value ="generate report"></form>';
+
+                        // Replace the content of formContainer with the generated form
+                        var formContainer = document.getElementById("rp");
+                        formContainer.innerHTML = formHTML;
+                    }
+
+                else if(valu=="daily")
+                {
+                    //function generateForm() {
+                        var sid=document.getElementById("studentid").value;
+                        // Get the current year
+                        var currentYear = new Date().getFullYear();
+
+                        // Generate the HTML for month and year selection
+                        var formHTML = '<form action="/teacher/gendailyreport" method="post"><input type="text" name="studentid" value="'+sid+'" hidden><label for="date">Select Date:</label>' +
+                            '<input type="date" name="date"></input> ';
+                        // Generate options for months
+                       
+                        
+                        formHTML += '<input type="submit" value ="generate report"></form>';
+
+                        // Replace the content of formContainer with the generated form
+                        var formContainer = document.getElementById("rp");
+                        formContainer.innerHTML = formHTML;
+                    }
+                //}
+                else if(valu=="yearly")
+                {
+                    //function generateForm() {
+                        // Get the current year
+                        var sid=document.getElementById("studentid").value;
+                        var currentYear = new Date().getFullYear();
+
+                        // Generate the HTML for month and year selection
+                        var formHTML = '<form action="/teacher/genyearlyreport" method="post"> <input type="text" name="studentid" value="'+sid+'" hidden>';
+
+                        formHTML += '<label for="selectedYear">Select Year:</label>' +
+                            '<select id="selectedYear" name="year">';
+                        // Generate options for years (adjust as per your requirements)
+                        for (var j = currentYear; j >= currentYear - 10; j--) {
+                            formHTML += '<option value="' + j + '">' + j + '</option>';
+                        }
+                        formHTML += '</select> <input type="submit" value ="generate report"></form>';
+
+                        // Replace the content of formContainer with the generated form
+                        var formContainer = document.getElementById("rp");
+                        formContainer.innerHTML = formHTML;
+                    }
+                    else
+                    {
+                         var formContainer = document.getElementById("rp");
+                        formContainer.innerHTML ="";
+                    }
+
+            })
+        </script>
+        <hr>
+        <h5 class="mb-2">Travel Log</h5>
+        <div>
+           <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                   <th>Name</th>
+                    <th>Location</th>
+                    <th>assignedbus</th>
+                    <th>vehicleid</th>
+                    <th>date</th>
+                    <th>time</th>
+                    <th>Livelocation</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                     {{#each dt1}}
+                  <tr>
+                    <td>{{this.firstname}} {{this.lastname}}</td>
+                    <td><iframe src = "https://maps.google.com/maps?q={{this.latitude}},{{this.longitude}}&hl=es;z=14&amp;output=embed"></iframe></td>
+                  <td>{{this.assignedvechileid}}</td>
+                    <td>{{this.regnumber}}</td>
+                    <td>{{this.date}}</td>
+                    <td>{{this.time}}</td>
+                  <td>
+                     <form action="/teacher/livelocation"  method="post" style="margin-left: 10px;">
+                            <input type="text" name="busid" id="" value="{{this.vehicleid}}" hidden>
+                            <button type="submit" formmethod="post" class="btn btn-danger">live location</button>
+                        </form>
+                  </td>
+                 {{/each}}
+                  </tbody>
+                  <tfoot>
+                 
+                </table>
+              </div>
+              <div class="card-body">
+                <table id="example3" class="table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Location</th>
+                    <th>assignedbus</th>
+                    <th>vehicleid</th>
+                    <th>date</th>
+                    <th>time</th>
+                    <th>live location</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                   {{#each dt2}}
+                
+
+                  <tr style="color: red;">
+                    
+                    <td>{{this.firstname}} {{this.lastname}}</td>
+                    <td><iframe src = "https://maps.google.com/maps?q={{this.latitude}},{{this.longitude}}&hl=es;z=14&amp;output=embed"></iframe></td>
+                     <td >{{this.assignedvechileid}}</td>
+                     <td >{{this.vehicleid}}</td>
+                    <td>{{this.date}}</td>
+                    <td>{{this.time}}</td>
+               
+                   <td>
+                     <form action="/teacher/livelocation"  method="post" style="margin-left: 10px;">
+                            <input type="text" name="busid" id="" value="{{this.vehicleid}}" hidden>
+                            <button type="submit" formmethod="post" class="btn btn-danger">live location</button>
+                        </form>
+                  </td>
+                  </tr>
+                  
+                 {{/each}}
+                  </tbody>
+                  <tfoot>
+                 
+                </table>
+              </div>
+        {{!-- <div class="card-body">
+                <table id="example1" class="table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Location</th>
+                    <th>vehicle Number</th>
+                    <th>date</th>
+                    <th>time</th>
+                  </tr>
+                  </thead>
+                 
+                  <tbody>
+                    {{#each dt1}}
+                  <tr>
+                    <td>{{this.firstname}} {{this.lastname}}</td>
+                    <td><iframe src = "https://maps.google.com/maps?q={{this.latitude}},{{this.longitude}}&hl=es;z=14&amp;output=embed"></iframe></td>
+
+                    <td>{{this.regnumber}}</td>
+                    <td>{{this.date}}</td>
+                    <td>{{this.time}}</td>
+                  <td>
+                     <form action="/teacher/livelocation"  method="post" style="margin-left: 10px;">
+                            <input type="text" name="busid" id="" value="{{this.vehicleid}}" hidden>
+                            <button type="submit" formmethod="post" class="btn btn-danger">live location</button>
+                        </form>
+                  </td>
+                 {{/each}}
+                  </tbody>
+                  <tfoot>
+                 
+                </table>
+              </div>
+              <!-- /.card-body -->
+              
+        <h5 class="mb-2">Travel Log - Unauthorised Entry</h5>
+              <div class="card-body">
+                <table id="example3" class="table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Location</th>
+                    <th>assignedbus</th>
+                    <th>vehicleid</th>
+                    <th>date</th>
+                    <th>time</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    {{#each dt2}}
+                
+
+                  <tr style="color: red;">
+                    
+                    <td>{{this.firstname}} {{this.lastname}}</td>
+                    <td><iframe src = "https://maps.google.com/maps?q={{this.latitude}},{{this.longitude}}&hl=es;z=14&amp;output=embed"></iframe></td>
+                     <td >{{this.assignedvechileid}}</td>
+                     <td >{{this.vehicleid}}</td>
+                    <td>{{this.date}}</td>
+                    <td>{{this.time}}</td>
+               
+                  
+                  </tr>
+                  
+                 {{/each}}
+                  </tbody>
+                  <tfoot>
+                 
+                </table>
+              </div>
+        <!-- /.row -->
+      </div>
+         </div> --}}
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+
+    <a id="back-to-top" href="#" class="btn btn-primary back-to-top" role="button" aria-label="Scroll to top">
+      <i class="fas fa-chevron-up"></i>
+    </a>
+  </div>
+  <!-- /.content-wrapper -->
+
+ <footer class="main-footer">
+    <div class="float-right d-none d-sm-block">
+      <b>Version</b> 3.2.0
+    </div>
+    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">SecureBus</a>.</strong> All rights reserved.
+  </footer>
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+  </aside>
+  <!-- /.control-sidebar -->
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery -->
+<script src="../../plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- DataTables  & Plugins -->
+<script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="../../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="../../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="../../plugins/jszip/jszip.min.js"></script>
+<script src="../../plugins/pdfmake/pdfmake.min.js"></script>
+<script src="../../plugins/pdfmake/vfs_fonts.js"></script>
+<script src="../../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="../../plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="../../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<!-- AdminLTE App -->
+<script src="../../dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../../dist/js/demo.js"></script>
+<!-- Page specific script -->
+<script>
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+     $("#example3").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#example3_wrapper .col-md-6:eq(0)');
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
+</script>
