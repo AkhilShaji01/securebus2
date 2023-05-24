@@ -241,10 +241,46 @@ body {
         {{/each}}
         <br>
 
-        No of student assigned:{{studenttriplength}}
+        No of student assigned:{{studenttriplength}} <br>
+         No of student unassigned:{{noun}} <br>
+         no of total student entered:{{entrs}}
         <br>
-        No of punch in on the bus: {{punchinnumber}}
+        No of punch in on the bus: {{punchinnumber}} <br>
          No of punch out on the bus: {{punchoutnumber}}
+          <br>
+          <canvas id="myChart"></canvas>{{data1}}
+          <script>
+    // Retrieve the data passed from the server
+    const data1 = {{data1}};
+
+    // Create the chart
+    const ctx = document.getElementById('myChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'pie',
+      data1: {{data1}},
+      options: {
+        responsive: true,
+      },
+    });
+  </script>
+   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+
+        var data = {{data1}};
+
+        var options = {
+        title: 'My Daily Activities'
+      };
+
+    var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+    chart.draw(data, options);
+  }
+</script>
       </div>
         <div class="card-body">
                 <table id="example1" class="table table-bordered table-striped" style="border: 5px;">
@@ -407,7 +443,7 @@ body {
     }
 
     // Call the updateMap function every few seconds
-    setInterval(updateMap, 60000);
+    setInterval(updateMap, 100000);
   </script>
          
       </div><!-- /.container-fluid -->
