@@ -1208,7 +1208,7 @@ router.post("/depstudent",(req,res)=>{
       var year = date_ob.getFullYear();
       var date = year + "-" + month + "-" + day;
       var inc=res1[0].institutioncode;
-      
+      let punchoutnumber,punchinnumber,studenttriplength;
       var sql="select vehicletripmap.vehicleid,vehicle.*,trip.* from vehicletripmap inner join vehicle on vehicle.vehicleid=vehicletripmap.vehicleid inner join trip on trip.tripid=vehicletripmap.tripid where trip.tripid=?"
       db.query(sql,[tpid],(err,ress)=>{
         if(err){console.log(err);                          res.render('insti/eachtripo', {date,tpid,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })}
@@ -1216,16 +1216,40 @@ router.post("/depstudent",(req,res)=>{
           if(ress.length>0){
             vhid=ress[0].vehicleid;
             vdata=ress;
+            let studenttriplength;
+            var sqlw2="Select studentid from studenttripmap where tripid=? and vehicleid=?";
+            db.query(sqlw2,[vhid,vhid],(errw3,ressw3)=>{
+              if(errw3){console.log(errw3);}
+              else
+              {
+                studenttriplength=ressw3.length;
+              }
+            })
+            var sqlw3="select studentid from dailystudent where punchinout='punch in' and date=? and vehicleid=?";
+            db.query(sqlw3,[date,vhid],(errw4,ressw4)=>{
+              if(errw4){console.log(errw4)}
+              else{
+                punchinnumber=ressw4.length
+              }
+            })
+            var sqlw3="select studentid from dailystudent where punchinout='punch out' and date=? and vehicleid=?";
+            db.query(sqlw3,[date,tpid],(errw4,ressw4)=>{
+              if(errw4){console.log(errw4)}
+              else{
+                punchoutnumber=ressw4.length
+                console.log(punchoutnumber,"fcgvhbjnk")
+              }
+            })
             var sql1="select drivertripmap.driverid,staff.* from drivertripmap inner join staff on staff.staffid=drivertripmap.driverid where tripid=?"
             db.query(sql1,[tpid],(err1,ress1)=>{
-              if(err1){console.log(err1);                          res.render('insti/eachtripo', {date,vdata,tpid,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })}
+              if(err1){console.log(err1);                          res.render('insti/eachtripo', {punchoutnumber,punchinnumber,date,vdata,tpid,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })}
               else
               {if(ress1.length>0){
                 dis=ress1[0].driverid
                 ddata=ress1
                 var sql2="select dailystudent.*,student.firstname,student.lastname from dailystudent inner join student on dailystudent.studentid=student.studentid where dailystudent.vehicleid=? and dailystudent.institutioncode=? and dailystudent.date=? and dailystudent.vehicleid=dailystudent.assignedvechileid"
                 db.query(sql2,[vhid,inc,date],(err2,ress2)=>{
-                  if(err2){console.log(err2);                          res.render('insti/eachtripo', {date,tpid,vdata,ddata,dt,dt2,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })}
+                  if(err2){console.log(err2);                          res.render('insti/eachtripo', {punchoutnumber,punchinnumber,studenttriplength,date,tpid,vdata,ddata,dt,dt2,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })}
                   else
                   {
                     dt=ress2
@@ -1233,10 +1257,10 @@ router.post("/depstudent",(req,res)=>{
                     {
                       var sql3="select dailystudent.*,student.firstname,student.lastname from dailystudent inner join student on dailystudent.studentid=student.studentid where dailystudent.vehicleid=? and dailystudent.institutioncode=? and dailystudent.date=? and dailystudent.vehicleid<>dailystudent.assignedvechileid"
                       db.query(sql3,[vhid,inc,date],(err3,ress3)=>{
-                        if(err3){console.log(err3);                          res.render('insti/eachtripo', {date,tpid,vdata,ddata,dt,dt2,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })}
+                        if(err3){console.log(err3);                          res.render('insti/eachtripo', {punchoutnumber,punchinnumber,studenttriplength,date,tpid,vdata,ddata,dt,dt2,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })}
                         else{
                           dt2=ress3
-                          res.render('insti/eachtripo', {date,tpid,vdata,ddata,dt,dt2,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
+                          res.render('insti/eachtripo', {punchoutnumber,punchinnumber,studenttriplength,date,tpid,vdata,ddata,dt,dt2,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
                           console.log(vdata,ddata,dt,dt2)
                         }
                       })
@@ -1245,10 +1269,10 @@ router.post("/depstudent",(req,res)=>{
                     {
                       var sql3="select dailystudent.*,student.studentid,student.firstname,student.lastname from dailystudent inner join student on dailystudent.studentid=student.studentid where dailystudent.vehicleid=? and dailystudent.institutioncode=? and dailystudent.date=? and dailystudent.vehicleid<>dailystudent.assignedvechileid"
                       db.query(sql3,[vhid,inc,date],(err3,ress3)=>{
-                        if(err3){console.log(err3);                          res.render('insti/eachtripo', {date,tpid,vdata,ddata,dt,dt2,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })}
+                        if(err3){console.log(err3);                          res.render('insti/eachtripo', {punchoutnumber,punchinnumber,studenttriplength,date,tpid,vdata,ddata,dt,dt2,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })}
                         else{
                           dt2=ress3
-                          res.render('insti/eachtripo', {date,tpid,vdata,ddata,dt,dt2,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
+                          res.render('insti/eachtripo', {punchoutnumber,punchinnumber,studenttriplength,date,tpid,vdata,ddata,dt,dt2,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
                           console.log(vdata,ddata,dt,dt2,"jij")
                         }
                       })
@@ -1261,7 +1285,7 @@ router.post("/depstudent",(req,res)=>{
           }
           else
           {
-            res.render('insti/eachtripo', {date,tpid,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
+            res.render('insti/eachtripo', {punchoutnumber,punchinnumber,studenttriplength,date,tpid,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
           }
         }
       })
@@ -1278,6 +1302,7 @@ router.post("/depstudent",(req,res)=>{
       var date=req.body.newdate;
       var inc=res1[0].institutioncode;
       console.log(tpid)
+      let punchoutnumber,punchinnumber,studenttriplength;
       var sql="select vehicletripmap.vehicleid,vehicle.*,trip.* from vehicletripmap inner join vehicle on vehicle.vehicleid=vehicletripmap.vehicleid inner join trip on trip.tripid=vehicletripmap.tripid where trip.tripid=?"
       db.query(sql,[tpid],(err,ress)=>{
         if(err){console.log(err) ;res.render('insti/eachtripo', {date,tpid,vdata,ddata,dt,dt2,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
@@ -1286,9 +1311,31 @@ router.post("/depstudent",(req,res)=>{
           if(ress.length>0){
             vhid=ress[0].vehicleid;
             vdata=ress;
+            var sqlw2="Select studentid from studenttripmap where tripid=? and vehicleid=?";
+            db.query(sqlw2,[vhid,tpid],(errw3,ressw3)=>{
+              if(errw3){console.log(errw3);}
+              else
+              {
+                studenttriplength=ressw3.length;
+              }
+            })
+            var sqlw3="select count(punchinout) as punchincount from dailystudent where punchinout='punch in' and date=? and vehicleid=?";
+            db.query(sqlw3,[date,vhid],(errw4,ressw4)=>{
+              if(errw4){console.log(errw4)}
+              else{
+                punchinnumber=ressw4[0].punchincount
+              }
+            })
+            var sqlw3="select count(punchinout) as punchoutcount from dailystudent where punchinout='punch out' and date=? and vehicleid=?";
+            db.query(sqlw3,[date,vhid],(errw4,ressw4)=>{
+              if(errw4){console.log(errw4)}
+              else{
+                punchoutnumber=ressw4[0].punchoutcount
+              }
+            })
             var sql1="select drivertripmap.driverid,staff.* from drivertripmap inner join staff on staff.staffid=drivertripmap.driverid where tripid=?"
             db.query(sql1,[tpid],(err1,ress1)=>{
-              if(err1){console.log(err1);res.render('insti/eachtripo', {date,tpid,vdata,ddata,dt,dt2,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
+              if(err1){console.log(err1);res.render('insti/eachtripo', {punchoutnumber,punchinnumber,studenttriplength,date,tpid,vdata,ddata,dt,dt2,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
             }
               else
               {if(ress1.length>0){
@@ -1296,7 +1343,7 @@ router.post("/depstudent",(req,res)=>{
                 ddata=ress1
                 var sql2="select dailystudent.*,student.firstname,student.lastname from dailystudent inner join student on dailystudent.studentid=student.studentid where dailystudent.vehicleid=? and dailystudent.institutioncode=? and dailystudent.date=? and dailystudent.vehicleid=dailystudent.assignedvechileid"
                 db.query(sql2,[vhid,inc,date],(err2,ress2)=>{
-                  if(err2){console.log(err2);  res.render('insti/eachtripo', {date,tpid,vdata,ddata,dt,dt2,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
+                  if(err2){console.log(err2);  res.render('insti/eachtripo', {punchoutnumber,punchinnumber,studenttriplength,date,tpid,vdata,ddata,dt,dt2,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
                 }
                   else
                   {
@@ -1305,11 +1352,11 @@ router.post("/depstudent",(req,res)=>{
                     {
                       var sql3="select dailystudent.*,student.firstname,student.lastname from dailystudent inner join student on dailystudent.studentid=student.studentid where dailystudent.vehicleid=? and dailystudent.institutioncode=? and dailystudent.date=? and dailystudent.vehicleid<>dailystudent.assignedvechileid"
                       db.query(sql3,[vhid,inc,date],(err3,ress3)=>{
-                        if(err3){console.log(err3); res.render('insti/eachtripo', {date,tpid,vdata,ddata,dt,dt2,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
+                        if(err3){console.log(err3); res.render('insti/eachtripo', {punchoutnumber,punchinnumber,studenttriplength,date,tpid,vdata,ddata,dt,dt2,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
                       }
                         else{
                           dt2=ress3
-                          res.render('insti/eachtripo', {date,tpid,vdata,ddata,dt,dt2,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
+                          res.render('insti/eachtripo', {punchoutnumber,punchinnumber,studenttriplength,date,tpid,vdata,ddata,dt,dt2,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
                           console.log(date,vdata,ddata,dt,dt2,tpid)
                         }
                       })
@@ -1318,11 +1365,11 @@ router.post("/depstudent",(req,res)=>{
                     {
                       var sql3="select dailystudent.*,student.studentid,student.firstname,student.lastname from dailystudent inner join student on dailystudent.studentid=student.studentid where dailystudent.vehicleid=? and dailystudent.institutioncode=? and dailystudent.date=? and dailystudent.vehicleid<>dailystudent.assignedvechileid"
                       db.query(sql3,[vhid,inc,date],(err3,ress3)=>{
-                        if(err3){console.log(err3);res.render('insti/eachtripo', {date,tpid,vdata,ddata,dt,dt2,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
+                        if(err3){console.log(err3);res.render('insti/eachtripo', {punchoutnumber,punchinnumber,studenttriplength,date,tpid,vdata,ddata,dt,dt2,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
                       }
                         else{
                           dt2=ress3
-                          res.render('insti/eachtripo', {date,tpid,vdata,ddata,dt,dt2,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
+                          res.render('insti/eachtripo', {studenttriplength,punchinnumber,date,tpid,vdata,ddata,dt,dt2,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
                           console.log(vdata,ddata,dt,dt2,"jij",tpid)
                         }
                       })
@@ -1334,7 +1381,7 @@ router.post("/depstudent",(req,res)=>{
             })
           }
           else{
-            res.render('insti/eachtripo', {date,tpid,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
+            res.render('insti/eachtripo', {studenttriplength,punchinnumber,studenttriplength,date,tpid,inst:true,style:'../dist/css/adminlte.min.css',plug:'../plugins/overlayScrollbars/css/OverlayScrollbars.min.css',plug1:'../plugins/fontawesome-free/css/all.min.css',p1:'../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css',p2:'../plugins/datatables-responsive/css/responsive.bootstrap4.min.css',p3:'../plugins/datatables-buttons/css/buttons.bootstrap4.min.css',bodyclass:'hold-transition sidebar-mini layout-fixed',res1,dt })
           }
         }
       })

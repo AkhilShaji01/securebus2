@@ -233,8 +233,19 @@ body {
             <input type="submit" name="submit">
             </form>
          </div>
+<hr>
+      <div>
+        <h3 style="text-align: center;">Date:{{date}}</h3>
+        {{#each vdata}}
+        No of seats in bus: {{this.noofseat}}
+        {{/each}}
+        <br>
 
-      
+        No of student assigned:{{studenttriplength}}
+        <br>
+        No of punch in on the bus: {{punchinnumber}}
+         No of punch out on the bus: {{punchoutnumber}}
+      </div>
         <div class="card-body">
                 <table id="example1" class="table table-bordered table-striped" style="border: 5px;">
                     
